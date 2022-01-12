@@ -1,0 +1,63 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          update_server
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Update server for CS
+# Description:       Update server for CS
+### END INIT INFO
+
+DIR=/opt/updater
+DAEMON=updater.py
+VIRTUALENV_BIN=/opt/updater/.venv/bin
+UPDATE=/opt/updater/temp
+
+cd $DIR/updater
+. $VIRTUALENV_BIN/activate
+
+case "$1" in
+  start)
+    if [ -z "$(ls -A /opt/updater/temp)" ];
+    then
+        echo ""
+    else
+        echo "Updating update server"
+        sudo cp -a $UPDATE/* $DIR/updater
+        sudo rm -r $UPDATE
+        sleep 1
+    fi
+
+    echo "Starting update server"
+    $VIRTUALENV_BIN/python $DAEMON &
+    echo
+    ;;
+  stop)
+    echo "Stopping update server"
+    sudo pkill -f "$VIRTUALENV_BIN/python $DIR/updater/$DAEMON"
+    echo
+    ;;
+  restart)
+    echo "Stopping update server"
+    sudo pkill -f "$VIRTUALENV_BIN/python $DIR/updater/$DAEMON"
+    sleep 7
+    
+    if [ -z "$(ls -A /opt/updater/temp)" ];
+    then
+        echo ""
+    else
+        echo "Updating update server"
+        sudo cp -a $UPDATE/* $DIR/updater
+        sudo rm -r $UPDATE
+        sleep 1
+    fi
+    
+    echo "Starting update server"
+    $VIRTUALENV_BIN/python $DAEMON &
+    echo
+    ;;
+esac
+
+exit 0

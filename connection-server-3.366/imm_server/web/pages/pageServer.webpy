@@ -1,0 +1,40 @@
+$def with (page)
+$page.render.header(page)
+
+<h1>IMM servers management:</h1>
+<form method="post">
+
+<table border="0" cellspacing="0" cellpadding="7">
+
+  $code:
+    servers = ['ELKONET', 'MIELE', 'RF', 'RPC', 'LMS']
+    process = ['elkonet', 'miele', 'elan', 'xmlrpc']
+    options = ['Status', 'Start', 'Stop']
+
+  $for i,server in enumerate(servers):
+    <tr>
+        <th style="text-align:left">
+            $if server == 'LMS':
+                Logitech media server:
+            $else:
+                <a target="_blank" href="http://$page.data['ip']:9001/tail.html?processname=$process[i]">
+                    $server:
+                </a>
+        </th>
+    </tr>
+    <tr>
+        <td style="vertical-align:middle">
+            <input type=submit name="serviceAction$servers[i]" value="$options[0]"/>
+            <input type=submit name="serviceAction$servers[i]" value="$options[1]"/>
+            <input type=submit name="serviceAction$servers[i]" value="$options[2]"/>
+        </td>
+    <tr>
+
+</table>
+
+</form>
+
+$if (page.data.has_key('statusStartStopResult')):
+    $page.data['statusStartStopResult']
+    
+$page.render.footer(page)

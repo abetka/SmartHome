@@ -1,0 +1,41 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+<script type="text/javascript">
+function controlAmp() {
+	var selectElement = document.getElementById('controlAmp');
+	var selectedValue = selectElement[selectElement.selectedIndex].value;
+	//document.write(selectedValue);
+	//alert(selectedValue);
+}
+</script>
+
+<h2>New multiroom</h2>
+<form method="post">
+Name<br/>
+<input type="text" size="22" name="roomName" /><br/><br/>
+<input type="submit" value="create" name="createRoom" />
+</form>
+
+<hr/>
+
+$if (len(page.multirooms)):
+	<h2>Defined multirooms</h2>
+	<table class="roomsTable" cellpadding=0>
+	$for room in page.multirooms:
+			<tr>
+				<td>$room
+				<td><a href="/multiroom?name=${room}">Edit</td>
+				<td><a href="?delete=$room">Remove</a>
+			</tr>
+	</table>
+$else:
+	<h2>No zone defined</h2>
+
+$page.render.footer(page)

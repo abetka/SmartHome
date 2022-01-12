@@ -1,0 +1,10 @@
+$def with (page)
+$page.render.header(page)
+
+
+<form method="post">
+<h2>Reset all server settings to default:</h2><input type="submit" name="action" value="RESET"/>
+<h2>Reset all devices dependencies to default:</h2><input type="submit" name="action" value="RESET "/>
+</form>
+
+$page.render.footer(page)

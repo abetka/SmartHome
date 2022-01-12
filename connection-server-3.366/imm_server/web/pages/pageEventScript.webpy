@@ -1,0 +1,156 @@
+$def with (page)
+$page.render.header(page)
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h2>Script Trigger Rules</h2>
+<form method="post">
+<table cellpadding="3">
+    <tr>
+        <td>iNELS CU</td>
+        <td>
+            <select style="font-size: 16px" name="cu">
+                $for row in page.data['inels_cu']:
+                    <option value="$row">$row</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Unicate key (hex with prefix)</td>
+        <td><input type=text name="uuid" value="" style="width: 200px;"/></td> 
+    </tr>
+    <tr>
+        <td>Value (dec)</td>
+        <td><input type=text name="value" value="" style="width: 200px;"/></td>
+    </tr>
+    <tr>
+        <td>Path to script</td>
+        <td><input type=text name="script" value="" style="width: 350px;"/></td> 
+    </tr>
+</table></br>
+<input type="submit" value="Add"/>
+</form>
+
+<h2>Script Triggers</h2>
+$for index, value in page.data['devRules'].iteritems():
+    $if index in page.data['inels_cu']: 
+        <h2>iNELS CU: $index</h2>
+        <table class="stateTable" cellpadding=5>
+            $for index2, value2 in value.iteritems():    
+                <tr>
+                    <td>$value2['uuid']
+                    <td>$value2['con']
+                    <td>$value2['pth']
+                    <td><a href="?deleteRule=$index2">Remove</a>
+                </tr>
+        </table>
+
+</br>
+<hr/>
+<hr/>
+
+<h2>AC Trigger Rules</h2>
+<form method="post">
+<table cellpadding="3">
+
+    <tr>
+        <td>AC:</td>
+        <td>
+            <select style="font-size: 16px; width: 100%" name="trigger_ac_name" id="trigger_ac_name_id" onchange="trigger_ac_name_changed()">
+                $for row, _ in page.data['trigger_all_ac_names'].iteritems():
+                    <option value="$row">$row</option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td>CU device:</td>
+        <td>
+            <select style="font-size: 16px; width: 100%" name="trigger_cu_device">
+                $for row in page.data['trigger_all_cu_devices']:
+                    <option value="$row">$row</option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Function:</td>
+        <td>
+            <select style="font-size: 16px; width: 100%" name="trigger_ac_function" id="trigger_ac_function_id">
+            </select>
+        </td>
+    </tr>
+
+</table></br>
+<input type="submit" name="trigger_ac_add" value="Add"/>
+<input type="submit" name="trigger_ac_restart" value="Restart service"/>
+</form>
+
+
+$if (len(page.data['trigger_all_ac_triggers'])):
+    <h2>AC Triggers</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>AC name</th><th>CU device</th><th>AC function</th><th></th></tr>
+    $for name, i in page.data['trigger_all_ac_triggers'].iteritems():
+        $for device, j in i.iteritems():
+            <tr>
+                <td>$name
+                <td>$device
+                <td>$j["function"] (
+                $if "type" in j:
+                    $j["type"]
+                $else:
+                    ---
+                )
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="name" value="$name"/>
+                        <input type="hidden" name="device" value="$device"/>
+                        <input type="submit" value="Remove" name="trigger_ac_remove" />
+                    </form>
+                </td>
+            </tr>
+    </table>
+
+
+
+<script>
+    window.onload = function(e)
+    {
+        trigger_ac_name_changed();
+    };
+
+    function trigger_ac_name_changed()
+    {
+        var select_name = document.getElementById('trigger_ac_name_id');
+        var select_fces = document.getElementById('trigger_ac_function_id');
+
+        var i;
+        for(i = select_fces.options.length - 1 ; i >= 0 ; i--)
+        {
+            select_fces.remove(i);
+        }
+
+        var selected_name = select_name.value;
+        var tmp1 = $page.data['trigger_all_ac_names'];
+        var tmp2 = $page.data['trigger_all_ac_functions'];
+        var tmp3 = $page.data['trigger_all_ac_function_to_type'];
+        var array = tmp2[tmp1[selected_name]['manufacturer']];
+
+        for (var i = 0; i < array.length; i++)
+        {
+            var option = document.createElement("option");
+            option.value = array[i];
+            option.text = array[i] + " (" + tmp3[array[i]] + ")";
+            select_fces.appendChild(option);
+        }
+    };
+</script>
+
+
+
+$page.render.footer(page)

@@ -1,0 +1,130 @@
+$def with (page)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+	<HEAD>
+		<TITLE>$page.data['title']</TITLE>
+		<LINK href="/static/style.css" rel="stylesheet" type="text/css">
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="/static/input_numbers.js"></script>
+		<script type="text/javascript" src="/static/check_password.js"></script>
+		<script type="text/javascript">
+			var rooms = [ ${", ".join([ '"'+r+'"' for r, s in page.data['rooms'] ])} ];
+
+			function protect_room() {
+				var cb  = document.getElementById("protect");
+				var pin = document.getElementById("passwd");
+				var cin = document.getElementById("confirm");
+				var din = document.getElementById("passwd_input");
+
+				if (cb.checked) {
+					pin.disabled = false;
+					cin.disabled = false;
+					din.style.visibility = "visible";
+				}else {
+					pin.disabled = true;
+					cin.disabled = true;
+					din.style.visibility = "hidden";
+				}
+			}
+
+			function check_form() {
+				var cb  = document.getElementById("protect");
+				var nin = document.getElementById("roomName");
+
+				if (cb.checked && !check_password()) { return false; }
+				if (nin.value.length == 0) {
+					alert("room name must not be empty!");
+					return false;
+				}
+				for (i=0; i < rooms.length; ++i) {
+					if (rooms[i] == nin.value) {
+						alert("room with name " + nin.value + " already exists!");
+						nin.focus()
+						return false;
+					}
+				}
+				return true;
+			}
+		</script>
+	</HEAD>
+	<BODY>
+
+<div class="header">
+	<div id="title">iMM Control Center / $page.data['title']</div>
+	<div id="version">ver. $page.data['siteData']['version']</div>
+	<div id="menu">
+	$for i in page.data['menu']:
+		<a href="${i[1]}">${i[0]}</a>
+	</div>
+</div>
+
+<div class="body" id="room_body">
+
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+<h2>New room</h2>
+<form method="post" action="/rooms" onSubmit="return check_form()">
+Name<br>
+<input type="text" name="roomName" id="roomName" /><br>
+<br>
+Protect by password <input type="checkbox" name="protect" id="protect" onClick="protect_room()"/>
+<div id="passwd_input">
+	Password<br>
+	<input type="password" name="passwd" id="passwd" onpaste="return block_non_numbers_v2(this, event, false, false)" onKeyPress="return block_non_numbers_v2(this, event, false, false)" /><br>
+	Confirm<br>
+	<input type="password" name="confirm" id="confirm" onpaste="return block_non_numbers_v2(this, event, false, false)" onKeyPress="return block_non_numbers_v2(this, event, false, false)" />
+</div>
+<input type="submit" value="Add" name="createroom" />
+</form>
+
+
+
+<h2>Upload or download rooms backup</h2>
+<form method="post" enctype="multipart/form-data">
+    <label for="file">Upload:</label>
+    <input type="file" name="file" id="file" accept=".cfg" />
+    <input type="submit" name="uploadFile" value="Upload" />
+    <input type="submit" name="downloadFile" value="Download" />
+</form>
+
+<br>
+
+<hr/>
+
+<table class="roomsTable" cellpadding="0">
+$ cnt, length = 0, len(page.data['rooms'])
+$for r, sec in page.data['rooms']:
+    $if r != '_global_':
+        <tr><td>$r</td>
+        <td><a href="/room?name=$r">Edit</a></td>
+        $if cnt != 0:
+            <td><a href="?up=${r}">Up</a></td>
+        $else:
+            <td>Up</td>
+        $if cnt != length-2:
+            <td><a href="?down=${r}">Down</a></td>
+        $else:
+            <td>Down</td>
+        <td><a href="/room_passwd?name=${r}">${"Change" if sec else "Set"} password</a></td>
+        <td><a href="/room_rename?name=${r}">Rename</a></td>
+        <td><a href="?delete=${r}">Remove</a></td>
+        </tr>
+        $ cnt +=1
+</table>
+
+<script type="text/javascript">
+	protect_room();
+</script>
+
+$page.render.footer(page)

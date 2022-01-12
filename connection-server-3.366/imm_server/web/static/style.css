@@ -1,0 +1,65 @@
+body, html { margin:0; padding:0; font-family:Arial,Helvetica,SansSerif; font-size:14px }
+textarea, input { background-color:#eee }
+input:hover { background-color:#aaa }
+.header { margin-bottom: 1em }
+.footer { margin:1em; padding:1em; font-size:80%; text-align:right; margin-top:0em; padding-top:0em }
+#raspi_revision { margin:1em; padding:1em; font-size:80%; text-align:left; border-top:1px solid #ddd; margin-bottom:0em; padding-bottom:0em }
+.header { background:#444; color:#fff; font-size:200% }
+.header #title, .header #version { padding-left: 50px }
+.header #title { font-size:120%; padding-top:1em }
+.header #version { font-size: 60%; padding-bottom:2em }
+.header #menu { padding: 0.5em 0 0.5em 0;padding-left: 50px; background:#222 }
+.header #menu, .header #menu a { font-size:80%; text-align:left; text-decoration:none; color:#ddd }
+.header #menu a { padding: 0.5em }
+.header #menu a:hover { color:#fff; background-color:#000 }
+.body { padding: 1em }
+.body a { color:#444; font-weight:bolder; text-decoration:underline }
+.body a:hover { color:#000 }
+.body pre { background-color:#eee; padding:0.5em }
+.body #resultString { padding-bottom:2em; padding-left:1em; font-style:italic; color:#444 }
+.body #warning { font-size:120%; color:#866; background:#ddd; padding:0.5em }
+.body #info { font-size:120%; color:#866; background:#8dffbb; padding:0.5em }
+.inline { display:inline }
+.bordered { border:1px solid #444; padding: 0.5em; margin:0.5em }
+/*input { margin-bottom: 1em }*/
+.fixedWidth { width:200px }
+h1,h2,h3 { padding-top:1em }
+.climsTable, .roomsTable, .zonesTable, .devicesTable, .thermoMeters { border:2px solid #888 }
+.climsTable th, .roomsTable th, .cuTable th, .zonesTable th, .devicesTable th, .thermoMeters th { font-weight:bold; padding:0.2em; text-align:left }
+.climsTable td, .roomsTable td, .cuTable td, .zonesTable td, .devicesTable td, .thermoMeters td { padding:0.5em; text-align:left }
+.devicesTable {font-size: 90%; }
+table { border-collapse: collapse; }
+.first_dev_of_row tr, .first_dev_of_row td {
+    border-top : 2px solid black;
+}
+.last_dev_of_row tr, .last_dev_of_row td {
+    border-bottom : 2px solid black;
+}
+td, th { vertical-align: top; }
+input#column { width: 3em; }
+.name_field {width: 6em; }
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  text-align: center;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 350px; /* Could be more or less, depending on screen size */
+}

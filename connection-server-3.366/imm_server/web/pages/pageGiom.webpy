@@ -1,0 +1,195 @@
+$def with (page)
+$page.render.header(page)
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h2>Giom meteostation</h2>
+<form method="post">
+    <table class="sceneTable" cellspacing="0" cellpadding="7">
+    $code:
+	    giomValues = ( ('Low wind speed', 'low_wind_speed', 'm/s', 'low_wind_speed_triggered', 'low_wind_speed_check')
+                     , ('High wind speed', 'high_wind_speed', 'm/s', 'high_wind_speed_triggered', 'high_wind_speed_check')
+                     , ('Low temperature', 'low_temp', '\xc2\xb0C', 'low_temp_triggered', 'low_temp_check')
+                     , ('High temperature', 'high_temp', '\xc2\xb0C', 'high_temp_triggered', 'high_temp_check')
+                     , ('Low relative humidity', 'low_rhumidity', '%', 'low_rhumidity_triggered', 'low_rhumidity_check')
+                     , ('High relative humidity', 'high_rhumidity', '%', 'high_rhumidity_triggered', 'high_rhumidity_check')
+                     )
+    $for i in giomValues:
+        <tr>
+            <td>$i[0]:</td>
+            <td><input type=text name="$i[1]" size="1" value="$page.data['sceneTriggers'][i[1]]"/>&nbsp;&nbsp;$i[2]</td>
+            <td> 
+                Triggered:
+                <select name="$i[3]">                        
+                    <option value="Once">Once</option>
+                    $if page.data['sceneTriggers'][i[3]] == 'Periodic':
+                        <option value="Periodic" selected="selected">Periodic</option>
+                    $else:
+                        <option value="Periodic">Periodic</option>
+                </select>
+            </td>
+            <td> 
+                Check value:
+                <select name="$i[4]">                        
+                    <option value="Above">Above</option>
+                    $if page.data['sceneTriggers'][i[4]] == 'Below':
+                        <option value="Below" selected="selected">Below</option>
+                    $else:
+                        <option value="Below">Below</option>
+                    $if page.data['sceneTriggers'][i[4]] == 'Both':
+                        <option value="Both" selected="selected">Both</option>
+                    $else:
+                        <option value="Both">Both</option>
+                </select>
+            </td>
+            <td>Edit:</td>
+            <td><a href="/giom_scene?sceneFile=${i[1]}_above">Value is above</td>
+            <td><a href="/giom_scene?sceneFile=${i[1]}_below">Value is below</td>
+        </tr>
+        <tr> </tr>
+    </table>
+
+    </br>
+
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>Save wind speed to:</td>
+            <td>
+                <select style="font-size: 16px; width: 100%" name="wind_speed_cu_device">
+                    <option value=""></option>
+                    $for row in page.data['all_cu_devices']:
+                        $if row == page.data['sceneTriggers']['wind_speed_cu_device']:
+                            <option value="$row" selected>$row</option>
+                        $else:
+                            <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Save temperature to:</td>
+            <td>
+                <select style="font-size: 16px; width: 100%" name="temperature_cu_device">
+                    <option value=""></option>
+                    $for row in page.data['all_cu_devices']:
+                        $if row == page.data['sceneTriggers']['temperature_cu_device']:
+                            <option value="$row" selected>$row</option>
+                        $else:
+                            <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Save relative humidity to:</td>
+            <td>
+                <select style="font-size: 16px; width: 100%" name="relative_humidity_cu_device">
+                    <option value=""></option>
+                    $for row in page.data['all_cu_devices']:
+                        $if row == page.data['sceneTriggers']['relative_humidity_cu_device']:
+                            <option value="$row" selected>$row</option>
+                        $else:
+                            <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    </br>
+
+    <input type="submit" value="Save" name="submitSettings" />
+    <input type="submit" value="Restart service" name="restartService" />
+
+</form>
+
+</br>
+</br>
+
+<h2>Misol meteostation</h2>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        $for parameter in page.data['misol_parameters']:
+            <tr>
+                <td>
+                    Save ${parameter.replace("_", " ")} to:
+                    $if parameter in ["temperature", "wind_speed", "gust_speed"]:
+                        <sup>1</sup>
+                </td>
+                <td>	&nbsp
+                    $code:
+                        temp = page.data['misol_cu_devices'].get(parameter, '')
+                    <input type="text" class="name_field" id="misol@${parameter}" name="misol@${parameter}" title="Edit device" value="${temp}" style="width:300px;cursor:pointer;" onclick="select_inels_device_open('misol@${parameter}', 1);" readonly />
+                </td>
+                <td>
+                </td>
+            </tr>
+    </table>
+    <sup>1</sup> Values are multiplied by 100.
+    </br>
+    </br>
+
+    <input type="submit" value="Save" name="misol_save" />
+    <input type="submit" value="Restart service" name="misol_restart" />
+
+</form>
+
+<div id="selectInelsDeviceDialog" class="modal">
+    <input type="hidden" id="selectInelsDeviceOldId" value="" />
+    <div class="modal-content">
+        <p style="text-align:left;"><label>Device:</label></p>
+        <div id="selectInelsDeviceChoiceBlock">
+        </div>
+        <br>
+        <menu style="padding-left:0;">
+            <button onclick="select_inels_device_save(0);">Cancel</button>
+            <button onclick="select_inels_device_save(1);">Confirm</button>
+        </menu>
+    </div>
+</div>
+
+<script>
+    function select_inels_device_open(id, empty_item) {
+
+        var inp = document.createElement("select");
+        inp.setAttribute("id", "selectInelsDeviceChoice");
+        inp.setAttribute("style", "width:350px");
+
+        if (empty_item)
+        {
+            var o = document.createElement("option");
+            o.appendChild(document.createTextNode(""));
+            o.value = "";
+            inp.appendChild(o);
+        }
+
+        var export_list = ${page.data['all_cu_devices']};
+
+        for (var j = 0; j < export_list.length; j++)
+        {
+            var o = document.createElement("option");
+            o.appendChild(document.createTextNode(export_list[j]));
+            o.value = export_list[j];
+            inp.appendChild(o);
+        }
+
+        document.getElementById('selectInelsDeviceChoiceBlock').innerHTML = '';
+        document.getElementById('selectInelsDeviceChoiceBlock').appendChild(inp);
+
+        document.getElementById('selectInelsDeviceOldId').value = id;
+        document.getElementById('selectInelsDeviceChoice').value = document.getElementById(id).value;
+        document.getElementById('selectInelsDeviceDialog').style.display = "block";
+    };
+
+    function select_inels_device_save(save_device) {
+        if (save_device)
+        {
+            var id = document.getElementById('selectInelsDeviceOldId').value;
+            document.getElementById(id).value = document.getElementById('selectInelsDeviceChoice').value;
+        }
+        document.getElementById('selectInelsDeviceDialog').style.display = "none";
+    };
+</script>
+
+$page.render.footer(page)

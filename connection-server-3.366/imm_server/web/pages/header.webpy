@@ -1,0 +1,21 @@
+$def with (page)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+	<HEAD>
+		<TITLE>$page.data['title']</TITLE>
+		<LINK href="/static/style.css" rel="stylesheet" type="text/css">
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</HEAD>
+	<BODY>
+
+<div class="header">
+	<div id="title">iMM Control Center / $page.data['title']</div>
+	<div id="version">ver. $page.data['siteData']['version']</div>
+	<div id="menu">
+	$for i in page.data['menu']:
+		<a href="$i[1]">$i[0]</a>
+	</div>
+</div>
+
+<div class="body">

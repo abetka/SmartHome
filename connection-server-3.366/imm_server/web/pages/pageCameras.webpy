@@ -1,0 +1,195 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+<style type="text/css">
+    #inp {
+        width: 350px;
+    }
+    #sel {
+        width: 350px;
+    }
+    #opt {
+        width: 150px;
+    }
+</style>
+
+<script type="text/javascript">
+    var cams = $page.data['jsoncams'];
+
+    function reloadProducts(manufacturer) {
+        var select = document.getElementsByName("productName")[0]
+        for (var option in select){
+            select.remove(option);
+        }
+
+        for (var i=0; i<cams[manufacturer].length; i++) {
+            var opt = document.createElement('option'); 
+            opt.text = cams[manufacturer][i].pn;
+            opt.value = cams[manufacturer][i].pn;
+            select.options.add(opt);
+        }
+
+        var pn = document.getElementsByName('productName')[0];
+        var pnValue = pn.options[pn.selectedIndex].value
+        reloadDetails(pnValue)
+
+        api = document.getElementsByName("capi")[0];
+        api.selectedIndex = 0;
+    }
+
+    function reloadDetails(camType) {
+        var man = document.getElementsByName('manufacturer')[0];
+        var manValue = man.options[man.selectedIndex].value
+
+        var fwElem = document.getElementById('fw');
+        var dcElem = document.getElementById('dc');
+
+        for (var i=0; i<cams[manValue].length; i++) {
+            if (cams[manValue][i].pn == camType) {
+                fwElem.innerHTML = cams[manValue][i].fw;
+                dcElem.innerHTML = cams[manValue][i].dc;
+            }
+        }
+
+        api = document.getElementsByName("capi")[0];
+        api.selectedIndex = 0;
+    }
+
+    function resetManProd() {
+
+        if (document.getElementById("sel").value == "No API (RTSP stream only)")
+        {
+            document.getElementById("IdIpAddress").innerHTML = "RTSP stream";
+            document.getElementById("IdServicePort").style.display = "none";
+            document.getElementById("IdHttpPort").style.display = "none";
+            document.getElementById("IdRtspPort").style.display = "none";
+            document.getElementById("IdManufacturer").style.display = "none";
+            document.getElementById("IdProductName").style.display = "none";
+            document.getElementById("IdFw").style.display = "none";
+            document.getElementById("IdDate").style.display = "none";
+        }
+        else
+        {
+            document.getElementById("IdIpAddress").innerHTML = "IP address";
+            document.getElementById("IdServicePort").style.display = "table-row";
+            document.getElementById("IdHttpPort").style.display = "table-row";
+            document.getElementById("IdRtspPort").style.display = "table-row";
+            document.getElementById("IdManufacturer").style.display = "table-row";
+            document.getElementById("IdProductName").style.display = "table-row";
+            document.getElementById("IdFw").style.display = "table-row";
+            document.getElementById("IdDate").style.display = "table-row";
+        }
+
+        man = document.getElementsByName("manufacturer")[0];
+        man.selectedIndex = 0;
+
+        var select = document.getElementsByName("productName")[0];
+        for (var option in select){
+            select.remove(option);
+        }
+        var opt = document.createElement('option');
+        opt.text = 'Select Product';
+        opt.value = 'Select Product';
+        select.options.add(opt);
+
+        var fwElem = document.getElementById('fw');
+        var dcElem = document.getElementById('dc');
+        fwElem.innerHTML = '';
+        dcElem.innerHTML = '';
+    }
+</script>
+
+<h2>New camera</h2>
+<form method="post">
+
+<table cellpadding="3">
+    <tr>
+        <td id="opt">Name</td>
+        <td><input id="inp" type="text" name="cameraName" /></td> 
+    </tr>
+    <tr>
+        <td id="IdIpAddress">IP address</td>
+        <td><input id="inp" type="text" name="cameraIp" /></td> 
+    </tr>
+    <tr>
+        <td>User</td>
+        <td><input id="inp" type="text" name="cameraUser" /></td> 
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td><input id="inp" type="password" name="cameraPassword" /></td> 
+    </tr>
+    <tr id="IdServicePort">
+        <td>Service port</td>
+        <td><input id="inp" type="text" name="servicePort" /></td> 
+    </tr>
+    <tr id="IdHttpPort">
+        <td>MJPG port</td>
+        <td><input id="inp" type="text" name="httpPort" /></td> 
+    </tr>
+    <tr id="IdRtspPort">
+        <td>RTSP port</td>
+        <td><input id="inp" type="text" name="rtspPort" /></td> 
+    </tr>
+    <tr>
+        <td>API</td>
+        <td>
+            <select id="sel" name="capi"  onChange="resetManProd()">
+            $for i in page.data['API']:
+	            <option value="$i">$i</option>
+            </select>
+        </td> 
+    </tr>
+    <tr id="IdManufacturer">
+        <td>Manufacturer</td>
+        <td>
+            <select id="sel" name="manufacturer" onChange="reloadProducts(this.value)">
+            $for i in page.data['manufacturer']:
+	            <option value="$i">$i</option>
+            </select>
+        </td> 
+    </tr>
+    <tr id="IdProductName">
+        <td>Product Name</td>
+        <td>
+            <select id="sel" name="productName" onChange="reloadDetails(this.value)">
+            $for i in page.data['product']:
+	            <option value="$i">$i</option>
+            </select>
+        </td> 
+    </tr>
+    <tr id="IdFw">
+        <td>Firmware version</td>
+        <td id="fw"></td> 
+    </tr>
+    <tr id="IdDate">
+        <td>Date Certified</td>
+        <td id="dc"></td> 
+    </tr>
+</table></br>
+<input type="submit" value="create" name="createCamera" />
+</form>
+
+<hr/>
+<hr/>
+
+$if (len(page.data['immCfgCameras'])):
+	<h2>List of cameras</h2>
+	<table class="camerasTable" cellpadding=5>
+	$for i in page.data['immCfgCameras']:
+		<tr>
+			<td>$i</td>
+			<td><a href="cam_edit?cam=$i">Edit</a></td>
+			<td><a href="?delete=$i">Remove</a></td>
+		</tr>
+	</table>
+$else:
+	<h2>No camera defined</h2>
+
+$page.render.footer(page)

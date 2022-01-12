@@ -1,0 +1,55 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+
+
+<h2>$page.data['cameraName']</h2>
+<form method="post">
+    Select stream profile for RTSP
+    <br/>
+    <select name="immProfile">
+        $for i in page.data['streamProfiles']:
+            $if page.data['immProfile'] == i:
+                <option value="$i" selected="selected">$i</option>
+            $else:
+                <option value="$i">$i</option>
+        $if page.data['immProfile'] == 'manual':
+            <option value="manual" selected="selected">manual</option>
+        $else:
+            <option value="manual">manual</option>
+    </select>
+    <input type="submit" value="load" name="loadImmStream" /> 
+    <br/>
+    Stream: <input type="text" name="immStream" value="$page.data['immStream']" size="100" />
+    <br/>
+    <br/>
+    Select stream profile for MJPG
+    <br/>
+    <select name="mobileProfile">
+        $for i in page.data['streamProfiles']:
+            $if page.data['mobileProfile'] == i:
+                <option value="$i" selected="selected">$i</option>
+            $else:
+                <option value="$i">$i</option>
+        $if page.data['mobileProfile'] == 'manual':
+            <option value="manual" selected="selected">manual</option>
+        $else:
+            <option value="manual">manual</option>
+    </select>
+    <input type="submit" value="load" name="loadMobileStream" /> 
+    <br/>
+    Stream: <input type="text" name="mobileStream" value="$page.data['mobileStream']" size="100" />
+    <br/>
+    <br/>
+    <input type="submit" value="save" name="modCamera" />
+</form>
+
+
+
+$page.render.footer(page)

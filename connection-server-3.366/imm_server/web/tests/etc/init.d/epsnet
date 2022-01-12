@@ -1,0 +1,58 @@
+#!/bin/sh
+
+cd "`dirname "$0"`"
+
+SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
+ID=`id -u`
+
+PID=`ps -fA | grep "[0-9] python" | grep epsnet | awk '{print $2}'`
+#DIR=$(dirname $0)
+TOP=$PWD/../../usr/bin/epsnet.pyc
+
+case "${1:-''}" in
+	'start')
+		if [ -z "$PID" ]
+		then
+			echo "Staring up"
+			if [ $ID -eq 0 ]
+			then
+				export PYRO_STORAGE="/tmp"
+				su imm -c "python $TOP/epsnet/epsnet.pyc > $TOP/log/epsnet.log 2>&1" &
+			else
+				python $TOP/epsnet/epsnet.pyc > $TOP/log/epsnet.log 2>&1 &
+			fi
+		else
+			echo "Up and running. PID=$PID"
+		fi
+	;;
+
+	'restart')
+		$SELF stop
+		sleep 1
+		$SELF start 
+	;;
+
+	'stop')
+		if [ -n "$PID" ] ; then
+			echo "Shutting down"
+			kill $PID
+		else
+			echo "Already stopped."
+		fi
+	;;
+
+	'status')
+		if [ -n "$PID" ]
+		then
+			echo "Running PID=$PID."
+		else
+			echo "Not running."
+		fi
+	;;
+
+	*)
+		echo "Usage: $SELF start|stop|restart|status"
+		exit 1
+	;;
+esac
+

@@ -1,0 +1,49 @@
+$def with (page)
+$page.render.header(page)
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h2>Trigger relays</h2>
+<form method="post">
+<select style="font-size: 16px" name="addRelay">
+$for row in page.data['inels_dev']:
+	<option value="$row">$row</option>
+</select>
+<input type="submit" value="Add" />
+</form>
+
+<hr/>
+
+<table class="relayTable" cellpadding=5>
+$for relay in page.data['relays']:
+		<tr>
+            <td>$relay
+            <td><a href="?delete=$relay">Remove</a>
+		</tr>
+</table>
+
+<h2>Notify me if device obtains following state</h2>
+<form method="post">
+<select style="font-size: 16px" name="dev">
+$for row in page.data['inels_dev']:
+	<option value="$row">$row</option>
+</select>
+<input type=text name="value" value="" style="width: 50px;"/>
+<input type="submit" value="Add"/>
+</form>
+<hr/>
+
+<table class="stateTable" cellpadding=5>
+$for dev, value in page.data['devRules'].iteritems():
+		<tr>
+            <td>$dev 
+            <td>$value
+			<td><a href="?deleteRule=$dev">Remove</a>
+		</tr>
+</table>
+
+$page.render.footer(page)

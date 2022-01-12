@@ -1,0 +1,318 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+<h2>$page.data['name']</h2>
+
+<form method="post">
+<table border="0" cellspacing="0" cellpadding="7"> 
+		  <tr> 
+			<td>
+				Power on/off:
+			</td>
+			<td>
+				$if 'OnOff' in page.setting[page.data['name']]:
+					<input type="text" name="OnOff" value="$page.setting[page.data['name']]['OnOff']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="OnOff" size="1" style="text-align:right"/>
+				<select name="OnOffLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'OnOffLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['OnOffLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatOnOff' in page.setting[page.data['name']]:
+					<input type="text" name="OnOffNrepeat" value="$page.setting[page.data['name']]['NrepeatOnOff']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="OnOffNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutOnOff' in page.setting[page.data['name']]:
+					<input type="text" name="OnOffTimeout" value="$page.setting[page.data['name']]['TimeoutOnOff']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="OnOffTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>
+
+		  <tr> 
+			<td>
+				Volume up:
+			</td>
+			<td>
+				$if 'Vup' in page.setting[page.data['name']]:
+					<input type="text" name="Vup" value="$page.setting[page.data['name']]['Vup']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Vup" size="1" style="text-align:right"/>
+				<select name="VupLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'VupLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['VupLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatVup' in page.setting[page.data['name']]:
+					<input type="text" name="VupNrepeat" value="$page.setting[page.data['name']]['NrepeatVup']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="VupNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutVup' in page.setting[page.data['name']]:
+					<input type="text" name="VupTimeout" value="$page.setting[page.data['name']]['TimeoutVup']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="VupTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>
+
+		  <tr>
+			<td>
+				Volume down:
+			</td> 
+			<td>
+				$if 'Vdown' in page.setting[page.data['name']]:
+					<input type="text" name="Vdown" value="$page.setting[page.data['name']]['Vdown']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Vdown" size="1" style="text-align:right"/>
+				<select name="VdownLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'VdownLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['VdownLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatVdown' in page.setting[page.data['name']]:
+					<input type="text" name="VdownNrepeat" value="$page.setting[page.data['name']]['NrepeatVdown']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="VdownNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutVdown' in page.setting[page.data['name']]:
+					<input type="text" name="VdownTimeout" value="$page.setting[page.data['name']]['TimeoutVdown']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="VdownTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>  
+
+		  <tr>
+			<td>
+				Next:
+			</td> 
+			<td>
+				$if 'Next' in page.setting[page.data['name']]:
+					<input type="text" name="Next" value="$page.setting[page.data['name']]['Next']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Next" size="1" style="text-align:right"/>
+				<select name="NextLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'NextLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['NextLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatNext' in page.setting[page.data['name']]:
+					<input type="text" name="NextNrepeat" value="$page.setting[page.data['name']]['NrepeatNext']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="NextNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutNext' in page.setting[page.data['name']]:
+					<input type="text" name="NextTimeout" value="$page.setting[page.data['name']]['TimeoutNext']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="NextTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr> 
+
+		  <tr>
+			<td>
+				Previous:
+			</td> 
+			<td>
+				$if 'Previous' in page.setting[page.data['name']]:
+					<input type="text" name="Previous" value="$page.setting[page.data['name']]['Previous']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Previous" size="1" style="text-align:right"/>
+				<select name="PreviousLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'PreviousLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['PreviousLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatPrevious' in page.setting[page.data['name']]:
+					<input type="text" name="PreviousNrepeat" value="$page.setting[page.data['name']]['NrepeatPrevious']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="PreviousNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutPrevious' in page.setting[page.data['name']]:
+					<input type="text" name="PreviousTimeout" value="$page.setting[page.data['name']]['TimeoutPrevious']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="PreviousTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr> 
+
+		  <tr>
+			<td>
+				Forward:
+			</td> 
+			<td>
+				$if 'Forward' in page.setting[page.data['name']]:
+					<input type="text" name="Forward" value="$page.setting[page.data['name']]['Forward']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Forward" size="1" style="text-align:right"/>
+				<select name="ForwardLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'ForwardLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['ForwardLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatForward' in page.setting[page.data['name']]:
+					<input type="text" name="ForwardNrepeat" value="$page.setting[page.data['name']]['NrepeatForward']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="ForwardNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutForward' in page.setting[page.data['name']]:
+					<input type="text" name="ForwardTimeout" value="$page.setting[page.data['name']]['TimeoutForward']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="ForwardTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr> 
+
+		  <tr>
+			<td>
+				Rewind:
+			</td> 
+			<td>
+				$if 'Rewind' in page.setting[page.data['name']]:
+					<input type="text" name="Rewind" value="$page.setting[page.data['name']]['Rewind']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Rewind" size="1" style="text-align:right"/>
+				<select name="RewindLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'RewindLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['RewindLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatRewind' in page.setting[page.data['name']]:
+					<input type="text" name="RewindNrepeat" value="$page.setting[page.data['name']]['NrepeatRewind']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="RewindNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutRewind' in page.setting[page.data['name']]:
+					<input type="text" name="RewindTimeout" value="$page.setting[page.data['name']]['TimeoutRewind']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="RewindTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>
+
+ 		  <tr>
+			<td>
+				Pause:
+			</td> 
+			<td>
+				$if 'Pause' in page.setting[page.data['name']]:
+					<input type="text" name="Pause" value="$page.setting[page.data['name']]['Pause']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Pause" size="1" style="text-align:right"/>
+				<select name="PauseLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'PauseLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['PauseLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatPause' in page.setting[page.data['name']]:
+					<input type="text" name="PauseNrepeat" value="$page.setting[page.data['name']]['NrepeatPause']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="PauseNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutPause' in page.setting[page.data['name']]:
+					<input type="text" name="PauseTimeout" value="$page.setting[page.data['name']]['TimeoutPause']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="PauseTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>
+
+ 		  <tr>
+			<td>
+				Play:
+			</td> 
+			<td>
+				$if 'Play' in page.setting[page.data['name']]:
+					<input type="text" name="Play" value="$page.setting[page.data['name']]['Play']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Play" size="1" style="text-align:right"/>
+				<select name="PlayLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'PlayLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['PlayLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatPlay' in page.setting[page.data['name']]:
+					<input type="text" name="PlayNrepeat" value="$page.setting[page.data['name']]['NrepeatPlay']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="PlayNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutPlay' in page.setting[page.data['name']]:
+					<input type="text" name="PlayTimeout" value="$page.setting[page.data['name']]['TimeoutPlay']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="PlayTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>
+
+ 		  <tr>
+			<td>
+				Stop:
+			</td> 
+			<td>
+				$if 'Stop' in page.setting[page.data['name']]:
+					<input type="text" name="Stop" value="$page.setting[page.data['name']]['Stop']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="Stop" size="1" style="text-align:right"/>
+				<select name="StopLedIndex">
+					$for i in ['1', '2', '3']:
+						$if 'StopLedID' in page.setting[page.data['name']]: 
+							$if page.setting[page.data['name']]['StopLedID'] == int(i): 
+								<option value="$i" selected>$i</option>
+							$else:
+								<option value="$i">$i</option>
+						$else:
+							<option value="$i">$i</option>
+				</select>
+				$if 'NrepeatStop' in page.setting[page.data['name']]:
+					<input type="text" name="StopNrepeat" value="$page.setting[page.data['name']]['NrepeatStop']" size="1" style="text-align:right"/>
+				$else:
+					<input type="text" name="StopNrepeat" size="1" style="text-align:right"/>
+				$if 'TimeoutStop' in page.setting[page.data['name']]:
+					<input type="text" name="StopTimeout" value="$page.setting[page.data['name']]['TimeoutStop']" size="2" style="text-align:right"/>
+				$else:
+					<input type="text" name="StopTimeout" size="2" style="text-align:right"/>
+			</td>
+		  </tr>
+ 
+</table>
+<input type="submit" value="update" name="submitControl" />
+</form>
+
+$page.render.footer(page)

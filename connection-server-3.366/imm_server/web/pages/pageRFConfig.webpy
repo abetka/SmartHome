@@ -1,0 +1,43 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+<h2>Settings</h2>
+<form method="post">
+<table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>
+            IP address of eLAN RF:
+        </td>
+        <td>	&nbsp
+            <input type=text name="elan_url" value="$page.data['setting']['elan_url']"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Username:
+        </td>
+        <td>	&nbsp
+            <input type=text name="elan_username" value="$page.data['setting']['elan_username']"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Password:
+        </td>
+        <td>	&nbsp
+            <input type=password name="elan_password" value="$page.data['setting']['elan_password']"/>
+        </td>
+    </tr>
+</table>
+</br>
+<input type="submit" value="Save" name="submitSettings" />
+<input type="submit" value="Apply changes" name="applyIP" />
+</form>
+
+<hr/>

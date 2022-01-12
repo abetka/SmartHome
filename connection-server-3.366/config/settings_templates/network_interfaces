@@ -1,0 +1,19 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+@require(network_config)
+
+auto eth0
+@if network_config["dhcp"]:
+iface eth0 inet dhcp
+@else:
+iface eth0 inet static
+    address @network_config['static']["ip"]
+    netmask @network_config['static']["netmask"]
+    gateway @network_config['static']["gateway"]
+    dns-nameservers @network_config['static']["dns"]

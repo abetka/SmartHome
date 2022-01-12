@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Supervisord auto-start
+# Provides: imm_server
+# description: Auto-starts supervisord with imm_servers
+# processname: supervisord
+# pidfile: /var/run/supervisord.pid
+
+# wait for network interface available
+while true;
+do
+        if ifconfig |grep "inet "|awk {'print $2'}| grep -v 127.0.0.1 ;
+        then
+                break
+        fi
+        sleep 1
+done
+
+
+IMM_DIR=/opt/imm/imm_server
+VIRTUALENV_BIN=/opt/imm/.virtualenvs/imm_server/bin/
+
+ 
+SUPERVISORD="$VIRTUALENV_BIN/supervisord -c $IMM_DIR/supervisord.cfg -u imm"
+SUPERVISORCTL="$VIRTUALENV_BIN/supervisorctl -c $IMM_DIR/supervisord.cfg"
+
+cd $IMM_DIR
+. $VIRTUALENV_BIN/activate
+case $1 in
+start)
+    echo -n "Starting supervisord: "
+    $SUPERVISORD
+    echo
+;;
+stop)
+    echo -n "Stopping supervisord: "
+    $SUPERVISORCTL shutdown
+    echo
+;;
+restart)
+    echo -n "Stopping supervisord: "
+    $SUPERVISORCTL shutdown
+    sleep 5
+    echo -n "Starting supervisord: "
+    $SUPERVISORD
+    echo
+;;
+esac
+

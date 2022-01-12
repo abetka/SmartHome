@@ -1,0 +1,14 @@
+$def with (page)
+$page.render.header(page)
+
+<h2>Download english manual</h2>
+<form method="post">
+<input type="submit" name="downloadEN" value="Download"/>
+</form>
+
+<h2>Download czech manual</h2>
+<form method="post">
+<input type="submit" name="downloadCZ" value="Download"/>
+</form>
+
+$page.render.footer(page)

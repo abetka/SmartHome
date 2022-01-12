@@ -1,0 +1,66 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+<h2>$page.data['camName']</h2>
+<form method="post">
+<table cellpadding="3">
+    <tr>
+        <td id="opt">Name</td>
+        <td><input type="text" name="cameraName" value="$page.data['cam']['cameraName']" /></td> 
+    </tr>
+    <tr>
+        <td>IP address</td>
+        <td><input type="text" name="cameraIp" value="$page.data['cam']['cameraIp']" /></td> 
+    </tr>
+    
+    $if page.data['cam']['isOnvif']:
+        <tr>
+            <td>MJPG stream</td>
+            <td><input type="text" name="mobileStream" value="$page.data['cam']['mobileStream']" size="100" /></td> 
+        </tr>
+        <tr>
+            <td>RTSP stream</td>
+            <td><input type="text" name="immStream" value="$page.data['cam']['immStream']"  size="100" /></td> 
+        </tr>
+
+    $if page.data['cam']['noAPI']:
+        <tr>
+            <td>RTSP stream</td>
+            <td>$page.data['cam']['immStream']</td>
+            <td><input type="text" name="path" value="$page.data['cam']['path']"  size="40" /></td>
+        </tr>
+
+    <tr>
+        <td>User</td>
+        <td><input type="text" name="cameraUser" value="$page.data['cam']['cameraUser']" /></td> 
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td><input type="password" name="cameraPassword" value="$page.data['cam']['cameraPassword']" /></td> 
+    </tr>
+    $if not page.data['cam']['noAPI']:
+        <tr>
+            <td>MJPG port</td>
+            <td><input type="text" name="httpPort" value="$page.data['cam']['httpPort']" /></td>
+        </tr>
+    <tr>
+        $if page.data['cam']['noAPI']:
+            <td>RTSP port</td>
+        $else:
+            <td>RTSP port</td>
+        <td><input type="text" name="rtspPort" value="$page.data['cam']['rtspPort']" /></td> 
+    </tr>
+</table></br>
+$if not (page.data.has_key('warning')):
+    <input type="submit" value="update" name="update" />
+</form>
+
+<hr/>
+
+$page.render.footer(page)

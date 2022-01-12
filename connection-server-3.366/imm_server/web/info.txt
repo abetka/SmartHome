@@ -1,0 +1,11 @@
+Server
+	Status
+	Start
+	Stop
+	Log subory
+
+Konfiguracia
+	Miestnosti
+		M1
+		M2
+		...

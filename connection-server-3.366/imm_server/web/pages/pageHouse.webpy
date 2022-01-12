@@ -1,0 +1,19 @@
+$def with (page)
+$page.render.header(page)
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h2>Scene</h2>
+<table class="sceneTable" cellpadding=5>
+$for scene in ["enterHouse", "exitHouse"]:
+		<tr>
+			<td>$scene
+			<td><a href="/scene?eventFN=${scene}">Edit</td>
+		</tr>
+</table>
+
+$page.render.footer(page)

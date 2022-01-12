@@ -1,0 +1,171 @@
+$def with (page)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+	<HEAD>
+		<TITLE>$page.data['title']</TITLE>
+		<LINK href="/static/style.css" rel="stylesheet" type="text/css">
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="input_numbers.js"></script>
+	</HEAD>
+	<BODY>
+
+<div class="header">
+	<div id="title">iMM Control Center / $page.data['title']</div>
+	<div id="version">ver. $page.data['siteData']['version']</div>
+	<div id="menu">
+	$for i in page.data['menu']:
+		<a href="$i[1]">$i[0]</a>
+	</div>
+</div>
+
+<div class="body" id="room_body">
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+
+$if 'edit' in page.data:
+    <h2>Edit Aseko device:</h2>
+$else:
+    <h2>Add Aseko device:</h2>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                $if 'edit' in page.data:
+                    <input type=text name="aseko_name" value="${page.data['edit']}" readonly/>
+                $else:
+                    <input type=text name="aseko_name" value="" />
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                $if 'edit' in page.data:
+                    <input type=text name="aseko_ip" value="${page.data['asekoData'][page.data['edit']]['ip']}" readonly/>
+                $else:
+                    <input type=text name="aseko_ip" value="" />
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr><td></td><td></td><td></td>
+        <tr><td></td><td></td><td></td>
+        </tr>
+        $for parameter in page.data['asekoParameters']:
+            <tr>
+                <td>
+                    ${page.data['asekoLabels'][parameter]}
+                    $if parameter in ["ph", "cl", "rx", "temperature", "desired ph", "desired cl rx", "desired temperature", "desired flokulant", "surface"]:
+                        <sup>1</sup>
+                </td>
+                <td>	&nbsp
+                    $code:
+                        temp = page.data['asekoData'][page.data['edit']]['inels'].get(parameter, '') if 'edit' in page.data else ''
+                    <input type="text" class="name_field" id="aseko@${parameter}" name="aseko@${parameter}" title="Edit device" value="${temp}" style="width:300px;cursor:pointer;" onclick="select_inels_device_open('aseko@${parameter}', 1);" readonly />
+                </td>
+                <td>
+                </td>
+            </tr>
+    </table>
+    <sup>1</sup> Values are multiplied by 100.
+    </br>
+    </br>
+    $if 'edit' in page.data:
+        <input type="submit" value="Save changes" name="aseko_save" />
+    $else:
+        <input type="submit" value="Add" name="aseko_add" />
+</form>
+
+
+</br>
+<hr/>
+<hr/>
+
+
+<h2>Aseko devices:</h2>
+$if (len(page.data['asekoData'])):
+	<table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+	<tr><th>Name</th><th>IP address</th><th></th></tr>
+	$for name, i in page.data['asekoData'].iteritems():
+		<tr>
+			<td>$name
+			<td>$i['ip']
+			<td>
+			    <a href="/aseko?edit=$name">Edit</a>
+			    <a href="/aseko?remove=$name">Remove</a>
+            </td>
+		</tr>
+	</table>
+
+</div>
+
+<div id="selectInelsDeviceDialog" class="modal">
+    <input type="hidden" id="selectInelsDeviceOldId" value="" />
+    <div class="modal-content">
+        <p style="text-align:left;"><label>Device:</label></p>
+        <div id="selectInelsDeviceChoiceBlock">
+        </div>
+        <br>
+        <menu style="padding-left:0;">
+            <button onclick="select_inels_device_save(0);">Cancel</button>
+            <button onclick="select_inels_device_save(1);">Confirm</button>
+        </menu>
+    </div>
+</div>
+
+<script>
+    function select_inels_device_open(id, empty_item) {
+
+        var inp = document.createElement("select");
+        inp.setAttribute("id", "selectInelsDeviceChoice");
+        inp.setAttribute("style", "width:350px");
+
+        if (empty_item)
+        {
+            var o = document.createElement("option");
+            o.appendChild(document.createTextNode(""));
+            o.value = "";
+            inp.appendChild(o);
+        }
+
+        var export_list = ${page.data['inelsDev']};
+
+        for (var j = 0; j < export_list.length; j++)
+        {
+            var o = document.createElement("option");
+            o.appendChild(document.createTextNode(export_list[j]));
+            o.value = export_list[j];
+            inp.appendChild(o);
+        }
+
+        document.getElementById('selectInelsDeviceChoiceBlock').innerHTML = '';
+        document.getElementById('selectInelsDeviceChoiceBlock').appendChild(inp);
+
+        document.getElementById('selectInelsDeviceOldId').value = id;
+        document.getElementById('selectInelsDeviceChoice').value = document.getElementById(id).value;
+        document.getElementById('selectInelsDeviceDialog').style.display = "block";
+    };
+
+    function select_inels_device_save(save_device) {
+        if (save_device)
+        {
+            var id = document.getElementById('selectInelsDeviceOldId').value;
+            document.getElementById(id).value = document.getElementById('selectInelsDeviceChoice').value;
+        }
+        document.getElementById('selectInelsDeviceDialog').style.display = "none";
+    };
+</script>
+
+
+$page.render.footer(page)

@@ -1,0 +1,35 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+<form method="post">
+<h2>$page.data['name']</h2>
+Zone
+<select name="zone">
+    $for zone in page.data['zNames']:
+        <option value="$zone">$zone</option>
+</select>
+<input type="submit" value="Add to Multiroom" name="AddZone" />
+</form>
+
+<hr/>
+$code:
+    zByIP=dict((v,k) for k, v in page.data['zNames'].iteritems())
+$if (len(page.multirooms[page.data['name']])):
+	<h2>Defined zones</h2>
+	<table class="roomsTable" cellpadding=0>
+	$for ip in page.multirooms[page.data['name']]:
+			<tr>
+				<td>$zByIP[ip]
+				<td><a href="?delete=$ip&name=$page.data['name']">Remove</a>
+			</tr>
+	</table>
+$else:
+	<h2>No zone defined</h2>
+
+$page.render.footer(page)

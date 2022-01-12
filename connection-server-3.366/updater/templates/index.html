@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update server</title>
+    <meta charset="utf-8">
+	<meta name="description" content="Update server" />
+	<meta name="author" content="ELKO EP, s.r.o." />
+ 	<link rel="stylesheet" type="text/css" href="/static/style.css"> 
+    <link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+<body>
+
+    <div class="cs_header">
+        <div id="cs_title">iMM Control Center / Update Server</div>
+        <div id="id_info">ver. Update Server ---</div>
+        <div id="cs_menu">
+            <a onclick="window.location.href='http://'+window.location.host.replace(':8081',':8080')">Connection Server</a>  
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+	<div class="grid-frame vertical" style="height:auto;"> <!-- START OF FRAME -->
+
+        <!--
+    
+		<header> < START OF HEADER >
+			<div class="grid-block top-part">
+				<div class="grid-content">
+					<div class="grid-container">
+						<div class="grid-block">
+							<div class="grid-content medium-8">
+								<a href="./">
+									<img id="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAdCAMAAABc8zQeAAAAhFBMVEVHcEwAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseb7ugD7ugAAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseYAseb7ugD7ugAAseYAseYAseYAseYAseYAseb7ugAAseb7ugBcPiD5AAAAKnRSTlMAwDDggCDQ8JAPoGBO+6vAoAI4RSqHdwtBE28HaePp91aR83vMtPHamWzhdKofAAABf0lEQVR4Xu3U2U6DQBiG4U/2YVN2oEDpZut4//en0gIMdiR0UE58T79k8iST/Njv9+9Nz2gi+p0q+ehGwQZthHJS0aTQNoySDq6mO9fNArIoigqgAQwRlJsee4KIWqODLHimHcd2zEFwugghyIkyWUhrS7KDyzwElQQQ5EjHiNq3jNPGmIlQBBAmHZVDVSwpDs0fEKb6VRgYtM99GOGF9DsCuaJKroSXpt1u9zZ+38CtnHY9oSkxOGVcBILPOVKG+QDCwiJg4iASBjEZi5gXH4HyrxG4g5D/Ebe0hRAeuZWATW47zUAQfVx3zPiI2qFtWxtM23bQ5iDoOB4iQZ/dKxxWof8ugmBQumUU6yCQvvY/4q+FgN8rqmwxhEuueRjER0CquslcDGGCaRIB32knJ1sNgajbbDFEIoBIuy0XQ0AAYXVbsRoik7vNXwrhqkybMUJi97Aou+nsCSKm78R0AR5EaMshCqyOqAKsjSjjBOIInVOIppi3l/L56B58D0wfNy4oqbAfKkoAAAAASUVORK5CYII=">
+								</a>
+							</div>
+							
+							<div class="grid-content medium-2">
+							</div>
+							
+							<div class="vertical grid-block medium-2">
+								<div class="grid-content shrink">&nbsp;</div>
+								<div class="grid-content shrink">&nbsp;</div>
+								<div class="grid-block">
+                                	<div class="grid-content small-6">
+									</div>
+									<div class="grid-content small-6" style="cursor:pointer;">
+										<p style="margin: 0px; text-align:left;font-size:1.125rem;"><a href="/logout">Sign out</a></p>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid-block shrink bottom-part show-for-medium">
+				<div class="grid-content noscroll">
+					<div class="grid-container">
+						<div class="grid-block">
+							<div class="grid-content">
+								<a id="id_info" style="font-size:1.125rem;">Update server</a>
+							</div>
+							<div class="grid-content text-right">
+                                <a onclick="window.location.href='http://'+window.location.host.replace(':8081',':8080')" style="font-size:1.125rem;">Connection server</a>  
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header> < END OF HEADER >
+	
+        -->
+    
+		<div class="grid-block vertical"> <!-- START OF CONTENT -->
+			<div class="content-wrapper">
+			
+                <div class="grid-container">
+                
+                    <div class="grid-content shrink">&nbsp;</div>
+                
+                    <div class="grid-block noscroll hidden small-11" id="id_update_block" >
+                        <div class="grid-block noscroll" style="background-color:#4caf50;padding:1rem;">
+                            <div class="grid-content small-10">
+                                <small style="color:white;">New version of Update server is available, restart server for install.</small>
+                            </div>           
+                            <div class="grid-content small-2">
+                                <form name="button_3_form" autocomplete="off" method=post enctype=multipart/form-data>
+                                    <input type="submit" name="btn_restart_service" value="Restart" onclick=restart_click()>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="grid-content shrink">&nbsp;</div>
+                        <div class="grid-content shrink">&nbsp;</div>
+                    </div>
+                        
+                    <div class="grid-content shrink">&nbsp;</div>
+                    
+                    <fieldset>
+
+                        <form name="file_form" autocomplete="off" method=post enctype=multipart/form-data>
+                        
+                            <div class="grid-block noscroll">
+                                <div class="grid-content small-4 noscroll">
+                                    <small>Update from update server</small>
+                                </div>	
+                                <div class="grid-content small-4">
+                                </div>	
+                                <div class="grid-content small-4 noscroll">
+                                    <small>Update from file</small>
+                                </div>	
+                            </div> 
+                        
+                            <div class="grid-content shrink">&nbsp;</div>
+                            
+                            <div class="grid-block">
+                                <div class="grid-content small-4">
+                                </div>	
+                                <div class="grid-content small-4">
+                                </div>	
+                                <div class="grid-content small-4">
+                                    <input type="file" name="file" accept=".gz">
+                                </div>	
+                            </div> 
+
+                            <div class="grid-content shrink">&nbsp;</div>
+                            
+                            <div class="grid-block">
+                                <div class="grid-content small-3">
+                                    <input id="id_btn_download" type="submit" name="btn_download" value="Download" disabled>
+                                </div>	
+                                <div class="grid-content small-5">
+                                </div>	
+                                <div class="grid-content small-3">
+                                    <input id="id_btn_upload" type="submit" name="btn_upload" value="Upload" disabled>
+                                </div>	
+                            </div> 
+
+                        </form>
+                          
+                    </fieldset>
+                          
+                        <div class="grid-content shrink">&nbsp;</div>
+                        <div class="grid-content shrink">&nbsp;</div>
+                          
+                    <fieldset>
+                          
+                        <div class="grid-block noscroll">
+                            <div class="grid-content small-4 noscroll">
+                                <small>File info</small>
+                            </div>	
+                            <div class="grid-content small-8">
+                            </div>	
+                        </div> 
+                        
+                        <div class="grid-content shrink">&nbsp;</div>
+                        
+                        <div class="grid-block noscroll">
+                            <div class="grid-content small-2 noscroll" style="padding-top:0.5rem;">
+                                Installation file:
+                            </div>
+                            <div class="grid-content small-10 noscroll">
+                                <p id="id_file_info" style="font-size:20px;">- - -</p>
+                            </div>	
+                        </div> 
+                        
+                        <div class="grid-content shrink">&nbsp;</div>
+                        
+                        <div class="grid-block noscroll">
+                            <div class="grid-content small-2 noscroll" style="padding-top:0.5rem;">
+                                Current version:
+                            </div>
+                            <div class="grid-content small-3 noscroll">
+                                <p id="id_current_version" style="font-size:20px;">- - -</p>
+                            </div>	
+                            <div class="grid-content small-1">
+                            </div>	
+                            <div class="grid-content small-2 noscroll" style="padding-top:0.5rem;">
+                                Backup version:
+                            </div>
+                            <div class="grid-content small-3 noscroll">
+                                <p id="id_backup_version" style="font-size:20px;">- - -</p>
+                            </div>	
+                        </div> 
+                          
+                        <div class="grid-content shrink">&nbsp;</div>
+                         
+                        <div class="grid-block">
+                            <div class="grid-content small-3">
+                                <form name="button_1_form" autocomplete="off" method=post enctype=multipart/form-data>
+                                    <input id="id_btn_start_update" type="submit" name="btn_start_update" value="Start update" disabled>
+                                </form>
+                            </div>	
+                            <div class="grid-content small-5">
+                            </div>	
+                            <div class="grid-content small-3">
+                                <form name="button_2_form" autocomplete="off" method=post enctype=multipart/form-data>
+                                    <input id="id_btn_restore_backup" type="submit" name="btn_restore_backup" value="Restore backup" disabled>
+                                </form>
+                            </div>	
+                        </div>                         
+                          
+                    </fieldset>
+                    
+                    <div class="grid-content shrink">&nbsp;</div>
+                    <div class="grid-content shrink">&nbsp;</div>
+            
+                    <fieldset>
+                        
+                        <div class="grid-content shrink">
+                            <small>Status</small>
+                        </div>
+                        
+                        <div class="grid-content shrink">&nbsp;</div>
+                        
+                        <div class="grid-block">
+                            <div class="grid-content small-4">
+                                <p id="id_status" style="font-size:20px;">- - -</p>
+                            </div>	
+                            <div class="grid-content small-4">
+                                <p id="id_progress" style="font-size:20px;"></p>
+                            </div>	
+                        </div>
+                          
+                        <div class="grid-content shrink">&nbsp;</div>
+                        
+                        <form name="button_form_2" autocomplete="off" method=post enctype=multipart/form-data> <!-- START OF BUTTON FORM -->
+                         
+                            <div class="grid-block">
+                                <div class="grid-content small-2">
+                                    <small>Output log</small>
+                                </div>
+                                <div class="grid-content small-4"></div>
+                                <div class="grid-content small-2">
+                                    <input id="id_btn_log_clear" type="submit" name="btn_log_clear" value="Clear log" disabled>
+                                </div>	
+                                <div class="grid-content small-3">
+                                    <input id="id_btn_log_download" type="submit" name="btn_log_download" value="Download log" disabled>
+                                </div>	
+                            </div>
+                         
+                        </form> <!-- END OF BUTTON FORM -->  
+                        
+                        <div class="grid-content shrink">&nbsp;</div>
+                        
+                        <div class="grid-block noscroll">
+                            <div class="grid-content noscroll">
+                                
+                                <div class="grid-content shrink">&nbsp;</div>
+                                
+                                <div class="grid-content noscroll text-center" style="cursor:pointer;" onclick=show_output_click()><small id="id_output_show_label">SHOW &ensp;&lt;</small></div>
+                                
+                                <div class="grid-content shrink">&nbsp;</div>
+                                <div class="grid-content shrink">&nbsp;</div>
+                                
+                                <span id="output" style="white-space: pre-line" hidden></span>
+                            </div>	
+                        </div>
+                          
+                          
+                    </fieldset>
+
+                    <div class="grid-content shrink">&nbsp;</div>
+  
+                </div> <!-- END OF FILE BLOCK -->
+                    
+			</div>
+		</div> <!-- STOP OF CONTENT -->
+
+	</div> <!-- END OF FRAME -->
+	
+	<footer>
+	</footer>
+
+</body>
+</html>
+
+
+
+
+<script>
+
+    var g_status_mapping_label = {
+        0: "Ready for update",
+        1: "Uploading file",
+        2: "Checking uploaded file",
+        3: "Waiting until CS stop",
+        4: "Creating backup",
+        5: "Installing CS",
+        6: "Installation done",
+        7: "Installation failed",
+        8: "Restoring backup",
+        9: "Rebooting",
+        10: "Unpacking file",
+        11: "Removing installation files",
+        12: "Downloading file"
+    };
+
+    var g_status = 0;
+    var g_counter = 0;
+    var g_wait_on_restart = false;
+    
+    function restart_click()
+    {
+        g_wait_on_restart = true;
+        
+        document.getElementById('id_update_block').style.display = "none";
+        
+        document.getElementById('id_btn_upload').disabled = true;
+        document.getElementById('id_btn_download').disabled = true;
+        document.getElementById('id_btn_log_clear').disabled = true;
+        document.getElementById('id_btn_log_download').disabled = true;
+        document.getElementById('id_btn_start_update').disabled = true; 
+        document.getElementById('id_btn_restore_backup').disabled = true;
+        
+        setInterval(function() {         
+            window.location.reload(true);
+        }, 10000);
+        
+    };
+    
+    function show_output_click()
+    {
+        if (document.getElementById("output").style.display == "block")
+        {
+            document.getElementById("output").style.display = "none";
+            document.getElementById("id_output_show_label").innerHTML = "SHOW &ensp;&lt;";
+        }	
+        else
+        {
+            document.getElementById("output").style.display = "block";
+            document.getElementById("id_output_show_label").innerHTML = "HIDE &ensp;&or;";
+        }	
+    };
+    
+    setInterval(function() {         
+
+        if (g_status == 0)
+        {
+            document.getElementById('id_progress').innerHTML = "";
+            g_counter = 0;
+        }
+        else
+        {
+            document.getElementById('id_progress').innerHTML += " &#9679; ";
+            
+            g_counter++;
+            
+            if (g_counter > 10)
+            {
+                document.getElementById('id_progress').innerHTML = "";
+                g_counter = 0;
+            }    
+        }
+    
+    }, 1000);
+    
+    setInterval(function() {  
+
+        if (g_wait_on_restart)
+            return;
+    
+        var xhttp = new XMLHttpRequest();    
+        xhttp.open('GET', '{{ url_for('updater_logfile') }}');
+        xhttp.send();
+        xhttp.timeout = 3000;
+        
+        xhttp.ontimeout = function ()
+        {
+
+        }
+        
+        xhttp.onreadystatechange = function() 
+        {
+            if (this.status == 200)
+            {
+                if (g_wait_on_restart)
+                    return;
+            
+                var output = document.getElementById('output');
+                //output.textContent = xhttp.responseText;
+                output.innerHTML = xhttp.responseText;
+            }
+        };  
+    }, 2000);
+    
+    setInterval(function() {  
+
+        if (g_wait_on_restart)
+            return;
+    
+        var xhttp = new XMLHttpRequest();    
+        xhttp.open('GET', '{{ url_for('updater_status') }}');
+        xhttp.send();
+        xhttp.timeout = 3000;
+        
+        xhttp.ontimeout = function ()
+        {
+
+        }
+        
+        xhttp.onreadystatechange = function() 
+        {
+            if (this.status == 200)
+            {
+                if (g_wait_on_restart)
+                    return;
+            
+                var file_info = document.getElementById('id_file_info');
+                var current_version = document.getElementById('id_current_version');
+                var backup_version = document.getElementById('id_backup_version');
+                var status = document.getElementById('id_status');
+                
+                if (this.responseText)
+                    var status_data = JSON.parse(this.responseText);
+                else
+                    return;
+                
+                g_status = status_data["status"];
+                
+                status.innerHTML = g_status_mapping_label[status_data["status"]];
+
+                if (status_data["version"])
+                    document.getElementById('id_info').innerHTML = "ver. Update Server " + status_data["version"];
+                else
+                    document.getElementById('id_info').innerHTML = "ver. UNKNOWN";
+
+                if (status_data["status"] == 9)
+                {
+                    g_wait_on_restart = true;
+
+                    setInterval(function() {
+                        window.location.reload(true);
+                    }, 60000);
+                }
+
+                if (status_data["status"] == 0)
+                {  
+                    document.getElementById('id_btn_upload').disabled = false;
+                    document.getElementById('id_btn_download').disabled = false;
+                    document.getElementById('id_btn_log_clear').disabled = false;
+                    document.getElementById('id_btn_log_download').disabled = false;
+                    
+                    status.style = "color:#4caf50;font-size:20px;";
+                }
+                else
+                {
+                    document.getElementById('id_btn_upload').disabled = true;
+                    document.getElementById('id_btn_download').disabled = true;
+                    document.getElementById('id_btn_log_clear').disabled = true;
+                    document.getElementById('id_btn_log_download').disabled = true;
+                    
+                    status.style = "color:#ff9800;font-size:20px;";
+                }
+                
+                if (status_data["status"] == 0 && status_data["update"])
+                    document.getElementById('id_update_block').style.display = "block";
+                else
+                    document.getElementById('id_update_block').style.display = "none";
+                
+                if (status_data["file_uploaded"])
+                {
+                    file_info.innerHTML = status_data["file_name"];
+                    
+                    document.getElementById('id_btn_u')
+                    
+                    if (status_data["status"] == 0)
+                        document.getElementById('id_btn_start_update').disabled = false;  
+                    else
+                        document.getElementById('id_btn_start_update').disabled = true; 
+                }
+                else
+                {
+                    if (status_data["file_error"])
+                        file_info.innerHTML = status_data["file_error"];
+                    else
+                        file_info.innerHTML = "No file";
+                        
+                    document.getElementById('id_btn_start_update').disabled = true;
+                }
+                
+                if (status_data["backup_version"])
+                {
+                    backup_version.innerHTML = status_data["backup_version"];
+                
+                    if (status_data["status"] == 0)
+                        document.getElementById('id_btn_restore_backup').disabled = false;
+                    else
+                        document.getElementById('id_btn_restore_backup').disabled = true;
+                }
+                else
+                {
+                    document.getElementById('id_btn_restore_backup').disabled = true;
+                    backup_version.innerHTML = "UNKNOWN";
+                }    
+                
+                if (status_data["current_version"])
+                    current_version.innerHTML = status_data["current_version"];
+                else
+                    current_version.innerHTML = "UNKNOWN";
+                
+            }
+        };  
+    }, 1000);
+</script>
+
+</br>
+</br>
+
+
+
+
+    

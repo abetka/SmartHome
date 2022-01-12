@@ -1,0 +1,21 @@
+$def with (page)
+$page.render.header(page)
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+<form method="post">
+<h2>New name for "$page.data['room'] ":</h2> <input type=text name="newName"/>
+<input type="submit" value="save" name="rename" />
+</form>
+
+$page.render.footer(page)

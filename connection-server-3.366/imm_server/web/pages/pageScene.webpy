@@ -1,0 +1,32 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+<form method="post">
+<h2>$page.data['eventFN']</h2>
+<select style="font-size: 16px" name="event">
+$for row in page.data['inelsDev']:
+	<option value="$row">$row</option>
+</select>
+<input type=text name="value" value="" style="width: 50px;"/>
+<input type="submit" value="Add event" name="addEvent" />
+</form>
+
+<hr/>
+
+<h2>Defined events</h2>
+<table class="eventsTable" cellpadding=5>
+$for event, value in page.data['events'].iteritems():
+		<tr>
+            <td>$event 
+            <td>$value
+			<td><a href="?eventFN=$page.data['eventFN']&delete=$event">Remove</a></td>
+		</tr>
+</table>
+
+$page.render.footer(page)

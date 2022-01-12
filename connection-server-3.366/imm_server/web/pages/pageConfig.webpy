@@ -1,0 +1,147 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+	
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+$if (page.data.has_key('cu_state')):
+    <div id="info">
+    <b>CU STATE</b><br/>
+        $if 'CU3' in page.data['cu_state']:
+            CU addrress: $page.data['cu_state']['CU3']['address']<br/>
+            CU connection: $page.data['cu_state']['CU3']['connection']<br/>
+            CU state: $page.data['cu_state']['CU3']['state']<br/>
+            Protocol version: $page.data['cu_state']['CU3']['protocol']<br/>
+            User password enabled: $page.data['cu_state']['CU3']['password']<br/>
+            Login state: $page.data['cu_state']['CU3']['login']<br/>
+    </div>  
+    
+<h2>Settings</h2>
+<form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>
+                IP of iNELS CU:
+            </td>
+            <td>	&nbsp
+                <input type=text name="immCfgEpsnet" value="$page.data['immCfgEpsnet']"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Password:
+            </td>
+            <td>	&nbsp
+                <input type="password" id="hPassword" style="display:none;" /><input type="password" name="cu_pwd" value="$page.data['immCfgEpsnet_epsnet_pwd']"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                ASCII port (optional):
+            </td>
+            <td>	&nbsp
+                <input type=text name="immCfgEpsnet_ascii_port" value="$page.data['immCfgEpsnet_ascii_port']"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                IP of iMM Server:
+            </td>
+            <td>	&nbsp
+                <input type=text name="immCfgEpsnetServer" value="$page.data['immCfgEpsnetServer']"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Device Name:
+            </td>
+            <td>	&nbsp
+                <input type=text maxlength=16 name="immCfgDeviceName" value="$page.data['immCfgDeviceName']"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Machine ID:
+            </td>
+            <td>	&nbsp
+                <input type=text size=40 name="immCfgMachineID" value="$page.data['immCfgMachineID']"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Licence key:
+            </td>
+            <td>	&nbsp
+                <input type=text size=40 name="immCfgLicenceKey" value="$page.data['immCfgLicenceKey']"/>
+            </td>
+        </tr>
+    </table>
+    </br>
+
+
+<!--
+IP of iNELS CU: <input type=text name="immCfgEpsnet" value="$page.data['immCfgEpsnet']"/> Password: <input type="password" id="hPassword" style="display:none;" /><input type="password" name="cu_pwd" value="$page.data['immCfgEpsnet_epsnet_pwd']"/><br/>
+ASCII port (optional): <input type=text name="immCfgEpsnet_ascii_port" value="$page.data['immCfgEpsnet_ascii_port']"/><br/>
+IP of iMM Server: <input type=text name="immCfgEpsnetServer" value="$page.data['immCfgEpsnetServer']"/><br/>
+Machine ID: <input type=text size=40 name="immCfgMachineID" value="$page.data['immCfgMachineID']"/><br/>
+Licence key: <input type=text size=40 name="immCfgLicenceKey" value="$page.data['immCfgLicenceKey']"/><br/>
+<br/>
+-->
+
+<input type="submit" value="update" name="submitSettings" />
+<input type="submit" value="Check iNELS3 CU" name="check inels3 cu" />
+
+<hr/>
+
+<h2>Export iNELS3</h2>
+<select style="font-size: 16px" name="load_export_type">
+    <option value="is3">is3</option>
+    <option value="imm">imm</option>
+</select>
+<input type="submit" value="Load iNELS3 export" name="load inels3 export" />
+<input type="submit" value="Delete iNELS3 export" name="delete inels3 export" />
+<br/>
+$if page.data['immCfgExportHeader'] != '':
+    <div><br/>Export header: $page.data['immCfgExportHeader']<div>
+$else:
+    <div><br/>Export header: -<div>
+</form>
+
+<hr/>
+
+<h2>Export iNELS2</h2>
+<form method="post" enctype="multipart/form-data">
+    <label for="file">Upload:</label>
+    <input type="file" name="file" id="file" />
+    <input type="submit" name="submitFile" value="Upload iNELS2 export" />
+    <input type="submit" name="deleteFile" value="Delete iNELS2 export" />
+</form>
+
+<hr/>
+
+<h2>Edit export</h2>
+
+<form method="post">
+ <textarea rows="20" cols="100" width=100% name="exportPubContent" wrap="physical">$page.data['exportPubFile']</textarea>
+ <br/>
+ <br/>
+ <input type="submit" value="update" name="submitUpdateExportPub" />
+</form>
+
+$page.render.footer(page)
