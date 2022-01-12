@@ -8,10 +8,10 @@ email==6.0.0a1
 kaa-base==0.99.2dev-384-2b73caca
 ## FIXME: could not find svn URL in dependency_links for this package:
 kaa-metadata==0.7.8dev-r4569-20111003
-lxml==3.0
+lxml==4.7.1
 meld3==0.6.9
 psutil==0.6.1
-pyOpenSSL==0.13
+pyOpenSSL==21.0.0
 pyasn1==0.1.7
 pycrypto==2.6
 pymodbus==1.2.0
