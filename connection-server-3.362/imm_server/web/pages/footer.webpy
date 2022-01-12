@@ -1,0 +1,12 @@
+$def with (page)
+
+</div>
+
+<div id="raspi_revision">$page.data['raspi_model'] (Revision: $page.data['raspi_revision'])</div>
+
+<div class="footer">
+$page.runTime()
+</div>
+
+	</BODY>
+</HTML>

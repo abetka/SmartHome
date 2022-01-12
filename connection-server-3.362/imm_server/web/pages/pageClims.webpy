@@ -1,0 +1,1003 @@
+$def with (page)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+	<HEAD>
+		<TITLE>$page.data['title']</TITLE>
+		<LINK href="/static/style.css" rel="stylesheet" type="text/css">
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="input_numbers.js"></script>
+	</HEAD>
+	<BODY>
+
+<div class="header">
+	<div id="title">iMM Control Center / $page.data['title']</div>
+	<div id="version">ver. $page.data['siteData']['version']</div>
+	<div id="menu">
+	$for i in page.data['menu']:
+		<a href="$i[1]">$i[0]</a>
+	</div>
+</div>
+
+<div class="body" id="room_body">
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+
+
+<h2>Settings for AC:</h2>
+<table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+    <tr>
+        <td>
+            AC:
+        </td>
+        <td>	&nbsp
+            <select id="id_ac_select" onchange="ac_type_change();">
+                $if page.data['ac_select'] == 'lg':
+                    <option value="lg" selected>LG</option>
+                $else:
+                    <option value="lg">LG</option>
+
+                $if page.data['ac_select'] == 'coolmaster':
+                    <option value="coolmaster" selected>COOLMASTER</option>
+                $else:
+                    <option value="coolmaster">COOLMASTER</option>
+
+                $if page.data['ac_select'] == 'airpohoda':
+                    <option value="airpohoda" selected>AIRPOHODA</option>
+                $else:
+                    <option value="airpohoda">AIRPOHODA</option>
+
+                $if page.data['ac_select'] == 'atrea':
+                    <option value="atrea" selected>ATREA</option>
+                $else:
+                    <option value="atrea">ATREA</option>
+
+                $if page.data['ac_select'] == 'universal':
+                    <option value="universal" selected>UNIVERSAL 0-10 V</option>
+                $else:
+                    <option value="universal">UNIVERSAL 0-10 V</option>
+
+                $if page.data['ac_select'] == 'nilan':
+                    <option value="nilan" selected>NILAN</option>
+                $else:
+                    <option value="nilan">NILAN</option>
+
+                $if page.data['ac_select'] == 'intesis':
+                    <option value="intesis" selected>INTESIS BOX</option>
+                $else:
+                    <option value="intesis">INTESIS BOX</option>
+
+                $if page.data['ac_select'] == 'daikin':
+                    <option value="daikin" selected>DAIKIN</option>
+                $else:
+                    <option value="daikin">DAIKIN</option>
+
+                $if page.data['ac_select'] == 'mitsubishi':
+                    <option value="mitsubishi" selected>MITSUBISHI</option>
+                $else:
+                    <option value="mitsubishi">MITSUBISHI</option>
+
+                $if page.data['ac_select'] == 'cairox':
+                    <option value="cairox" selected>CAIROX</option>
+                $else:
+                    <option value="cairox">CAIROX</option>
+            </select>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+</br>
+<hr/>
+
+<div id="id_block_lg">
+<h3>LG clim (Universal LAN-RS485 converter)</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="name" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Type:
+            </td>
+            <td>	&nbsp
+                <select name="type">
+                    <option value="lg_pi485">LG PI485</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Port:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="port" id="climPort" onKeyPress="return block_non_numbers(this, event, false, false)" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Group:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="group" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Unit:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="unit" />
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="lg" />
+    <input type="submit" value="save LG" name="createclim" />
+</form>
+</br>
+<hr/>
+
+<h3>LG clim (eLAN-RS485-232)</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                $if not len(page.data['LGElanSettings']) == 0:
+                    <input type=text name="lg_elan_ip" value="$page.data['LGElanSettings'].keys()[0]"/>
+                $else:
+                    <input type=text name="lg_elan_ip" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Devices:
+            </td>
+            <td>	&nbsp
+                <select name="lg_elan_device">
+                    $for ip, uids in page.data['LGElanSettings'].iteritems():
+                        $for uid, label in uids.iteritems():
+                            <option value="$uid@$ip">$label (UID: $uid, IP: $ip)</option>
+                </select>
+            </td>
+            <td>	&nbsp
+                <input type="submit" value="Load devices" name="lg_elan_load" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type=text name="lg_elan_name" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="lg" />
+    <input type="submit" value="Save" name="lg_elan_save" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_coolmaster">
+<h3>CoolMaster</h3>
+<h3>Settings</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Type:
+            </td>
+            <td>	&nbsp
+                <select name="type">
+                $for v in ["1000D", "2000S", "3000T", "4000M", "6000L", "7000F", "8000I(MH)", "9000M", "CoolMasterNet", "CooLinkHUB"]:
+                    <option value="coolmaster_$v"
+                    $if "coolmaster_%s"%v == page.data['CoolMasterSettings']['type']:
+                        selected="selected"
+                    >$v</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" value="$page.data['CoolMasterSettings']['ip']" />
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="coolmaster" />
+    <input type="hidden" name="uid" value="" />
+    <input type="submit" value="save CoolMaster settings" name="coolmaster settings" />
+</form>
+
+<h3>Unit</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="name" />
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                UID:
+            </td>
+            <td>	&nbsp
+                <select name="uid">
+                    $for uid in page.data['CoolMasterClimsUID']:
+                        <option value="$uid">$uid</option>
+                </select>
+            </td>
+            <td>
+                <input type="submit" value="reload" name="reload_cm_uid" />
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="coolmaster" />
+    <input type="hidden" name="type" value="coolmaster" />
+    <input type="submit" value="save CoolMaster unit" name="createclim" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_airpohoda">
+<h3>AiRPohoda</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Type:
+            </td>
+            <td>	&nbsp
+                <select name="type">
+                    <option value="Air">AiRPohoda</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" />
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="airpohoda" />
+    <input type="hidden" name="name" value="Air" />
+    <input type="submit" value="save AiRPohoda" name="createclim" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_atrea">
+<h3>Atrea</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="name" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Type:
+            </td>
+            <td>	&nbsp
+                <select name="type">
+                    <option value="atrea_Duplex_180_EC4D_power_0-10">Duplex 180 EC4.D P(0-10)</option>
+                    <option value="atrea_Duplex_180_EC4D_power_0-100">Duplex 180 EC4.D P(0-100)</option>
+                    <option value="atrea_Duplex_EC_RD5">Duplex EC RD5</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Temperature OUT:
+            </td>
+            <td>	&nbsp
+                <select name="temp_out">
+                    <option disabled>────────── ATREA ──────────</option>
+                    <option value="ATREA_INTERNAL_SENSOR" selected>VZT - Internal sensor</option>
+                    <option disabled>─────────── CU ───────────</option>
+                    $for row in page.data['inelsDev']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Temperature IN:
+            </td>
+            <td>	&nbsp
+                <select name="temp_in">
+                    <option disabled>────────── ATREA ──────────</option>
+                    <option value="ATREA_CP" selected>CP - CP-Touch</option>
+                    <option value="ATREA_T_ETA">T-ETA - Internal sensor</option>
+                    <option value="ATREA_TRKN">TRKn - External sensor</option>
+                    <option disabled>─────────── CU ───────────</option>
+                    $for row in page.data['inelsDev']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="atrea" />
+    <input type="hidden" name="port" value="502"/>
+    <input type="submit" value="save Atrea" name="createclim" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_universal">
+<h3>Universal 0-10 V</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Maximal temperature:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="maxTemp"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Minimal temperature:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="minTemp"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Temperature control):
+            </td>
+            <td>	&nbsp
+                <select name="tempControl">
+                    $for row in page.data['inelsDev']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Heating:
+            </td>
+            <td>	&nbsp
+                <select name="heating">
+                    $for row in page.data['inelsDev']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Cooling:
+            </td>
+            <td>	&nbsp
+                <select name="cooling">
+                    $for row in page.data['inelsDev']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Thermometer:
+            </td>
+            <td>	&nbsp
+                <select name="thermometer">
+                    $for row in page.data['inelsDev']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="universal" />
+    <input type="hidden" name="type" value="Universal" />
+    <input type="submit" value="save Universal" name="createclim" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_nilan">
+<h3>Nilan</h3>
+<h3>Settings</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" value="$page.data['NilanSettings']['ip']" />
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="nilan" />
+    <input type="hidden" name="type" value="Nilan" />
+    <input type="submit" value="save Nilan settings" name="nilan settings" />
+</form>
+
+<h3>Unit</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="name" />
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Device ID:
+            </td>
+            <td>	&nbsp
+                <select name="uid">
+                    $for uid in page.data['NilanClimsUID']:
+                        <option value="$uid">$uid</option>
+                </select>
+            </td>
+            <td>
+                <input type="submit" value="reload" name="reload_cm_uid" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Actual temperature:
+            </td>
+            <td>	&nbsp
+                <select name="actual_tmp">
+                    $for tinput in ['T%d'%i for i in range(1, 16)]:
+                        <option value="$tinput">$tinput</option>
+                </select>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="nilan" />
+    <input type="hidden" name="type" value="Nilan" />
+    <input type="submit" value="save Nilan unit" name="createclim" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_intesis">
+<h3>Intesis Box</h3>
+<form method="post" action="/clims">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="name" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" />
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="intesis" />
+    <input type="hidden" name="port" value="3310"/>
+    <input type="hidden" name="type" value="Intesis" />
+    <input type="submit" value="save Intesis Box" name="createclim" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_daikin">
+<h3>Daikin clim (eLAN-RS485-232)</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                $if not len(page.data['DAIKINElanSettings']) == 0:
+                    <input type=text name="daikin_elan_ip" value="$page.data['DAIKINElanSettings'].keys()[0]"/>
+                $else:
+                    <input type=text name="daikin_elan_ip" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Devices:
+            </td>
+            <td>	&nbsp
+                <select name="daikin_elan_device">
+                    $for ip, uids in page.data['DAIKINElanSettings'].iteritems():
+                        $for uid, label in uids.iteritems():
+                            <option value="$uid@$ip">$label (UID: $uid, IP: $ip)</option>
+                </select>
+            </td>
+            <td>	&nbsp
+                <input type="submit" value="Load devices" name="daikin_elan_load" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type=text name="daikin_elan_name" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="daikin" />
+    <input type="submit" value="Save" name="daikin_elan_save" />
+</form>
+</div>
+
+
+
+<div hidden id="id_block_mitsubishi">
+<h3>Mitsubishi clim (eLAN-RS485-232)</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                $if not len(page.data['MITSUBISHIElanSettings']) == 0:
+                    <input type=text name="mitsubishi_elan_ip" value="$page.data['MITSUBISHIElanSettings'].keys()[0]"/>
+                $else:
+                    <input type=text name="mitsubishi_elan_ip" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Devices:
+            </td>
+            <td>	&nbsp
+                <select name="mitsubishi_elan_device">
+                    $for ip, uids in page.data['MITSUBISHIElanSettings'].iteritems():
+                        $for uid, label in uids.iteritems():
+                            <option value="$uid@$ip">$label (UID: $uid, IP: $ip)</option>
+                </select>
+            </td>
+            <td>	&nbsp
+                <input type="submit" value="Load devices" name="mitsubishi_elan_load" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type=text name="mitsubishi_elan_name" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="mitsubishi" />
+    <input type="submit" value="Save" name="mitsubishi_elan_save" />
+</form>
+</div>
+
+
+
+
+<div hidden id="id_block_cairox">
+<h3>Cairox clim (eLAN-RS485-232)</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="climsTable">
+        <tr>
+            <td>
+                IP address:
+            </td>
+            <td>	&nbsp
+                $if not len(page.data['CAIROXElanSettings']) == 0:
+                    <input type=text name="cairox_elan_ip" value="$page.data['CAIROXElanSettings'].keys()[0]"/>
+                $else:
+                    <input type=text name="cairox_elan_ip" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Devices:
+            </td>
+            <td>	&nbsp
+                <select name="cairox_elan_device">
+                    $for ip, uids in page.data['CAIROXElanSettings'].iteritems():
+                        $for uid, label in uids.iteritems():
+                            <option value="$uid@$ip">$label (UID: $uid, IP: $ip)</option>
+                </select>
+            </td>
+            <td>	&nbsp
+                <input type="submit" value="Load devices" name="cairox_elan_load" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Name:
+            </td>
+            <td>	&nbsp
+                <input type=text name="cairox_elan_name" value=""/>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="hidden" name="ac_select" value="cairox" />
+    <input type="submit" value="Save" name="cairox_elan_save" />
+</form>
+</div>
+
+
+
+<h2 hidden>Biosuntec</h2>
+<form method="post" action="/clims" hidden>
+    <input type="hidden" name="name" value="Biosuntec" />
+    Type<br>
+    <select name="type">
+        <option value="Biosuntec">Biosuntec</option>
+    </select><br><br>
+    Connection (ip_address)<br>
+    <input type="text" name="ip" onKeyPress="return allow_ip_address_chars(this, event)" /><br><br>
+    <input type="text" name="port" value="502"/>
+    <input type="submit" value="save Biosuntec" name="createclim" />
+</form>
+
+
+</br>
+<hr/>
+<hr/>
+
+
+<h2>Configured AC:</h2>
+
+$if (len(page.data['LG'])):
+	<h2>LG climatizations</h2>
+	<table class="climsTable" cellpadding=0>
+	<tr><th>Name</th><th>Type</th><th>IP address</th>
+		<th>Group</th><th>Unit</th><th></th></tr>
+	$for name, i in page.data['LG'].iteritems():
+		<tr>
+			<td>$name
+			<td>$i['type']
+			<td>
+			$if not 'group' in i:
+			    $i['uid']@$i['ip']
+			$else:
+			    $i['ip']:$i['port']
+			<td>
+			$if not 'group' in i:
+			    -
+			$else:
+			    $i['group']
+			<td>
+			$if not 'group' in i:
+			    -
+			$else:
+			    $i['unit']
+			<td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="clim_man"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+		</tr>
+	</table>
+
+$if (len(page.data['AiRPohoda'])):
+    <h2>AiRPohoda</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>Type</th><th>IP address</th><th></th></tr>
+    $for name, i in page.data['AiRPohoda'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['type']
+            <td>$i['ip']
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="air"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
+$if (len(page.data['CoolMaster'])):
+    <h2>CoolMaster</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>UID</th><th></th></tr>
+    $for name, i in page.data['CoolMaster'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['uid']
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="CoolMaster"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
+$if (len(page.data['Atrea'])):
+    <h2>Atrea</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>Type</th><th>IP address</th><th>Temperature OUT</th><th>Temperature IN</th><th></th></tr>
+    $for name, i in page.data['Atrea'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['type']
+            <td>$i['ip']:$i['port']
+            <td>$i.get('temp_out', '---')
+            <td>$i.get('temp_in', '---')
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="atrea"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
+$if (len(page.data['Universal'])):
+    <h2>Universal 0-10 V</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>Maximal temperature</th><th>Minimal temperature</th><th></th></tr>
+    $for name, i in page.data['Universal'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['maxTemp']
+            <td>$i['minTemp']
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="universal"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>
+ 
+$if (len(page.data['Nilan'])):
+    <h2>Nilan</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>UID</th><th>Actual temp</th><th></th></tr>
+    $for name, i in page.data['Nilan'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['uid']
+            <td>$i['actual_tmp']
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="nilan"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
+$if (len(page.data['Intesis'])):
+    <h2>Intesis Box</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>IP address</th><th></th></tr>
+    $for name, i in page.data['Intesis'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['ip']:$i['port']
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="intesis"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
+$if (len(page.data['Biosuntec'])):
+    <h2>Biosuntec</h2>
+    <table class="climsTable" cellpadding=0>
+    <tr><th>Name</th><th>Type</th><th>IP address</th><th></th></tr>
+    $for name, i in page.data['Biosuntec'].iteritems():
+        <tr>
+            <td>$name
+            <td>$i['type']
+            <td>$i['ip']:$i['port']
+            <td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="biosuntec"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+        </tr>
+    </table>    
+
+$if (len(page.data['daikin'])):
+	<h2>Daikin climatizations</h2>
+	<table class="climsTable" cellpadding=0>
+	<tr><th>Name</th><th>Type</th><th>IP address</th><th></th></tr>
+	$for name, i in page.data['daikin'].iteritems():
+		<tr>
+			<td>$name
+			<td>$i['type']
+			<td>
+			$if not 'group' in i:
+			    $i['uid']@$i['ip']
+			$else:
+			    $i['ip']:$i['port']
+			<td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="daikin_elan"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+		</tr>
+	</table>
+
+$if (len(page.data['mitsubishi'])):
+	<h2>Mitsubishi climatizations</h2>
+	<table class="climsTable" cellpadding=0>
+	<tr><th>Name</th><th>Type</th><th>IP address</th><th></th></tr>
+	$for name, i in page.data['mitsubishi'].iteritems():
+		<tr>
+			<td>$name
+			<td>$i['type']
+			<td>
+			$if not 'group' in i:
+			    $i['uid']@$i['ip']
+			$else:
+			    $i['ip']:$i['port']
+			<td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="mitsubishi_elan"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+		</tr>
+	</table>
+
+$if (len(page.data['cairox'])):
+	<h2>Cairox climatizations</h2>
+	<table class="climsTable" cellpadding=0>
+	<tr><th>Name</th><th>Type</th><th>IP address</th><th></th></tr>
+	$for name, i in page.data['cairox'].iteritems():
+		<tr>
+			<td>$name
+			<td>$i['type']
+			<td>
+			$if not 'group' in i:
+			    $i['uid']@$i['ip']
+			$else:
+			    $i['ip']:$i['port']
+			<td>
+                <form method="post">
+                    <input type="hidden" name="daemon" value="cairox_elan"/>
+                    <input type="hidden" name="name" value="$name"/>
+                    <input type="submit" value="Remove" name="Remove" />
+                </form>
+            </td>
+		</tr>
+	</table>
+
+
+<script>
+    window.onload = function(e)
+    {
+        ac_type_change();
+    };
+
+    function ac_type_change()
+    {
+        var ac_selected = "id_block_" + document.getElementById('id_ac_select').value;
+
+        var ac_all = ["id_block_lg", "id_block_coolmaster", "id_block_airpohoda", "id_block_atrea", "id_block_universal", "id_block_nilan", "id_block_intesis", "id_block_daikin", "id_block_mitsubishi", "id_block_cairox"];
+
+        for (var i = 0; i < ac_all.length; i++)
+        {
+            document.getElementById(ac_all[i]).style.display = "none";
+        }
+
+        document.getElementById(ac_selected).style.display = "block";
+    };
+
+
+</script>
+
+
+$page.render.footer(page)

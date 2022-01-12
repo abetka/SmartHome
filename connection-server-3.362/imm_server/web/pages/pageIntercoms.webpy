@@ -1,0 +1,349 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+$code:
+    doorPhones = {'2n': '2N-Helios', 'ipbold': 'Alphatech-IPBold', 'vto2000a': 'Dahua-VTO2000A'}
+
+
+$if page.data.has_key('editDoorPhone'):
+    <form method="post" hidden>
+$else:
+    $if page.data.has_key('edit'):
+        <h2>Edit intercom account: $page.data['edit']</h2>
+    $else:
+        <h2>New intercom account</h2>
+    <form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>Contact name:</td>
+            <td>
+                $if page.data.has_key('edit'):
+                    <input type=text name="contact name" value="$page.data['accounts'][page.data['edit']]['contact name']" />
+                $else:
+                    <input type=text name="contact name"/>
+            </td>
+        </tr>
+        $if page.data.has_key('edit'):
+            <input type=text name="name" value="$page.data['edit']" hidden/>
+        $else:
+            <tr>
+                <td>Account:</td>
+                <td>
+                    <input type=text name="name"/>
+                </td> 
+            </tr>
+        <tr>
+            <td>Secret:</td>
+            <td>
+                $if page.data.has_key('edit'):
+                    <input type=text name="secret" value="$page.data['accounts'][page.data['edit']]['secret']" />
+                $else:
+                    <input type=text name="secret"/>
+            </td> 
+        </tr>
+        <tr>
+            <td>Stream:</td>
+            <td>
+                $if page.data.has_key('edit'):
+                    <input type=text name="stream" value="$page.data['accounts'][page.data['edit']]['stream']" />
+                $else:
+                    <input type=text name="stream"/>
+            </td> 
+        </tr>
+    </table>
+
+    $if page.data.has_key('edit'):
+        <input type="submit" value="Save" name="Add" />
+    $else:
+        <input type="submit" value="Add" name="Add" />
+
+</form>
+
+<hr/>
+
+$if page.data.has_key('edit'):
+    <form method="post" hidden>
+$else:
+    $if page.data.has_key('editDoorPhone'):
+        <h2>Edit intercom account: $page.data['editDoorPhone']</h2>
+    $else:
+        <h2>New intercom account (for a door phone)</h2>
+    <form method="post">
+
+    <table cellpadding="3">    
+        <tr>
+            <td>Contact name:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=text name="contact name" value="$page.data['accounts'][page.data['editDoorPhone']]['contact name']" />
+                $else:
+                    <input type=text name="contact name"/>
+            </td>
+        </tr>
+        $if page.data.has_key('editDoorPhone'):
+            <input type=text name="name" value="$page.data['editDoorPhone']" hidden/>
+        $else:
+            <tr>
+                <td>Account:</td>
+                <td>
+                    <input type=text name="name"/>
+                </td> 
+            </tr>
+        <tr>
+            <td>Secret:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=text name="secret" value="$page.data['accounts'][page.data['editDoorPhone']]['secret']" />
+                $else:
+                    <input type=text name="secret"/>
+            </td> 
+        </tr>
+        <tr>
+            <td>Stream:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=text name="stream" value="$page.data['accounts'][page.data['editDoorPhone']]['stream']" />
+                $else:
+                    <input type=text name="stream"/>
+            </td> 
+        </tr>
+        <tr>
+            <td>Door lock URL:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=text name="doorlock" value="$page.data['accounts'][page.data['editDoorPhone']]['doorlock']" />
+                $else:
+                    <input type=text name="doorlock"/>
+            </td>
+        </tr>
+        <tr>
+            <td> </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>Device type:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <select name="device">
+                        <option value=""> </option>
+                        $if page.data['accounts'][page.data['editDoorPhone']]['device'] == "2n":
+                            <option value="2n" selected="selected">$doorPhones['2n']</option>
+                        $else:
+                            <option value="2n">$doorPhones['2n']</option>
+                        $if page.data['accounts'][page.data['editDoorPhone']]['device'] == "ipbold":
+                            <option value="ipbold" selected="selected">$doorPhones['ipbold']</option>
+                        $else:
+                            <option value="ipbold">$doorPhones['ipbold']</option>
+                        $if page.data['accounts'][page.data['editDoorPhone']]['device'] == "vto2000a":
+                            <option value="vto2000a" selected="selected">$doorPhones['vto2000a']</option>
+                        $else:
+                            <option value="vto2000a">$doorPhones['vto2000a']</option>
+                    </select>
+                $else:
+                    <select name="device">
+                        <option value=""> </option>
+                        <option value="2n">$doorPhones['2n']</option>
+                        <option value="ipbold">$doorPhones['ipbold']</option>
+                        <option value="vto2000a">$doorPhones['vto2000a']</option>
+                    </select>
+            </td> 
+        </tr>
+        <tr>
+            <td>Username:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=text name="username" value="$page.data['accounts'][page.data['editDoorPhone']]['username']" />
+                $else:
+                    <input type=text name="username"/>
+            </td> 
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=password name="password" value="$page.data['accounts'][page.data['editDoorPhone']]['password']" />
+                $else:
+                    <input type=password name="password"/>
+            </td> 
+        </tr>
+        <tr>
+            <td>Lock code:</td>
+            <td>
+                $if page.data.has_key('editDoorPhone'):
+                    <input type=text name="lockcode" value="$page.data['accounts'][page.data['editDoorPhone']]['lockcode']" />
+                $else:
+                    <input type=text name="lockcode"/>
+            </td> 
+        </tr>
+    </table>
+
+    $if page.data.has_key('editDoorPhone'):
+        <input type="submit" value="Save" name="AddDoorPhone" />
+    $else:
+        <input type="submit" value="Add" name="AddDoorPhone" />
+
+</form>
+
+<hr/>
+    
+$if page.data.has_key('edit') or page.data.has_key('editDoorPhone'):
+    <form method="post" hidden>
+$else:    
+    <h2>New intercom group</h2>
+    <form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>Group name:</td>
+            <td>
+                <input type=text name="group"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Accounts:</td>
+            <td>
+                <input type=text name="contacts"/>
+            </td> 
+        </tr>
+    </table>
+
+    <input type="submit" value="Add" name="AddGroup" />
+</form>
+
+<hr/>
+
+$if page.data.has_key('edit') or page.data.has_key('editDoorPhone'):
+    <form method="post" hidden>
+$else:   
+    <h2>Asterisk settings</h2>
+    <form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>Ring timeout [s]:</td>
+            <td>
+                <input type="text" style="width: 50px;" name="ring_timeout" value="$page.data['settings']['ring_timeout']" />
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="save" name="TimeoutSave" />
+</form>
+
+<hr/>
+
+$if page.data.has_key('edit') or page.data.has_key('editDoorPhone'):
+    <form method="post" hidden>
+$else:
+    <h2>Upload or download intercoms backup</h2>
+    <form method="post" enctype="multipart/form-data">
+    <label for="file">Upload:</label>
+    <input type="file" name="file" id="file" accept=".json" />
+    <input type="submit" name="uploadFile" value="Upload" />
+    <input type="submit" name="downloadFile" value="Download" />
+</form>
+
+$if page.data.has_key('edit') or page.data.has_key('editDoorPhone'):
+    <form method="post" hidden>
+$else:  
+    <h2>Update asterisk settings</h2>
+    <form method="post">
+    <input type="submit" value="Apply settings" name="Restart" />
+</form>
+
+
+<hr/>
+<hr/>
+
+
+<h2>Intercom accounts</h2>
+<table class="deviceTable" cellpadding=5 >
+<colgroup>
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 10%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 15%;">
+</colgroup>
+<tr><th>Contact name</th><th>Account</th><th>Secret</th><th>Stream</th><th>Door lock URL</th><th>Door phone</th></tr>
+$for account, v in page.data['accounts'].iteritems():
+    <tr>
+        <td>$v['contact name']</td>
+        
+        $if account in page.data['registered']:
+            <td style="color: green;">$account</td>
+        $else:
+            <td style="color: red;">$account</td>
+        
+        <td>$v['secret']</td>
+        <td>$v['stream']</td>
+        $if 'device' in v:
+            <td>$v['doorlock']</td>
+            <td>$doorPhones[v['device']]</td>
+        $else:
+            <td> </td>
+            <td> </td>
+        <td><form method="post">
+                <input type="hidden" name="name" value="$account"/>
+                <input type="hidden" name="secret" value="$v['secret']"/>
+                <input type="hidden" name="stream" value="$v['stream']"/>
+                <input type="submit" value="Edit" name="Edit" />
+                <input type="submit" value="Remove" name="Remove" />
+                <input type="submit" value="Get 2n config file" name="Get 2n config file" />
+            </form>
+        </td>
+    </tr>
+$if page.data['accounts']:
+    <tr>
+        <td><span style="color: green;">Active</span> / <span style="color: red;">Unactive</span></td>
+    </tr>
+</table>
+
+
+<hr/>
+<hr/>
+
+
+<h2>Intercom groups</h2>
+<table class="deviceTable" cellpadding=5 >
+<colgroup>
+       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 32%;">
+       <col span="1" style="width: 16%;">
+       <col span="1" style="width: 16%;">
+       <col span="1" style="width: 16%;">
+</colgroup>
+<tr><th>Group name</th><th>Accounts</th></tr>
+$for group, v in page.data['groups'].iteritems():
+    <tr>
+        <td>$group</td>
+        
+        <td>
+        $for a in v:
+            $a, 
+        </td>
+
+        <td><form method="post">
+                <input type="hidden" name="group" value="$group"/>
+                <input type="submit" value="Remove" name="RemoveGroup" />
+            </form>
+        </td>
+    </tr>
+</table>
+
+$page.render.footer(page)

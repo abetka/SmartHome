@@ -1,0 +1,76 @@
+$def with (page)
+
+<style type="text/css">
+    .warning {
+        left: 50%;
+        position: fixed;
+    }
+
+    .container {
+        left: 50%;
+        position: fixed;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+    }
+
+    #loginForm {
+        width: 300px;
+    }
+
+    #loginForm h3 {
+        background-color: #222222;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        font-size: 14px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #loginForm input {
+        font-size: 14px;
+    }
+
+    #loginForm input[type="text"],
+    #loginForm input[type="password"] {
+        border: 1px solid #dcdcdc;
+        padding: 12px 10px;
+        width: 100%;
+    }
+
+    #loginForm input[type="text"] {
+        border-radius: 3px 3px 0 0;
+    }
+
+    #loginForm input[type="password"] {
+        border-top: none;
+        border-radius: 0px 0px 3px 3px;
+    }
+
+    #loginForm input[type="submit"] {
+        background-color: #222222;
+        border-radius: 3px;
+        color: #fff;
+        float: right;
+        font-weight: bold;
+        margin-top: 20px;
+        padding: 12px 20px;
+    }
+</style>
+
+<div class="container">
+    $if (page.data.has_key('warning')):
+	        <b>WARNING</b><br/>
+	        $page.data['warning']
+
+    <div id="loginForm">
+    <h3>iMM CONTROL CENTER</h3>
+        <form method="post">
+            <input type="text" value="admin" disabled>
+            <input type="password" value="password" name="password" onBlur="if(this.value=='')this.value='password'" onFocus="if(this.value=='password')this.value=''">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,334 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+
+<h2>RF Logging</h2>
+
+<h3>RF settings:</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                IP address of eLAN RF:
+            </td>
+            <td>	&nbsp
+                <input type=text name="elan_url" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Username:
+            </td>
+            <td>	&nbsp
+                <input type=text name="elan_username" value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password:
+            </td>
+            <td>	&nbsp
+                <input type=password name="elan_password" value=""/>
+            </td>
+        </tr>
+    </table>
+
+    </br>
+
+    <input type="submit" value="Add" name="addELAN" />
+    <input type="submit" value="Apply changes" name="applyELANChanges" />
+</form>
+
+
+$for address, info in page.data['elan_settings'].iteritems():
+    <hr/>
+    <h3>eLAN RF: $address</h3>
+    <form method="post">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    Device:
+                </td>
+                <td>	&nbsp
+                    <select id="select_$address" style="font-size: 16px" name="elan_device_name" onchange="elanSetInputBox('$address')">
+                        <option value=""></option>
+                        $if address in page.data['elan_devices']:
+                            $for device_id, device_info in page.data['elan_devices'][address].iteritems():
+                                <option value="$device_id">(ID: $device_id) $device_info['device info']['label']</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    File name:
+                </td>
+                <td>	&nbsp
+                    <input id="input_$address" type=text name="elan_device_file" value=""/>
+                </td>
+            </tr>
+        </table>
+        </br>
+        <input type="submit" value="Add device" name="addELANDevice" />
+        <input type="hidden" name="address" value="$address" />
+        <input type="submit" value="Remove ELAN" name="removeELAN" />
+        <input type="submit" value="Apply changes" name="applyELANChanges" />
+    </form>
+    <table class="deviceTable" cellpadding=3 >
+        <colgroup>
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 15%;">
+            <col span="1" style="width: 50%;">
+        </colgroup>
+        <tr>
+            <th>Device</th>
+            <th>ID</th>
+            <th>File</th>
+        </tr>
+        $if address in page.data['elan_files']:
+            $for device_id, device_file in page.data['elan_files'][address].iteritems():
+                <tr>
+                    $if not device_id in page.data['elan_devices'][address]:
+                        <td>--- unknown ---</td>
+                    $else:
+                        <td>$page.data['elan_devices'][address][device_id]['device info']['label']</td>
+                    <td>$device_id</td>
+                    <td>$device_file</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="address" value="$address"/>
+                            <input type="hidden" name="device_file" value="$device_file"/>
+                            <input type="hidden" name="device_id" value="$device_id"/>
+                            <input type="submit" value="Remove" name="removeELANDevice" />
+                            <input type="submit" value="Clean" name="cleanELANDevice" />
+                            <input type="submit" value="Download" name="downloadELANDevice" />
+                        </form>
+                    </td>
+                </tr>
+    </table>
+
+<hr/>
+<hr/>
+
+
+
+
+<h2>CU3 Logging (when the value is changed)</h2>
+<h3>Settings:</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                Device:
+            </td>
+            <td>	&nbsp
+                <select id="cu_select" style="font-size: 16px" name="cu_device_name" onchange="cuSetInputBox()">
+                    <option value=""></option>
+                    $for device in page.data['cu_devices']:
+                        <option value="$device[1]">(UID: $device[1]) $device[0]</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Label:
+            </td>
+            <td>	&nbsp
+                <input id="cu_input" type=text name="cu_device_file" value=""/>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="submit" value="Add device" name="addCUDevice" />
+    <input type="submit" value="Remove all" name="removeCU" />
+    <input type="submit" value="Apply changes" name="applyCUChanges" />
+</form>
+<table class="deviceTable" cellpadding=3 >
+    <colgroup>
+        <col span="1" style="width: 25%;">
+        <col span="1" style="width: 10%;">
+        <col span="1" style="width: 15%;">
+        <col span="1" style="width: 50%;">
+    </colgroup>
+    <tr>
+        <th>Device</th>
+        <th>UID</th>
+        <th>Label</th>
+    </tr>
+
+    $for device_id, device_file in page.data['cu_files'].iteritems():
+        <tr>
+            <td>
+            $for i in page.data['cu_devices']:
+                $if i[1] == device_id:
+                    $i[0]
+                    $break
+            </td>
+            <td>$device_id</td>
+            <td>$device_file</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="device_file" value="$device_file"/>
+                    <input type="hidden" name="device_id" value="$device_id"/>
+                    <input type="submit" value="Remove" name="removeCUDevice" />
+                    <input type="submit" value="Clean" name="cleanCUDevice" />
+                    <input type="submit" value="Download" name="downloadCUDevice" />
+                </form>
+            </td>
+        </tr>
+</table>
+
+<hr/>
+
+<h3>Download data:</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                Device:
+            </td>
+            <td>	&nbsp
+                <select style="font-size: 16px" name="download_device">
+                    <option value="all_devices">All devices</option>
+                    $for device_id, device_file in page.data['cu_files'].iteritems():
+                        <option value="$device_file">$device_file</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Range:
+            </td>
+            <td>	&nbsp
+                <select style="font-size: 16px" name="download_range">
+                    <option value="all_data">All data</option>
+                    <option value="1">1 day</option>
+                    <option value="2">2 days</option>
+                    <option value="3">3 days</option>
+                    <option value="4">4 days</option>
+                    <option value="5">5 days</option>
+                    <option value="6">6 days</option>
+                    <option value="7">1 week</option>
+                    <option value="14">2 weeks</option>
+                    <option value="21">3 weeks</option>
+                    <option value="30">1 month</option>
+                    <option value="60">2 months</option>
+                    <option value="90">3 months</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="submit" value="Download" name="downloadCUDevice_user" />
+</form>
+
+
+<hr/>
+<hr/>
+
+
+
+<h2>CU Logging (periodic)</h2>
+<h3>Settings:</h3>
+<form method="post">
+    <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                Device:
+            </td>
+            <td>	&nbsp
+                <select id="cu_periodic_select" style="font-size: 16px" name="cu_periodic_device_name">
+                    <option value=""></option>
+                    $for device in page.data['cu_devices']:
+                        <option value="$device[0]">(UID: $device[1]) $device[0]</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Period [s]:
+            </td>
+            <td>	&nbsp
+                <input type=text name="cu_periodic_period" value="$page.data['cu_periodic_time']"/>
+            </td>
+        </tr>
+    </table>
+    </br>
+    <input type="submit" value="Add device" name="addCUPeriodicDevice" />
+    <input type="submit" value="Remove all" name="removeCUPeriodic" />
+    <input type="submit" value="Apply changes" name="applyCUPeriodicChanges" />
+</form>
+<table class="deviceTable" cellpadding=3 >
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 60%;">
+    </colgroup>
+    <tr>
+        <th>Device</th>
+    </tr>
+
+    $for device in page.data['cu_periodic_devices']:
+        <tr>
+            <td>$device</td>
+            <td>
+                <form method="post">
+                    <input type="hidden" name="device_name" value="$device"/>
+                    <input type="submit" value="Remove" name="removeCUPeriodicDevice" />
+                    <input type="submit" value="Clean" name="cleanCUPeriodicDevice" />
+                    <input type="submit" value="Download" name="downloadCUPeriodicDevice" />
+                </form>
+            </td>
+        </tr>
+</table>
+
+</br>
+<form method="post">
+    <input type="submit" value="Download all" name="downloadCUPeriodicDeviceAll" />
+</form>
+<hr/>
+
+
+
+
+
+
+
+<script>
+function elanSetInputBox(address) {
+    var sel = document.getElementById ("select_" + address);
+    var dev_id = sel.options[sel.selectedIndex].value;
+    var dev_label = sel.options[sel.selectedIndex].innerHTML.replace(/ /g, "_");
+    dev_label = dev_label.replace("ID:_", "");
+
+    if (dev_id == "")
+    {
+        document.getElementById("input_" + address).value = "";
+    }
+    else
+    {
+        document.getElementById("input_" + address).value = address + "_" + dev_label;
+    }
+};
+
+function cuSetInputBox() {
+    var sel = document.getElementById ("cu_select");
+    var dev_id = sel.options[sel.selectedIndex].value;
+    var dev_label = sel.options[sel.selectedIndex].innerHTML.replace(/ /g, "_");
+    dev_label = dev_label.replace("UID:_", "");
+
+    if (dev_id == "")
+    {
+        document.getElementById("cu_input").value = "";
+    }
+    else
+    {
+        document.getElementById("cu_input").value = "cu_device_" + dev_label;
+    }
+}
+</script>

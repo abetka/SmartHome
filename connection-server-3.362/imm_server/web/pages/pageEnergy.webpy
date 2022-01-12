@@ -1,0 +1,353 @@
+$def with (page)
+$page.render.header(page)
+
+<script>
+    function setText(obj, id, extra, radio_name)
+    {   
+        var temp = document.getElementsByName(radio_name);
+        for (var i=1; i<6; i++)
+        {
+            var elem = document.getElementById(id + i);
+            if(elem != null)
+            {
+                if (temp.length > 1)
+                {
+                    if (id + '_label' == obj.id)
+                    {
+                        if (temp[temp.length - 1].checked)
+                            elem.innerHTML = obj.value + ' ' + extra;
+                    }
+                    else
+                    {
+                        if (temp[temp.length - 1].checked)
+                            elem.innerHTML = document.getElementById(id + '_label').value + ' ' + extra;
+                        else
+                            elem.innerHTML = obj.value + ' ' + extra;
+                    }
+                }
+                else
+                {
+                    elem.innerHTML = obj.value + ' ' + extra;
+                }
+            }
+        }        
+    }
+    function setUnit(obj, id, extra, radio_name)
+    {
+        var temp = document.getElementsByName(radio_name);
+        var elem = document.getElementById(id);
+        if(elem != null)
+        {
+            if (temp.length > 1)
+            {
+                if (id + '_label' == obj.id)
+                {
+                    if (temp[temp.length - 1].checked)
+                        elem.innerHTML = obj.value + ' ' + extra;
+                }
+                else
+                {
+                    if (temp[temp.length - 1].checked)
+                        elem.innerHTML = document.getElementById(id + '_label').value + ' ' + extra;
+                    else
+                        elem.innerHTML = obj.value + ' ' + extra;
+                }
+            }
+            else
+            {
+                elem.innerHTML = obj.value + ' ' + extra;
+            }
+        }
+    }
+    function itemsDefault(obj, zones)
+    {
+        for (var i = 0; i < zones.length; i++)
+        {
+            zone = document.getElementsByName(zones[i])[0];
+            zone.selectedIndex = 0;
+        }
+    }
+    function settingsDefault(obj, type, units, settings)
+    {
+        document.getElementsByName(type + "_label")[0].value = type;
+        document.getElementsByName(type + "_unit")[0].checked = true;
+        document.getElementsByName(type + "_unit_other")[0].value = "";
+
+        for (var i = 0; i < units.length; i++)
+        {
+            document.getElementById(units[i]).innerHTML = document.getElementsByName(type + "_unit")[0].value;
+        }
+
+        for (var i = 0; i < settings.length; i++)
+        {
+            document.getElementsByName(settings[i])[0].value = 1;
+        }
+    }
+</script>
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h2>Energy management</h2>
+
+<form method="post">
+<table border="0" cellspacing="0" cellpadding="7"> 
+
+  $code:
+	types = {'Electric': ['Electric_zone_1', 'Electric_zone_2', 'Electric_zone_3', 'Electric_zone_4', 'Electric_zone_5'],
+		     'Water'    : ['Water_hot', 'Water_cold'], 
+		     'Gass'     : ['Gass_elem']}
+
+  $for type in types.keys():
+	  <tr>
+		<th style="text-align:left">$type</th>  
+	  </tr>
+	  $for zone in types[type]:
+		  <tr> 
+		       <td style="vertical-align:middle; text-indent: 5px">$zone</td> 
+		       <td style="vertical-align:middle">
+				<select style="font-size: 16px" name=$zone>
+				<option value=""></option>
+				$for row in page.data['inels_dev']:
+				    $if row == page.data['options'][zone]:
+				        <option value="$row" selected="selected">$row</option>
+				    $else:
+					    <option value="$row">$row</option>
+				</select>
+		       </td>
+		       <td style="vertical-align:middle; text-indent: 5px">
+		        $if page.data['options'][zone] and page.data['options'][zone] not in page.data['inels_dev']:
+		            <font color="red">Make update, saved device "$page.data['options'][zone]" is not in export!</font>
+		       </td>
+
+		  </tr>
+	  <tr>
+        <th>
+            <input type="button" onclick="itemsDefault(this, $types[type])" value="Default" />
+            <input type="submit" value="update" name="submitSettings" />
+        </th>
+      </tr>
+</table>
+
+<br/><hr/><br/>
+
+<table border="0" cellspacing="0" cellpadding="7"> 
+
+  $code:
+	eBaseUnits = ['kWh', 'MWh', 'other']
+
+  <tr>
+        <th style="text-align:left">Electric</th>
+        <td>Label:</td>
+        <td colspan="2"><input type="text" size="1" style="width:100%;" name="Electric_label" value="$page.data['options']['Electric_label']"/></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>Base unit:</td>
+      $for unit in eBaseUnits:
+          $if page.data['options']['Electric_unit'] == unit: 
+              <td><input type="radio" name="Electric_unit" onclick="setText(this, 'eUnitText', '', 'Electric_unit')" value="$unit" checked/>$unit </td>
+          $else:
+              <td><input type="radio" name="Electric_unit" onclick="setText(this, 'eUnitText', '', 'Electric_unit')" value="$unit"/>$unit </td>
+      <td><input type="text" size="1" style="width:100%;" id="eUnitText_label" onkeyup="setText(this, 'eUnitText', '', 'Electric_unit')" name="Electric_unit_other" value="$page.data['options']['Electric_unit_other']"/></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Z1 Price:</td>
+        <td><input type="text" name="Electric_Z1_price" size="1" value="$page.data['options']['Electric_Z1_price']"/></td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z1_impulses" size="1" value="$page.data['options']['Electric_z1_impulses']"/></td>
+        <td>Impulses</td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z1_per" size="1" value="$page.data['options']['Electric_z1_per']"/></td>
+        <td><span id="eUnitText1">
+        $if (page.data['options']['Electric_unit'] == 'other'):
+            $page.data['options']['Electric_unit_other']
+        $else:
+            $page.data['options']['Electric_unit']
+        </span></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Z2 Price:</td>
+        <td><input type="text" name="Electric_Z2_price" size="1" value="$page.data['options']['Electric_Z2_price']"/></td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z2_impulses" size="1" value="$page.data['options']['Electric_z2_impulses']"/></td>
+        <td>Impulses</td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z2_per" size="1" value="$page.data['options']['Electric_z2_per']"/></td>
+        <td><span id="eUnitText2">
+        $if (page.data['options']['Electric_unit'] == 'other'):
+            $page.data['options']['Electric_unit_other']
+        $else:
+            $page.data['options']['Electric_unit']
+        </span></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Z3 Price:</td>
+        <td><input type="text" name="Electric_Z3_price" size="1" value="$page.data['options']['Electric_Z3_price']"/></td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z3_impulses" size="1" value="$page.data['options']['Electric_z3_impulses']"/></td>
+        <td>Impulses</td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z3_per" size="1" value="$page.data['options']['Electric_z3_per']"/></td>
+        <td><span id="eUnitText3">
+        $if (page.data['options']['Electric_unit'] == 'other'):
+            $page.data['options']['Electric_unit_other']
+        $else:
+            $page.data['options']['Electric_unit']
+        </span></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Z4 Price:</td>
+        <td><input type="text" name="Electric_Z4_price" size="1" value="$page.data['options']['Electric_Z4_price']"/></td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z4_impulses" size="1" value="$page.data['options']['Electric_z4_impulses']"/></td>
+        <td>Impulses</td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z4_per" size="1" value="$page.data['options']['Electric_z4_per']"/></td>
+        <td><span id="eUnitText4">
+        $if (page.data['options']['Electric_unit'] == 'other'):
+            $page.data['options']['Electric_unit_other']
+        $else:
+            $page.data['options']['Electric_unit']
+        </span></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Z5 Price:</td>
+        <td><input type="text" name="Electric_Z5_price" size="1" value="$page.data['options']['Electric_Z5_price']"/></td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z5_impulses" size="1" value="$page.data['options']['Electric_z5_impulses']"/></td>
+        <td>Impulses</td>
+        <td>per</td>
+        <td><input type="text" name="Electric_z5_per" size="1" value="$page.data['options']['Electric_z5_per']"/></td>
+        <td><span id="eUnitText5">
+        $if (page.data['options']['Electric_unit'] == 'other'):
+            $page.data['options']['Electric_unit_other']
+        $else:
+            $page.data['options']['Electric_unit']
+        </span></td>
+  </tr>
+  <tr>
+    <th>
+        <input type="button" onclick='settingsDefault(this, "Electric", ["eUnitText1", "eUnitText2", "eUnitText3", "eUnitText4", "eUnitText5"],["Electric_Z1_price", "Electric_z1_impulses", "Electric_z1_per", "Electric_Z2_price", "Electric_z2_impulses", "Electric_z2_per", "Electric_Z3_price", "Electric_z3_impulses", "Electric_z3_per", "Electric_Z4_price", "Electric_z4_impulses", "Electric_z4_per", "Electric_Z5_price", "Electric_z5_impulses", "Electric_z5_per"])' value="Default" />
+        <input type="submit" value="update" name="submitSettings" />
+    </th>
+  </tr>
+
+  <tr><td></td></tr><tr><td></td></tr>
+  $code:
+	wBaseUnits = ['l', 'hl', 'm3', 'Gallon UK', 'Galon US', 'other']
+
+  <tr>
+        <th style="text-align:left">Water</th>
+        <td>Label:</td>
+        <td colspan="2"><input type="text" size="1" style="width:100%;" name="Water_label" value="$page.data['options']['Water_label']"/></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>Base unit:</td>
+      $for unit in wBaseUnits:
+          $if page.data['options']['Water_unit'] == unit: 
+              <td><input type="radio" name="Water_unit" onclick="setUnit(this, 'wUnitText', '', 'Water_unit')" value="$unit" checked/>$unit </td>
+          $else:
+              <td><input type="radio" name="Water_unit" onclick="setUnit(this, 'wUnitText', '', 'Water_unit')" value="$unit"/>$unit </td>
+      <td colspan="2"><input type="text" size="1" style="width:100%;" id="wUnitText_label" onkeyup="setUnit(this, 'wUnitText', '', 'Water_unit')" name="Water_unit_other" value="$page.data['options']['Water_unit_other']"/></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Impulses:</td>
+        <td><input type="text" name="Water_impulses" size="1" value="$page.data['options']['Water_impulses']" 
+                   onkeyup="setText(this, 'wImpText', '', '')"/></td>
+        <td>per</td>
+        <td><input type="text" name="Water_per" size="1" value="$page.data['options']['Water_per']"/></td>
+        <td><span id="wUnitText">
+        $if (page.data['options']['Water_unit'] == 'other'):
+            $page.data['options']['Water_unit_other']
+        $else:
+            $page.data['options']['Water_unit']
+        </span></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Price:</td>
+        <td><input type="text" name="Water_price" size="1" value="$page.data['options']['Water_price']"/></td>
+        <td>per</td>
+        <td><span name="Water_impulses" id="wImpText1">$page.data['options']['Water_impulses']</span></td>
+        <td>Impulses</td>
+  </tr>
+  <tr>
+    <th>
+        <input type="button" onclick='settingsDefault(this, "Water", ["wUnitText"],["Water_impulses", "Water_per", "Water_price"])' value="Default" />
+        <input type="submit" value="update" name="submitSettings" />
+    </th>
+  </tr>
+
+  <tr><td></td></tr><tr><td></td></tr>
+  $code:
+	gBaseUnits = ['m3', 'other']
+
+  <tr>
+        <th style="text-align:left">Gass</th>
+        <td>Label:</td>
+        <td colspan="2"><input type="text" size="1" style="width:100%;" name="Gass_label" value="$page.data['options']['Gass_label']"/></td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>Base unit:</td>
+      $for unit in gBaseUnits:
+          $if page.data['options']['Gass_unit'] == unit: 
+              <td><input type="radio" name="Gass_unit" onclick="setUnit(this, 'gUnitText', '', 'Gass_unit')" value="$unit" checked/>$unit </td>
+          $else:
+              <td><input type="radio" name="Gass_unit" onclick="setUnit(this, 'gUnitText', '', 'Gass_unit')" value="$unit"/>$unit </td>
+      <td colspan="2"><input type="text" size="1" style="width:100%;" id="gUnitText_label" onkeyup="setUnit(this, 'gUnitText', '', 'Gass_unit')" name="Gass_unit_other" value="$page.data['options']['Gass_unit_other']"/></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Impulses:</td>
+        <td><input type="text" name="Gass_impulses" size="1" value="$page.data['options']['Gass_impulses']" 
+                   onkeyup="setText(this, 'gImpText', '', '')"/></td>
+        <td>per</td>
+        <td><input type="text" name="Gass_per" size="1" value="$page.data['options']['Gass_per']"/></td>
+        <td><span id="gUnitText">
+        $if (page.data['options']['Gass_unit'] == 'other'):
+            $page.data['options']['Gass_unit_other']
+        $else:
+            $page.data['options']['Gass_unit']
+        </span></td>
+  </tr>
+  <tr>
+        <td></td>
+        <td>Price:</td>
+        <td><input type="text" name="Gass_price" size="1" value="$page.data['options']['Gass_price']"/></td>
+        <td>per</td>
+        <td><span name="Gass_impulses" id="gImpText1">$page.data['options']['Gass_impulses']</span></td>
+        <td>Impulses</td>
+  </tr>
+  <tr>
+    <th>
+        <input type="button" onclick='settingsDefault(this, "Gass", ["gUnitText"],["Gass_impulses", "Gass_per", "Gass_price"])' value="Default" />
+        <input type="submit" value="update" name="submitSettings" />
+    </th>
+  </tr>
+</table>
+
+<h3>Currency:</h3> <input type=text name="Currency" value="$page.data['options']['Currency']"/><br><br>
+<input type="submit" value="update" name="submitSettings" />
+
+<br><br>
+
+<h3>Delete logged data:</h3>
+<input type="submit" value="all" name="deleteDatabaseAll" />
+<input type="submit" value="electric only" name="deleteDatabaseElectric" />
+<input type="submit" value="water only" name="deleteDatabaseWater" />
+<input type="submit" value="gass only" name="deleteDatabaseGass" />
+</form>
+
+$page.render.footer(page)

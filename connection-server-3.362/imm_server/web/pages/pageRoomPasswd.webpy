@@ -1,0 +1,54 @@
+$def with (page)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+	<HEAD>
+		<TITLE>$page.data['title']</TITLE>
+		<LINK href="/static/style.css" rel="stylesheet" type="text/css">
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="/static/input_numbers.js"></script>
+		<script type="text/javascript" src="/static/check_password.js"></script>
+	</HEAD>
+	<BODY>
+
+<div class="header">
+	<div id="title">iMM Control Center / $page.data['title']</div>
+	<div id="version">ver. $page.data['siteData']['version']</div>
+	<div id="menu">
+	$for i in page.data['menu']:
+		<a href="$i[1]">$i[0]</a>
+	</div>
+</div>
+<div class="body" id="room_body">
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+$if page.data.has_key('resultString'):
+	<div id="resultString">
+	<b>INFO</b><br>
+	$page.data['resultString']
+	</div>
+
+$if page.data['room'] is not None:
+	$code:
+		bname = "Change" if page.data['rooms'].roomSecured(page.data['room']) else "Set"
+
+	<h2>$bname password for room <em>${page.data['room']}</em></h2>
+	<form method="post" action="/room_passwd" onSubmit="return check_password()">
+		<input type="hidden" name="name" value="${page.data['room']}" />
+		${"New password" if page.data['rooms'].roomSecured(page.data['room']) else "Password"}<br>
+		<input type="password" name="passwd" id="passwd" onKeyPress="return block_non_numbers_v2(this, event, false, false)" /><br>
+		Confirm<br>
+		<input type="password" name="confirm" id="confirm" onKeyPress="return block_non_numbers_v2(this, event, false, false)" /><br>
+		<input type="submit" value="${bname}" name="save" id="save" />
+	</form>
+	$if page.data['rooms'].roomSecured(page.data['room']):
+		<form method="post" action="/room_passwd">
+			<input type="hidden" name="name" value="${page.data['room']}" />
+			<input type="submit" value="Unset password" name="nopasswd" id="nopasswd" />
+		</form>
+
+$page.render.footer(page)

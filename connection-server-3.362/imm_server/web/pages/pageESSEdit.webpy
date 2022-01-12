@@ -1,0 +1,276 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+
+<h2>Trigger edit</h2>
+<form method="post">
+    <table cellpadding="3" class="climsTable">
+        <tr>
+            <td>Check area states:</td>
+            <td colspan="3">
+                <select multiple style="font-size: 16px" name="ess_trigger_states" id="ess_trigger_states_id" onchange="ess_states_changed()">
+                    $for i in page.data["ess_states"][page.data["ess_cfg"]["ess_type"]]:
+                        $if i in page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['states'].split(','):
+                            <option value="$i" selected>$i</option>
+                        $else:
+                            <option value="$i">$i</option>
+                </select>
+            </td>
+        </tr>
+
+        $if not page.data["ess_export"]:
+            <tr>
+                <td>Area:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_trigger_area">
+                        $for i in range(1, page.data["ess_areas_count"][page.data["ess_cfg"]["ess_type"]] + 1):
+                            $if i == int(page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['area']):
+                                <option value="$i" selected>Area $i</option>
+                            $else:
+                                <option value="$i">Area $i</option>
+                    </select>
+                </td>
+            </tr>
+        <tr>
+            <td>Detector:</td>
+            <td colspan="3">
+                <select style="font-size: 16px" name="ess_trigger_detector">
+                    $if page.data["ess_export"]:
+                        $for i in range(1, len(page.data["ess_export"]) + 1):
+                            $if i == int(page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['detector']):
+                                <option value="$i" selected>$page.data["ess_export"]["%s" % i]["label"]</option>
+                            $else:
+                                <option value="$i">$page.data["ess_export"]["%s" % i]["label"]</option>
+                    $else:
+                        $for i in range(1, page.data["ess_detectors_count"][page.data["ess_cfg"]["ess_type"]] + 1):
+                            $if i == int(page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['detector']):
+                                <option value="$i" selected>Detector $i</option>
+                            $else:
+                                <option value="$i">Detector $i</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Trigger on:</td>
+            <td colspan="3">
+                <select style="font-size: 16px" name="ess_trigger_on">
+                    $if page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['on'] == 'on':
+                        <option value="on" selected>on</option>
+                        <option value="off">off</option>
+                    $else:
+                        <option value="on">on</option>
+                        <option value="off" selected>off</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Trigger type:</td>
+            <td colspan="3">
+                <select style="font-size: 16px" name="ess_trigger_type" id="ess_trigger_type_id" onchange="trigger_type_change()">
+                    $if page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['type'] == 'set':
+                        <option value="set" selected>set</option>
+                        <option value="signal">signal</option>
+                    $else:
+                        <option value="set">set</option>
+                        <option value="signal" selected>signal</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="ess_trigger_parameters">
+            <td width="150px">Signal time [s]:</td>
+            <td colspan="3">
+                $if len(page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['parameters']) >= 1:
+                    <input type=text name="ess_trigger_parameter_1" value="$page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['parameters'][0]" />
+                $else:
+                    <input type=text name="ess_trigger_parameter_1" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td width="150px">CU3 devices:</td>
+            <td width="100px">
+                <input type="button" value="Add CU3 device" name="essTriggerAdd" onclick="add_trigger_dev($page.data['cu_devices'], {}, false)" />
+            </td>
+            <td>
+                <input type="button" value="Delete CU3 device" name="essTriggerDelete" onclick="delete_trigger_dev()" />
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <table cellpadding="3" id="id_table_trigger" class="climsTable">
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <input type="submit" value="Save" name="essTriggerSave" />
+    <input hidden type="text" value="0" name="ess_trigger_cu_devices_count" id="ess_trigger_cu_devices_count_id" />
+    <input hidden type="text" value="" name="ess_trigger_states_array" id="ess_trigger_states_array_id" />
+
+</form>
+
+
+<script>
+    window.onload = function(e)
+    {
+        $for k, v in page.data['ess_cfg']['ess_trigger'][page.data['ess_index']]['devices'].iteritems():
+            add_trigger_dev($page.data['cu_devices'], $v, true);
+        ess_states_changed();
+
+        trigger_type_change();
+    };
+
+    function add_trigger_dev(devices, values, edit)
+    {
+        var count = Number(document.getElementById('ess_trigger_cu_devices_count_id').value);
+        if (count >= 30)
+            return;
+        count = count + 1;
+        document.getElementById('ess_trigger_cu_devices_count_id').value = count;
+
+        var table = document.getElementById('id_table_trigger');
+        var tr    = document.createElement('tr');
+        var td1   = document.createElement('td');
+        var td2   = document.createElement('td');
+        var td3   = document.createElement('td');
+        var td4   = document.createElement('td');
+        var td5   = document.createElement('td');
+        var td6   = document.createElement('td');
+
+        var tmp1;
+        var tmp2;
+
+        td1.appendChild(document.createTextNode('CU3 device:'));
+
+        tmp1 = document.createElement('select');
+        tmp1.setAttribute("name", "ess_trigger_cu_device_" + count);
+        $for device in page.data['cu_devices']:
+            $if not device[0].endswith("_ON") and not device[0].endswith("_OFF"):
+                tmp2 = document.createElement('option');
+                tmp2.value = $device[1];
+                tmp2.text = "(UID: $device[1]) $device[0]"
+                tmp1.appendChild(tmp2);
+        td2.appendChild(tmp1);
+
+        if (edit)
+        {
+            tmp1.value = values['device'];
+        }
+
+        td3.appendChild(document.createTextNode('Value:'));
+
+        tmp1 = document.createElement('input');
+        tmp1.setAttribute("name", "ess_trigger_value_" + count);
+        td4.appendChild(tmp1);
+
+        if (edit)
+        {
+            tmp1.value = values['value'][0];
+        }
+
+        tmp1 = document.createElement('div');
+        tmp1.setAttribute("id", "ess_trigger_value_2_label_" + count);
+        tmp2 = document.createTextNode('Value (signal end):');
+        tmp1.appendChild(tmp2);
+        td5.appendChild(tmp1);
+
+        tmp1 = document.createElement('input');
+        tmp1.setAttribute("name", "ess_trigger_value_2_" + count);
+        tmp1.setAttribute("id", "ess_trigger_value_2_input_" + count);
+        td6.appendChild(tmp1);
+
+        if (edit)
+        {
+            if (values['value'].length >= 2)
+                tmp1.value = values['value'][1];
+        }
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+
+        table.appendChild(tr);
+
+        trigger_type_change();
+    };
+
+    function delete_trigger_dev()
+    {
+        var table = document.getElementById("id_table_trigger");
+        var rowCount = table.rows.length;
+
+        if (rowCount > 0)
+            table.deleteRow(rowCount - 1);
+
+        var count = Number(document.getElementById('ess_trigger_cu_devices_count_id').value);
+        count = count - 1;
+        document.getElementById('ess_trigger_cu_devices_count_id').value = count;
+    }
+
+    function trigger_type_change()
+    {
+        var count = Number(document.getElementById('ess_trigger_cu_devices_count_id').value);
+
+        if (document.getElementById('ess_trigger_type_id').value == "set")
+        {
+            document.getElementById('ess_trigger_parameters').style.display = "none";
+
+            for (var i = 1; i <= count; i++)
+            {
+                document.getElementById('ess_trigger_value_2_label_' + i).style.display = "none";
+                document.getElementById('ess_trigger_value_2_input_' + i).style.display = "none";
+            }
+        }
+        else
+        {
+            document.getElementById('ess_trigger_parameters').style.display = "table-row";
+
+            for (var i = 1; i <= count; i++)
+            {
+                document.getElementById('ess_trigger_value_2_label_' + i).style.display = "block";
+                document.getElementById('ess_trigger_value_2_input_' + i).style.display = "block";
+            }
+        }
+    };
+
+    function ess_states_changed()
+    {
+        var select = document.getElementById('ess_trigger_states_id');
+        var result = [];
+        var options = select && select.options;
+        var opt;
+
+        for (var i = 0, iLen = options.length; i < iLen; i++)
+        {
+            opt = options[i];
+
+            if (opt.selected)
+            {
+                result.push(opt.value);
+            }
+        }
+
+        document.getElementById('ess_trigger_states_array_id').value = result
+    };
+</script>
+
+
+$page.render.footer(page)

@@ -1,0 +1,367 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+    
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+<script type="text/javascript">
+    function type_NAS_changed(changePathInput)
+    {
+        typeNAS = document.getElementById("type_NAS_id").value;
+
+        if (typeNAS.indexOf("manual") != -1)
+        {
+            document.getElementById("label_NAS_id").style.display = "none";
+            document.getElementById("folder_NAS_id").style.display = "none";
+            document.getElementById("user_NAS_id").style.display = "none";
+            document.getElementById("password_NAS_id").style.display = "none";
+
+            document.getElementById("ip_label_NAS_id").innerHTML = "Path:";
+
+            document.getElementById("path_NAS_id").style.width = "500px";
+
+            if (changePathInput == 1)
+            {
+                document.getElementById("folder_NAS_text_id").value = "";
+                document.getElementById("user_NAS_text_id").value = "";
+                document.getElementById("password_NAS_text_id").value = "";
+                document.getElementById("path_NAS_id").value = "";
+
+                if (typeNAS == "manual_qnap_nfs" )
+                {
+                    document.getElementById("path_NAS_id").value = "[IP address]:/Storage /mnt/nfs nfs nouser,atime,auto,rw,dev,exec,suid 0 0";
+                }
+                else if (typeNAS == "manual_qnap_smbcifs")
+                {
+                    document.getElementById("path_NAS_id").value = "//[IP address]/Storage /mnt/smb cifs username=,password=,nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=1 0";
+                }
+                else if (typeNAS == "manual_synology_nfs")
+                {
+                    document.getElementById("path_NAS_id").value = "[IP address]:/volume1/Storage /mnt/nfs nfs nouser,atime,auto,rw,dev,exec,suid 0 0";
+                }
+                else if (typeNAS == "manual_synology_smbcifs")
+                {
+                    document.getElementById("path_NAS_id").value = "//[IP address]/Storage /mnt/smb cifs username=,password=,nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=1 0";
+                }
+            }
+        }
+        else
+        {
+            document.getElementById("label_NAS_id").style.display = "block";
+            document.getElementById("folder_NAS_id").style.display = "table-row";
+            document.getElementById("user_NAS_id").style.display = "table-row";
+            document.getElementById("password_NAS_id").style.display = "table-row";
+
+            document.getElementById("ip_label_NAS_id").innerHTML = "IP address:";
+
+            if (changePathInput == 1)
+            {
+                document.getElementById("folder_NAS_text_id").value = "Storage";
+                document.getElementById("path_NAS_id").value = "";
+                document.getElementById("user_NAS_text_id").value = "";
+                document.getElementById("password_NAS_text_id").value = "";
+            }
+
+            document.getElementById("path_NAS_id").style.width = "auto";
+
+            if (typeNAS == "qnap_nfs")
+            {
+                document.getElementById("label_NAS_text_id").innerHTML = "Path: <b>[IP address]</b>:/<b>[Folder]</b> /mnt/nfs nfs nouser,atime,auto,rw,dev,exec,suid 0 0";
+                document.getElementById("user_NAS_id").style.display = "none";
+                document.getElementById("password_NAS_id").style.display = "none";
+            }
+            else if (typeNAS == "qnap_smbcifs")
+            {
+                document.getElementById("label_NAS_text_id").innerHTML = "Path: //<b>[IP address]</b>/<b>[Folder]</b> /mnt/smb cifs username=<b>[User]</b>,password=<b>[Password]</b>,nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=1  0";
+            }
+            else if (typeNAS == "synology_nfs")
+            {
+                document.getElementById("label_NAS_text_id").innerHTML = "Path: <b>[IP address]</b>:/volume1/<b>[Folder]</b> /mnt/nfs nfs nouser,atime,auto,rw,dev,exec,suid 0 0";
+                document.getElementById("user_NAS_id").style.display = "none";
+                document.getElementById("password_NAS_id").style.display = "none";
+            }
+            else if (typeNAS == "synology_smbcifs")
+            {
+                document.getElementById("label_NAS_text_id").innerHTML = "Path: //<b>[IP address]</b>/<b>[Folder]</b> /mnt/smb cifs username=<b>[User]</b>,password=<b>[Password]</b>,nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=1  0";
+            }
+        }
+    };
+
+    window.onload = function()
+    {
+        type_NAS_changed(0);
+    };
+</script>
+
+<form method="post">
+
+    <h2>NAS</h2>
+
+    <table cellpadding="3">
+        <tr>
+            <td>Select NAS:</td>
+            <td>
+                <select style="font-size: 16px" name="type_NAS" id="type_NAS_id" onChange="type_NAS_changed(1)">
+                    $if page.data['type_NAS'] == 'qnap_nfs':
+                        <option value="qnap_nfs" selected="selected">QNAP/Storage - NFS</option>
+                    $else:
+                        <option value="qnap_nfs">QNAP/Storage - NFS</option>
+                        
+                    $if page.data['type_NAS'] == 'qnap_smbcifs':
+                        <option value="qnap_smbcifs" selected="selected">QNAP/Storage - SMB/CIFS</option>
+                    $else:
+                        <option value="qnap_smbcifs">QNAP/Storage - SMB/CIFS</option>
+                        
+                    $if page.data['type_NAS'] == 'synology_nfs':
+                        <option value="synology_nfs" selected="selected">Synology/Storage - NFS</option>
+                    $else:
+                        <option value="synology_nfs">Synology/Storage - NFS</option>
+                        
+                    $if page.data['type_NAS'] == 'synology_smbcifs':
+                        <option value="synology_smbcifs" selected="selected">Synology/Storage - SMB/CIFS</option>
+                    $else:
+                        <option value="synology_smbcifs">Synology/Storage - SMB/CIFS</option>
+                        
+                    $if page.data['type_NAS'] == 'manual_nfs':
+                        <option value="manual_nfs" selected="selected">Manual - NFS</option>
+                    $else:
+                        <option value="manual_nfs">Manual - NFS</option>
+                        
+                    $if page.data['type_NAS'] == 'manual_smbcifs':
+                        <option value="manual_smbcifs" selected="selected">Manual - SMB/CIFS</option>
+                    $else:
+                        <option value="manual_smbcifs">Manual - SMB/CIFS</option>
+                        
+                    $if page.data['type_NAS'] == 'manual_synology_nfs':
+                        <option value="manual_synology_nfs" selected="selected">Manual - SYNOLOGY NFS</option>
+                    $else:
+                        <option value="manual_synology_nfs">MANUAL - SYNOLOGY NFS</option>
+
+                    $if page.data['type_NAS'] == 'manual_synology_smbcifs':
+                        <option value="manual_synology_smbcifs" selected="selected">Manual - SYNOLOGY SMBCIFS</option>
+                    $else:
+                        <option value="manual_synology_smbcifs">MANUAL - SYNOLOGY SMBCIFS</option>
+
+                    $if page.data['type_NAS'] == 'manual_qnap__smbcifs':
+                        <option value="manual_qnap_smbcifs" selected="selected">Manual - QNAP SMBCIFS</option>
+                    $else:
+                        <option value="manual_qnap_smbcifs">Manual - QNAP SMBCIFS</option>
+
+                    $if page.data['type_NAS'] == 'manual_qnap_nfs':
+                        <option value="manual_qnap_nfs" selected="selected">Manual - QNAP NFS</option>
+                    $else:
+                        <option value="manual_qnap_nfs">Manual - QNAP NFS</option>
+                </select>
+            </td>
+        </tr>
+
+    </table>
+
+    <div id="label_NAS_id">
+        <br/>
+        <p id="label_NAS_text_id"></p>
+        <br/>
+    </div>
+
+    <table cellpadding="3">
+        <tr>
+            <td id="ip_label_NAS_id">IP address:</td>
+            <td>
+                <input id="path_NAS_id" type=text name="path_NAS" value="$page.data['path_NAS']" />
+            </td>
+        </tr>
+        <tr id="folder_NAS_id">
+            <td>Folder:</td>
+            <td>
+                <input id="folder_NAS_text_id" type=text name="folder_NAS" value="$page.data['folder_NAS']" />
+            </td>
+        </tr>
+        <tr id="user_NAS_id">
+            <td>User:</td>
+            <td>
+                <input id="user_NAS_text_id" type=text name="user_NAS" value="$page.data['user_NAS']" />
+            </td> 
+        </tr>
+        <tr id="password_NAS_id">
+            <td>Password:</td>
+            <td>
+                <input id="password_NAS_text_id" type=password name="password_NAS" value="$page.data['password_NAS']" />
+            </td> 
+        </tr>
+    </table>
+
+    <br/>
+    
+    <input type="submit" value="save" name="saveNAS" />
+    <input type="submit" value="check" name="checkNAS" />
+    <input type="submit" value="delete" name="deleteNAS" />
+    
+</form>
+
+
+
+
+<form method="post">
+
+    <h2>Settings</h2>
+
+    <table cellpadding="3">
+        <tr>
+            <td>Squeezebox server:</td>
+            <td>
+                <input type=text size=40 name="immCfgSqueezeServer" value="$page.data['immCfgSqueezeServer']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Absolute path to Music directory for squeezebox server:</td>
+            <td>
+                <input type=text size=40 name="immCfgSqueezeServerMusic" value="$page.data['immCfgSqueezeServerMusic']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Squeezebox server username:</td>
+            <td>
+                <input type=text size=40 name="immCfgSqueezeServerUsername" value="$page.data['immCfgSqueezeServerUsername']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Squeezebox server password:</td>
+            <td>
+                <input type=text size=40 name="immCfgSqueezeServerPassword" value="$page.data['immCfgSqueezeServerPassword']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Sonos - SMB IP:</td>
+            <td>
+                <input type=text size=40 name="immCfgSonosSmbIP" value="$page.data['immCfgSonosSmbIP']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Sonos - SMB music folder:</td>
+            <td>
+                <input type=text size=40 name="immCfgSonosSmbMusicFolder" value="$page.data['immCfgSonosSmbMusicFolder']" />
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <input type="submit" value="update" name="submitSettings" />
+
+</form>
+
+
+<form method="post">
+
+    <h2>Spotify</h2>
+
+    <table cellpadding="3" class="climsTable">
+        <tr>
+            <td>Label:</td>
+            <td>
+                <input type=text size=20 name="spotifyLabel" value="$page.data['spotify']['label']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Server IP address: </td>
+            <td>
+                <input disabled type=text size=20 id="spotifyServeIP_id" name="spotifyServerIP" value="$page.data['spotify']['server_ip']" />
+                <!--<input type="submit" value="load IP" name="submitSpotifyLoadIP" />-->
+            </td>
+        </tr>
+        <tr>
+            <td>LARA IP address: </td>
+            <td>1.
+                $if len(page.data['spotify']['player_ip']) >= 1:
+                    <input type=text size=18 name="spotifyPlayerIP_1" value="$page.data['spotify']['player_ip'][0]" />
+                $else:
+                    <input type=text size=18 name="spotifyPlayerIP_1" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>2.
+                $if len(page.data['spotify']['player_ip']) >= 2:
+                    <input type=text size=18 name="spotifyPlayerIP_2" value="$page.data['spotify']['player_ip'][1]" />
+                $else:
+                    <input type=text size=18 name="spotifyPlayerIP_2" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>3.
+                $if len(page.data['spotify']['player_ip']) >= 3:
+                    <input type=text size=18 name="spotifyPlayerIP_3" value="$page.data['spotify']['player_ip'][2]" />
+                $else:
+                    <input type=text size=18 name="spotifyPlayerIP_3" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>4.
+                $if len(page.data['spotify']['player_ip']) >= 4:
+                    <input type=text size=18 name="spotifyPlayerIP_4" value="$page.data['spotify']['player_ip'][3]" />
+                $else:
+                    <input type=text size=18 name="spotifyPlayerIP_4" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>5.
+                $if len(page.data['spotify']['player_ip']) >= 5:
+                    <input type=text size=18 name="spotifyPlayerIP_5" value="$page.data['spotify']['player_ip'][4]" />
+                $else:
+                    <input type=text size=18 name="spotifyPlayerIP_5" value="" />
+            </td>
+        </tr>
+    </table>
+
+    <p>* For apply Label changes make reboot.</p>
+
+    <input type="submit" value="update" name="submitSpotify" />
+
+    <br/>
+    <br/>
+    <br/>
+
+    <table cellpadding="3" class="climsTable">
+        <tr>
+            <td>Spotify services:</td>
+            <td>
+                <input type=text size=20 disabled value="Service 1: $page.data['spotify']['service1']" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type=text size=20 disabled value="Service 2: $page.data['spotify']['service2']" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type=text size=20 disabled value="Service 3: $page.data['spotify']['service3']" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="enable" name="submitSpotifyServiceEnable" />
+                <input type="submit" value="disable" name="submitSpotifyServiceDisable" />
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+    
+$page.render.footer(page)

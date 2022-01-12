@@ -1,0 +1,539 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+
+<div hidden>
+
+<h2>Dominus</h2>
+<form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>IP address:</td>
+            <td>
+                <input type=text name="dominus_ip" value="$page.data['dominus']['ip']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Port:</td>
+            <td>
+                <input type=text name="dominus_port" value="$page.data['dominus']['port']" />
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <input type="submit" value="Save" name="dominusSave" />
+    <input type="submit" value="Delete" name="dominusDelete" />
+
+</form>
+
+<hr/>
+
+<h2>Sensors</h2>
+<form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>Line:</td>
+            <td>
+                <input type=text name="dominus_line" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Module:</td>
+            <td>
+                <input type=text name="dominus_module" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Input:</td>
+            <td>
+                <input type=text name="dominus_input" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Sensor:</td>
+            <td>
+                <select style="font-size: 16px" name="dominus_sensor">
+                    $for row in page.data['dominus']['inels_dev']:
+	                    <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <input type="submit" value="Add" name="dominusAddSensor" />
+
+</form>
+
+<table class="sensorTable" cellpadding=5>
+    $for sensor in page.data['dominus']['sensors']:
+        <tr>
+            <td>$sensor
+            <td><a href="?delete_dominus_sensor=$sensor">Remove</a>
+        </tr>
+</table>
+
+<hr/>
+
+<h2>Subsystems</h2>
+<form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>Number:</td>
+            <td>
+                <input type=text name="dominus_number" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Subsystem:</td>
+            <td>
+                <select style="font-size: 16px" name="dominus_subsystem">
+                    $for row in page.data['dominus']['inels_dev']:
+	                    <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <input type="submit" value="Add" name="dominusAddSubsystem" />
+
+</form>
+
+<table class="subsystemTable" cellpadding=5>
+    $for subsystem in page.data['dominus']['subsystems']:
+        <tr>
+            <td>$subsystem
+            <td><a href="?delete_dominus_subsystem=$subsystem">Remove</a>
+        </tr>
+</table>
+
+<br/>
+<br/>
+
+<hr/>
+<hr/>
+
+
+</div>
+
+
+<h2>Settings</h2>
+<form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>IP address (eLAN-RS485-232):</td>
+            <td>
+                <input type=text name="ess_ip" value="$page.data['ess_cfg']['ess_ip']" />
+            </td>
+        </tr>
+        <tr>
+            <td>Type:</td>
+            <td>
+                <select style="font-size: 16px" name="ess_type">
+	                $if page.data['ess_cfg']['ess_type'] == "jablotron":
+	                    <option value="jablotron" selected>Jablotron</option>
+	                    <option value="paradox">Paradox</option>
+	                $else:
+	                    <option value="jablotron">Jablotron</option>
+	                    <option value="paradox" selected>Paradox</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+
+    <input type="submit" value="Save" name="essSave" />
+    <input type="submit" value="Delete" name="essDelete" />
+
+</form>
+
+<br/>
+
+$if not page.data['ess_cfg']['ess_type'] == "":
+    <hr/>
+    <h2>Export</h2>
+    <form method="post" enctype="multipart/form-data" charset="utf-8">
+
+        <table cellpadding="3">
+            <tr>
+                <td>Upload export file</td>
+                <td>
+                    <input type="file" name="ess_file" accept=".csv" />
+                    <input type="submit" value="Upload" name="essUploadExport" />
+                    <input type="submit" value="Delete" name="essDeleteExport" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br/>
+    <hr/>
+    <h2>Triggers</h2>
+    <form method="post">
+        <table cellpadding="3" class="climsTable">
+            <tr>
+                <td>Check area states:</td>
+                <td colspan="3">
+                    <select multiple style="font-size: 16px" name="ess_trigger_states" id="ess_trigger_states_id" onchange="ess_states_changed()">
+                        $for i in page.data["ess_states"][page.data["ess_cfg"]["ess_type"]]:
+                            <option value="$i">$i</option>
+                    </select>
+                </td>
+            </tr>
+
+            $if not page.data["ess_export"]:
+                <tr>
+                    <td>Area:</td>
+                    <td colspan="3">
+                        <select style="font-size: 16px" name="ess_trigger_area">
+                            $for i in range(1, page.data["ess_areas_count"][page.data["ess_cfg"]["ess_type"]] + 1):
+                                <option value="$i">Area $i</option>
+                        </select>
+                    </td>
+                </tr>
+            <tr>
+                <td>Detector:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_trigger_detector">
+                        $if page.data["ess_export"]:
+                            $for i in range(1, len(page.data["ess_export"]) + 1):
+                                <option value="$i">$page.data["ess_export"]["%s" % i]["label"]</option>
+                        $else:
+                            $for i in range(1, page.data["ess_detectors_count"][page.data["ess_cfg"]["ess_type"]] + 1):
+                                <option value="$i">Detector $i</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Trigger on:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_trigger_on">
+                        <option value="on">on</option>
+                        <option value="off">off</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Trigger type:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_trigger_type" id="ess_trigger_type_id" onchange="trigger_type_change()">
+                        <option value="set">set</option>
+                        <option value="signal">signal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="ess_trigger_parameters">
+                <td width="150px">Signal time [s]:</td>
+                <td colspan="3">
+                    <input type=text name="ess_trigger_parameter_1" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td width="150px">CU3 devices:</td>
+                <td width="100px">
+                    <input type="button" value="Add CU3 device" name="essTriggerAdd" onclick="add_trigger_dev($page.data['cu_devices'])" />
+                </td>
+                <td>
+                    <input type="button" value="Delete CU3 device" name="essTriggerDelete" onclick="delete_trigger_dev()" />
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table cellpadding="3" id="id_table_trigger" class="climsTable">
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <br/>
+
+        <input type="submit" value="Save" name="essTriggerSave" />
+        <input hidden type="text" value="0" name="ess_trigger_cu_devices_count" id="ess_trigger_cu_devices_count_id" />
+        <input hidden type="text" value="" name="ess_trigger_states_array" id="ess_trigger_states_array_id" />
+
+    </form>
+
+    <table cellpadding="3" class="climsTable">
+        $for k, v in page.data['ess_cfg']['ess_trigger'].iteritems():
+            <tr>
+                $if not page.data["ess_export"]:
+                    <td>Area: $v['area']</td>
+                <td>States: $v['states']</td>
+                $if not page.data["ess_export"]:
+                    <td>Detector: $v['detector']</td>
+                $else:
+                    $if v['detector'] in page.data["ess_export"]:
+                        <td>Detector: $page.data["ess_export"][v['detector']]["label"]</td>
+                    $else:
+                        <td>Detector: $v['detector']</td>
+                <td>On: $v['on']</td>
+                <td>Type: $v['type']</td>
+                <td><a href="ess_edit?ess_edit=$k">Edit</a></td>
+                <td><a href="?ess_delete=$k">Remove</a></td>
+            </tr>
+    </table>
+
+<br/>
+
+<hr/>
+
+$if not page.data['ess_cfg']['ess_type'] == "":
+    <h2>Save to CU3</h2>
+    <form method="post">
+        <table cellpadding="3" class="climsTable">
+            <tr>
+                <td>Type:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_cu_save_type" id="ess_cu_save_type_id" onchange="ess_cu_save_type_changed();">
+                        <option value="state">STATE</option>
+                        <option value="detector">DETECTOR</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="ess_cu_save_block_area">
+                <td>Area:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_cu_save_area">
+                        $for i in range(1, page.data["ess_areas_count"][page.data["ess_cfg"]["ess_type"]] + 1):
+                            <option value="$i">Area $i</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="ess_cu_save_block_state">
+                <td>State:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_cu_save_state">
+                        $for i in page.data["ess_states"][page.data["ess_cfg"]["ess_type"]]:
+                            <option value="$i">$i</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="ess_cu_save_block_detector" hidden>
+                <td>Detector:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_cu_save_detector">
+                        $if page.data["ess_export"]:
+                            $for i in range(1, len(page.data["ess_export"]) + 1):
+                                <option value="$i">$page.data["ess_export"]["%s" % i]["label"]</option>
+                        $else:
+                            $for i in range(1, page.data["ess_detectors_count"][page.data["ess_cfg"]["ess_type"]] + 1):
+                                <option value="$i">Detector $i</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>CU3 device:</td>
+                <td colspan="3">
+                    <select style="font-size: 16px" name="ess_cu_save_device">
+                        $for device in page.data['cu_devices']:
+                            $if int(device[1]) & 0xFFFF0000 in [0x01020000, 0x02020000, 0x02030000] and not device[0].endswith("_ON") and not device[0].endswith("_OFF"):
+                                <option value="$device[1]">(UID: $device[1]) $device[0]</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <br/>
+
+        <input type="submit" value="Save" name="essCUSave" />
+
+    </form>
+
+    <table cellpadding="3" class="climsTable">
+        $if 'ess_cu_save' in page.data['ess_cfg']:
+            $for k, v in page.data['ess_cfg']['ess_cu_save'].iteritems():
+                <tr>
+                    $if v['type'] == 'state':
+                        <td>Area: $v['area']</td>
+                    $else:
+                        <td>Area: -</td>
+                    $if v['type'] == 'state':
+                        <td>State: $v['state']</td>
+                    $else:
+                        $if not page.data["ess_export"]:
+                            <td>Detector: $v['detector']</td>
+                        $else:
+                            $if v['detector'] in page.data["ess_export"]:
+                                <td>Detector: $page.data["ess_export"][v['detector']]["label"]</td>
+                            $else:
+                                <td>Detector: $v['detector']</td>
+                    $for device in page.data['cu_devices']:
+                        $if device[1] == v['device']:
+                            <td>CU3 Device: (UID: $device[1]) $device[0]</td>
+                            $break
+                    <td><a href="?ess_cu_save_delete=$k">Remove</a></td>
+                </tr>
+    </table>
+
+
+<script>
+    window.onload = function(e)
+    {
+        trigger_type_change();
+    };
+
+    function ess_cu_save_type_changed()
+    {
+        var type = document.getElementById('ess_cu_save_type_id').value;
+
+        if (type == "state")
+        {
+            document.getElementById('ess_cu_save_block_area').style.display = "table-row";
+            document.getElementById('ess_cu_save_block_state').style.display = "table-row";
+            document.getElementById('ess_cu_save_block_detector').style.display = "none";
+        }
+        else
+        {
+            document.getElementById('ess_cu_save_block_area').style.display = "none";
+            document.getElementById('ess_cu_save_block_state').style.display = "none";
+            document.getElementById('ess_cu_save_block_detector').style.display = "table-row";
+        }
+    };
+
+    function add_trigger_dev(devices)
+    {
+        var count = Number(document.getElementById('ess_trigger_cu_devices_count_id').value);
+        if (count >= 30)
+            return;
+        count = count + 1;
+        document.getElementById('ess_trigger_cu_devices_count_id').value = count;
+
+        var table = document.getElementById('id_table_trigger');
+        var tr    = document.createElement('tr');
+        var td1   = document.createElement('td');
+        var td2   = document.createElement('td');
+        var td3   = document.createElement('td');
+        var td4   = document.createElement('td');
+        var td5   = document.createElement('td');
+        var td6   = document.createElement('td');
+
+        var tmp1;
+        var tmp2;
+
+        td1.appendChild(document.createTextNode('CU3 device:'));
+
+        tmp1 = document.createElement('select');
+        tmp1.setAttribute("name", "ess_trigger_cu_device_" + count);
+        $for device in page.data['cu_devices']:
+            $if not device[0].endswith("_ON") and not device[0].endswith("_OFF"):
+                tmp2 = document.createElement('option');
+                tmp2.value = $device[1];
+                tmp2.text = "(UID: $device[1]) $device[0]"
+                tmp1.appendChild(tmp2);
+        td2.appendChild(tmp1);
+
+        td3.appendChild(document.createTextNode('Value:'));
+
+        tmp1 = document.createElement('input');
+        tmp1.setAttribute("name", "ess_trigger_value_" + count);
+        td4.appendChild(tmp1);
+
+        tmp1 = document.createElement('div');
+        tmp1.setAttribute("id", "ess_trigger_value_2_label_" + count);
+        tmp2 = document.createTextNode('Value (signal end):');
+        tmp1.appendChild(tmp2);
+        td5.appendChild(tmp1);
+
+        tmp1 = document.createElement('input');
+        tmp1.setAttribute("name", "ess_trigger_value_2_" + count);
+        tmp1.setAttribute("id", "ess_trigger_value_2_input_" + count);
+        td6.appendChild(tmp1);
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+
+        table.appendChild(tr);
+
+        trigger_type_change();
+    };
+
+    function delete_trigger_dev()
+    {
+        var table = document.getElementById("id_table_trigger");
+        var rowCount = table.rows.length;
+
+        if (rowCount > 0)
+            table.deleteRow(rowCount - 1);
+
+        var count = Number(document.getElementById('ess_trigger_cu_devices_count_id').value);
+        count = count - 1;
+        document.getElementById('ess_trigger_cu_devices_count_id').value = count;
+    }
+
+    function trigger_type_change()
+    {
+        var count = Number(document.getElementById('ess_trigger_cu_devices_count_id').value);
+
+        if (document.getElementById('ess_trigger_type_id').value == "set")
+        {
+            document.getElementById('ess_trigger_parameters').style.display = "none";
+
+            for (var i = 1; i <= count; i++)
+            {
+                document.getElementById('ess_trigger_value_2_label_' + i).style.display = "none";
+                document.getElementById('ess_trigger_value_2_input_' + i).style.display = "none";
+            }
+        }
+        else
+        {
+            document.getElementById('ess_trigger_parameters').style.display = "table-row";
+
+            for (var i = 1; i <= count; i++)
+            {
+                document.getElementById('ess_trigger_value_2_label_' + i).style.display = "block";
+                document.getElementById('ess_trigger_value_2_input_' + i).style.display = "block";
+            }
+        }
+    };
+
+    function ess_states_changed()
+    {
+        var select = document.getElementById('ess_trigger_states_id');
+        var result = [];
+        var options = select && select.options;
+        var opt;
+
+        for (var i = 0, iLen = options.length; i < iLen; i++)
+        {
+            opt = options[i];
+
+            if (opt.selected)
+            {
+                result.push(opt.value);
+            }
+        }
+
+        document.getElementById('ess_trigger_states_array_id').value = result
+    };
+
+</script>
+
+
+$page.render.footer(page)

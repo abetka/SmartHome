@@ -1,0 +1,26 @@
+VypinacLozniceSvetlo1 0x0101001D
+VypinacLozniceLampa1 0x0101001E
+VypinacLozniceLampa2 0x0101001F
+VypinacLozniceSvetlo2 0x01010020
+
+SvetloStrop1 0x01020008
+Lampa1 0x01020009
+Lampa2 0x0102000a
+SvetloStrop2 0x0102000b
+Zaluzie1 0x0102000c
+Zaluzie2 0x0102000d
+
+SvetloChodba 0x01040014
+SvetloKoupelna 0x01040015
+
+Ledpasek1 0x01040017
+Ledpasek2 0x01040018
+Ledpasek3 0x01040019
+Ledpasek4 0x0104001a
+
+PoèetPøíchodù 0x02060001 
+
+TopeniKuchyne_ProgTemp 0x82010001
+TopeniKuchyne_RequiredTemp 0x82020001
+TopeniKuchyne_CurrentProg 0x82030001
+TopeniKuchyne_TempCorrection 0x82040001

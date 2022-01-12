@@ -1,0 +1,136 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br/>
+	$page.data['warning']
+	</div>
+
+<script type="text/javascript">
+function controlAmp() {
+	var selectElement = document.getElementById('controlAmp');
+	var selectedValue = selectElement[selectElement.selectedIndex].value;
+	//document.write(selectedValue);
+	//alert(selectedValue);
+}
+</script>
+
+<h2>New zone</h2>
+<form method="post">
+Name<br/>
+<input type="text" size="22" name="zoneName" /><br/>
+IP address<br/>
+<input type="text" size="22" name="zoneIp" /><br/>
+
+<table border="0" cellspacing="0" cellpadding="0">
+
+	  <tr>
+		<td>
+			Is it <a href="http://www.logitechsqueezebox.com/">squeezebox</a> ?
+		</td>
+		<td>	&nbsp
+			<select name="zoneHasSqueezebox">
+				<option value="no">no</option>
+			 	<option value="yes">yes</option>
+			</select>
+		</td>
+	  </tr>
+
+	  <tr>
+		<td>
+			Is it <a href="http://www.mikrovlny.cz/cz/produkt/57">giom</a> ?
+		</td>
+		<td>	&nbsp
+			<select name="zoneHasGiom">
+				<option value="no">no</option>
+			 	<option value="yes">yes</option>
+			</select>
+		</td>
+	  </tr>
+
+	  <tr>
+		<td>
+			Is it <a href="http://www.misolie.net/weather-station-with-rs485-interface-with-cable-length-32-meter-p-506.html">misol</a> ?
+		</td>
+		<td>	&nbsp
+			<select name="zoneHasMisol">
+				<option value="no">no</option>
+			 	<option value="yes">yes</option>
+			</select>
+		</td>
+	  </tr>
+
+      <tr>
+		<td>
+			Is it <a href="http://www.sonos.com/">sonos</a> ?
+		</td>
+		<td>	&nbsp
+			<select name="zoneHasSonos">
+				<option value="no">no</option>
+			 	<option value="yes">yes</option>
+			</select>
+		</td>
+	  </tr>
+	  <tr>
+
+	  <tr>
+		<td>
+			Is it virtual zone ?
+		</td>
+		<td>	&nbsp
+			<select name="zoneIsVirtual">
+			 	<option value="no">no</option>
+			 	<option value="yes">yes</option>
+			</select>
+		</td>
+	  </tr>
+</table>
+
+<br/>
+<input type="submit" value="create" name="createzone" />
+</form>
+
+<form method="post">
+
+<hr/>
+<hr/>
+
+$if (len(page.data['immCfgZones'])):
+	<h2>Defined zones</h2>
+	<table class="zonesTable" cellpadding=0>
+	<tr><th>Name<th>IP address<th>Is squeezebox<td></tr>
+	$for i in page.data['immCfgZones']:
+		$if i['virtual'] == 'no':
+			<tr>
+				<td>$i['name']
+				<td>$i['ip']
+				<td>$i['squeezebox']
+				<td><a href="?delete=$i['id']">Remove</a>
+			</tr>
+	</table>
+$else:
+	<h2>No zone defined</h2>
+
+<br/>
+<hr/>
+<hr/>
+
+$if (len(page.data['immCfgZones'])):
+	<h2>Defined virtual zones</h2>
+	<table class="zonesTable" cellpadding=0>
+	<tr><th>Name<th>IP address<th></tr>
+	$for i in page.data['immCfgZones']:
+		$if i['virtual'] == 'yes':
+			<tr>
+				<td>$i['name']
+				<td>$i['ip']
+				<td><a href="/virtual_room?name=${i['name']}">Configure</td>
+				<td><a href="?delete=$i['id']">Remove</a>
+			</tr>
+	</table>
+
+$else:
+	<h2>No zone defined</h2>
+
+$page.render.footer(page)

@@ -1,0 +1,934 @@
+$def with (page)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+	$code:
+		 clim_type_names = ["menu", "mode", "temp", "attrs"]
+
+		 label_convert_table = {
+		    'dehumidify': {'inels': 'device', 'read_only': 'read only'},
+		    'thermals': {'inels': 'device', 'min_disp': 'minimal displayed value', 'placement': 'placement', 'koef_mult': 'multiplier', 'max_disp': 'maximal displayed value', 'decimal_digits': 'decimal digit', 'customise': 'customise', 'units': 'units', 'koef_add': 'adding constant'},
+		    'rgby_v2': {'blue': 'blue', 'green': 'green', 'red': 'red', 'brightness': 'brightness'},
+		    'meter': {'decimal_digits': 'decimal digit', 'min_disp': 'minimal displayed value', 'koef_mult': 'multiplier', 'max_disp': 'maximal displayed value', 'inels': 'device', 'koef_add': 'adding constant', 'units': 'units'},
+		    'heating': {'inels': 'device', 'read_only': 'read only'},
+		    'zones': {'audio': 'audio', 'video': 'video'},
+		    'blank': {'inels': 'device', 'read_only': 'read only'},
+		    'shutters_v2': {'Tilt_Up': 'tilt up', 'Fully_Down': 'down', 'Fully_Up': 'up', 'Tilt_Down': 'tilt down', 'Scene': 'tear'},
+		    'ess': {'read_only': 'read only'},
+		    'pool_technology': {'read_only': 'read only'},
+		    'watering': {'inels': 'device', 'read_only': 'read only'},
+		    'iscene-rele': {'inels_scene': 'scene', 'rele': 'relay'},
+		    'lights': {'inels': 'device', 'read_only': 'read only'},
+		    'rgb': {'blue': 'blue', 'green': 'green', 'red': 'red', 'brightness': 'brightness'},
+		    'heat-control': {'read_only': 'read only', 'therm': 'thermometer', 'stateth': 'state - heating/cooling', 'rele': 'relay'},
+		    'lightGroup': {'abs_path': 'absolute path'},
+		    'gate': {'inels': 'device', 'read_only': 'read only'},
+		    'rgb_v2': {'blue': 'blue', 'green': 'green', 'red': 'red'},
+		    'hc3': {'hca_h': 'heating area', 'read_only': 'read only', 'therm_c': 'thermometer - cooling', 'therm_h': 'thermometer - heating', 'hca_c': 'cooling area', 'rele_c': 'relay - cooling', 'rele_h': 'relay - heating'},
+		    'lamps': {'inels': 'device', 'read_only': 'read only'},
+		    'conditioning': {'inels': 'device', 'read_only': 'read only'},
+		    'airing': {'inels': 'device', 'read_only': 'read only'},
+		    'shutters': {'down': 'down', 'read_only': 'read only', 'up': 'up'},
+		    'hc2': {'read_only': 'read only', 'therm': 'thermometer', 'hca': 'heating/cooling area', 'rele_h': 'relay - heating', 'rele_c': 'relay - cooling'},
+		    'ezs_zone': {'inels': 'device'}, 'on_off': {'inels': 'device', 'read_only': 'read only'},
+		    'hc4': {'read_only': 'read only', 'control_in': 'control_in', 'required_therm_aout': 'required_therm_aout', 'manual_cool_therm_ain': 'manual_cool_therm_ain', 'status_dout': 'status_dout', 'manual_therm_ain': 'manual_therm_ain', 'actual_therm_aout': 'actual_therm_aout', 'control_type_aout': 'control_type_aout', 'required_heat_dout': 'required_heat_dout', 'controller': 'controller', 'control_manual_in': 'control_manual_in', 'control_hc_in': 'control_hc_in', 'mode_dout': 'mode_dout', 'rele_c': 'relay - cooling', 'required_cool_therm_aout': 'required_cool_therm_aout', 'control_plan_in': 'control_plan_in', 'required_cool_dout': 'required_cool_dout', 'rele_h': 'relay - heating'},
+		    'clims': {'read_only': 'read only', 'type': 'type'},
+		    'scenes': {'abs_path': 'absolute path'},
+		    'garage': {'inels': 'device', 'read_only': 'read only'},
+		    'rgbw_v2': {'blue': 'blue', 'white': 'white', 'green': 'green', 'red': 'red'},
+		    'two_state': {'read_only': 'read only', 'program': 'program', 'relay': 'relay'},
+		    'tunable_white': {'min': 'mininaml value', 'max': 'maximal value', 'colour': 'color', 'intensity': 'intensity', 'preset_1': 'preset 1', 'preset_2': 'preset 2', 'preset_3': 'preset 3', 'preset_4': 'preset 4', 'preset_5': 'preset 5', 'preset_6': 'preset 6'}
+		 }
+
+    $def make_attribute(dev_type, id_name, attr_name, attr_type, attrs, with_label):
+        $if with_label:
+            <label for="${id_name}">$label_convert_table[dev_type].get(attr_name, attr_name)</label>
+
+        $if attr_type in ["inels", "inels_rb", "inels_real", "inels_bool"]:
+            $code:
+                i = attrs.get(attr_name, '')
+                match_type = (  (attr_type in ('inels', 'inels_rb', 'inels_real', 'inels_bool'))
+                             or (attr_type.split('_')[1] == page.data['export'][i]))
+                match_name = (  dev_type != 'heat-control'
+                             or attr_name != 'stateth' or i.endswith('StateTH') or i.endswith('StateTC'))
+            $if match_type and match_name:
+                <input type="text" class="name_field" id="${id_name}" name="${id_name}" title="Edit device" value="${i}" style="width:300px;cursor:pointer;" onclick="select_inels_device_open('${dev_type}', '${attr_name}', '${id_name}', 1);" readonly />
+            $if dev_type in ["scenes", "lightGroup"]:
+                <a href="/room?name=$page.data['room']&amp;item=$id_name&amp;action=remove_subitem_from_dev">remove</a>
+        $elif attr_type == "bool":
+            <select name="${id_name}" id="${id_name}" style="width:300px;cursor:pointer;">
+            $for i in ("yes", "no"):
+                $code:
+                    selected = False
+                    if attr_name not in attrs: # wtf ???
+                        selected = attr_type.endswith(i)
+                    else:
+                        selected = attrs[attr_name] in { "yes": ["yes", 1, "1", "true", True]
+													   , "no": ["no", 0, "0", "false", False]}[i]
+                <option ${" selected=\"selected\"" if selected is True else ""}>$i</option>
+            </select>
+        $elif attr_type in ("real", "string", "int"):
+            $code:
+                check_func = { "real"  : "return block_non_numbers(this, event, true, true)"
+							 , "string": None
+							 , "int"   : "return block_non_numbers(this, event, false, true)"
+							 }[attr_type]
+                value = ( attrs[attr_name] if attr_name in attrs
+										   else ("m/s" if attr_name == "units" else ""))
+                check_str = "" if check_func is None else 'onkeypress="{0}" '.format(check_func)
+
+            $if attr_name == "abs_path":
+                <input id="${id_name}" type="text" value="${value}" name="${id_name}" style="width:300px;" ${check_str}/>
+            $else:
+                <input id="${id_name}" type="text" value="${value}" name="${id_name}" style="width:300px;" ${check_str}/>
+
+        $elif attr_type == "clim_type":
+            <select name="${id_name}" id="${id_name}" style="width:300px;cursor:pointer;">
+            $for i in clim_type_names:
+                $code:
+                    selected = attrs[attr_name] == i
+                <option${" selected=\"selected\"" if selected is True else ""}>$i</option>
+            </select>
+
+<HTML>
+	<HEAD>
+		<TITLE>$page.data['title']</TITLE>
+		<link rel="stylesheet" href="/static/style.css" type="text/css">
+        <link rel="stylesheet" href="/static/jquery-ui.css" type="text/css">
+        <link rel="stylesheet" href="/static/combobox.css" type="text/css">
+		<style type="text/css">
+			h3r { color:#FF0000; }
+		</style>
+		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="/static/input_numbers.js"></script>
+        <script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="/static/jquery-ui-1.10.js"></script>
+        <script type="text/javascript" src="/static/combobox.js"></script>
+		<script type="text/javascript">
+			$code:
+				fixed_static = {}
+				for dev_type, attrs in page.data['static'].items():
+					new_attrs = {}
+					for attr,val in attrs.items():
+						if attr =='pos':
+							new_attrs[attr] = 1 if val else 0 
+						elif attr == 'attrs':
+							new_attrs[attr] = [list(i) for i in val]
+						elif attr == 'attr_defs':
+							new_attrs[attr] = dict([
+								(k, v if not isinstance(v, bool)
+									  else (1 if v else 0))
+								for k,v in val.items()])
+						else:
+							new_attrs[attr] = val
+					fixed_static[dev_type] = new_attrs
+				list2text = lambda l: "".join(
+						( '[', ", ".join([ "'"+i+"'" for i in l]), ']'))
+			var static           = ${fixed_static};
+			var rows             = $page.data['rows'];
+			var export_list      = $page.data['export_list'];
+			var export_map       = $page.data['export'];
+			var export_types     = $page.data['export_types'];
+			var export_alias     = $page.data['export_alias'];
+			var zones            = $list2text(page.data['zones']);
+			var clims            = $list2text(page.data['clims']);
+			var ess_all          = $list2text(page.data['ess_all']);
+			var pool_technology_all = $list2text(page.data['pool_technology']);
+			var scene_item_index = 0;
+            var lightGroup_item_index = 0;
+            var label_convert_table = $label_convert_table;
+
+            if (!String.prototype.startsWith)
+            {
+                String.prototype.startsWith = function(searchString, position)
+                {
+                    position = position || 0;
+                    return this.indexOf(searchString, position) === position;
+                };
+            };
+
+
+
+
+
+            function confirm_dialog_open(href_link, dev_name, dev_type) {
+                document.getElementById('confirmDialogHref').value = href_link;
+                document.getElementById('confirmDialogLabel').innerHTML = "Are you sure that you want to remove device?<br><br><b>" + dev_name.toUpperCase() + " (type: " + dev_type.toUpperCase() + ")</b>";
+                document.getElementById('confirmDialog').style.display = "block";
+            }
+
+            function confirm_dialog_save(save_device) {
+                if (save_device)
+                    location.href = document.getElementById('confirmDialogHref').value;
+                document.getElementById('confirmDialog').style.display = "none";
+            }
+
+
+
+
+
+            function select_inels_device_open(dev_type, attr_name, id, empty_item) {
+
+                var attrs = static[dev_type]['attrs'];
+                var filter = [];
+
+                for (var i = 0; i < attrs.length; i++)
+                {
+                    if (attrs[i][0] == attr_name)
+                        filter = attrs[i][2];
+                }
+
+                var inp = document.createElement("select");
+				inp.setAttribute("id", "selectInelsDeviceChoice");
+				inp.setAttribute("style", "width:350px");
+
+                if (empty_item)
+                {
+                    var o = document.createElement("option");
+                    o.appendChild(document.createTextNode(""));
+                    o.value = "";
+                    inp.appendChild(o);
+                }
+
+				for (var j = 0; j < export_list.length; j++)
+				{
+				    var show_item = 0;
+					var inels_dev_type = export_map[export_list[j]];
+
+                    if (filter.length)
+                    {
+                        var filter_index = 0;
+
+                        if (Object.keys(export_types).length > 0)
+                        {
+                            for (filter_index = 0; filter_index < filter.length; filter_index++)
+                            {
+                                if (export_types[export_list[j]] == filter[filter_index])
+                                    show_item = 1;
+                            }
+                        }
+                        else
+                            show_item = 1;
+                    }
+                    else
+                        show_item = 1;
+
+                    if (show_item)
+                    {
+                        var o = document.createElement("option");
+                        o.appendChild(document.createTextNode(export_list[j]));
+                        o.value = export_list[j];
+                        inp.appendChild(o);
+                    }
+				}
+
+                document.getElementById('selectInelsDeviceChoiceBlock').innerHTML = '';
+                document.getElementById('selectInelsDeviceChoiceBlock').appendChild(inp);
+
+                document.getElementById('selectInelsDeviceOldId').value = id;
+                document.getElementById('selectInelsDeviceChoice').value = document.getElementById(id).value;
+                document.getElementById('selectInelsDeviceDialog').style.display = "block";
+            }
+
+            function select_inels_device_save(save_device) {
+                if (save_device)
+                {
+                    var id = document.getElementById('selectInelsDeviceOldId').value;
+                    document.getElementById(id).value = document.getElementById('selectInelsDeviceChoice').value;
+                }
+                document.getElementById('selectInelsDeviceDialog').style.display = "none";
+            }
+
+			/** @param id_name is set to id and name attribute
+			 *  @param type can be:
+			 *		inels, inels_rb   (real, bool)
+			 *		inels, inels_bool (bool)
+			 *		inels, inels_real (real)
+			 */
+			function create_inels_select(id_name, type, dev_type, filter_text, filter_type) {
+				var inp = document.createElement("select");
+				inp.setAttribute("id", id_name);
+
+                if (dev_type != "hc4")
+                    inp.setAttribute("class", "combobox");
+                else
+                {
+                    if (id_name == "input_controller")
+                        inp.setAttribute("onchange", "autofillHC4()");
+                    else
+                    {
+                        var o = document.createElement("option");
+                        o.appendChild(document.createTextNode(""));
+                        o.value = "";
+                        inp.appendChild(o);
+                    }
+                }
+
+				inp.name = id_name;
+				for (j=0; j<export_list.length; ++j) {
+					var inels_dev_type = export_map[export_list[j]];
+
+                      if ((type == "inels_rb" || (type.split("_")[1] == inels_dev_type)) && (!filter_text || export_list[j].search(filter_text) != -1 || filter_type.length))
+                      {
+
+                        if (filter_type.length)
+                        {
+                            var filter_index = 0;
+                            var show_item = 0;
+
+                            if (Object.keys(export_types).length > 0)
+                            {
+                                for (filter_index = 0; filter_index < filter_type.length; filter_index++)
+                                {
+                                    if (export_types[export_list[j]] == filter_type[filter_index])
+                                    {
+                                        show_item = 1;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                show_item = 1;
+                            }
+
+                            if (filter_text)
+                            {
+                                if (export_list[j].search(filter_text) != -1 && show_item == 1)
+                                {
+                                }
+                                else
+                                {
+                                    show_item = 0;
+                                }
+                            }
+
+                            if (id_name.search(/rele.*$$/) != -1)
+                            {
+                                if (export_list[j].search(/_RES.*$$/) != -1)
+                                {
+                                    show_item = 1;
+                                }
+                            }
+
+                            if (show_item)
+                            {
+                                var o = document.createElement("option");
+                                o.appendChild(document.createTextNode(export_list[j]));
+                                o.value = export_list[j];
+                                inp.appendChild(o);
+                            }
+                        }
+                        else
+                        {
+                            var o = document.createElement("option");
+                            o.appendChild(document.createTextNode(export_list[j]));
+                            o.value = export_list[j];
+                            inp.appendChild(o);
+                        }
+
+					}
+				}
+
+				if (dev_type == 'hc3')
+				{
+                    var o = document.createElement("option");
+                    o.appendChild(document.createTextNode('[NO ITEM]'));
+                    o.value = 'no_item';
+                    inp.appendChild(o);
+				}
+
+				return inp;
+			}
+
+			function add_scene_dev() {
+				var cell_attrs = document.getElementById("cel_attrs");
+
+				var new_scene_dev = create_inels_select(
+						"input_dev_"+String(scene_item_index), "inels_bool", '', /.*/, ['DIN','DOUT','AIN','AOUT','SYSINT','SYSBIT','DGROUP','AGROUP']);
+				var br_elem       = document.createElement("br");
+				var add_button    = cell_attrs.childNodes[
+							cell_attrs.childNodes.length - 1];
+
+				if (cell_attrs.childNodes.length > 1) {
+					cell_attrs.insertBefore(br_elem, add_button);
+				}
+				cell_attrs.insertBefore(new_scene_dev, add_button);
+
+				scene_item_index += 1;
+			}
+
+			function add_lightGroup_dev() {
+				var cell_attrs = document.getElementById("cel_attrs");
+
+				var new_scene_dev = create_inels_select(
+						"input_dev_"+String(lightGroup_item_index), "inels_real", '', /.*/, ['DIN','DOUT','AIN','AOUT','SYSINT','SYSBIT','DGROUP','AGROUP']);
+				var br_elem       = document.createElement("br");
+				var add_button    = cell_attrs.childNodes[
+							cell_attrs.childNodes.length - 1];
+
+				if (cell_attrs.childNodes.length > 1) {
+					cell_attrs.insertBefore(br_elem, add_button);
+				}
+				cell_attrs.insertBefore(new_scene_dev, add_button);
+
+				lightGroup_item_index += 1;
+			}
+
+            function autofillHC4() {
+
+                // Pokud nejde o HC4, tak nic neresim
+                if (document.getElementById("dev_type").value != "hc4")
+                    return;
+
+                // Vezmu jmeno aktualne vybraneho controlleru
+                var controller_label = document.getElementById("input_controller").value;
+
+                // Najdu defaultni jmeno vybraneho controlleru
+                var value_found = false;
+                Object.keys(export_alias).forEach(function(key)
+                {
+                    if (export_alias[key] == controller_label && value_found == false)
+                    {
+                        controller_label = key;
+                        value_found = true;
+                        console.log("Found: " + key);
+                    }
+                });
+
+                var controller_number = "000000";
+
+                // Zjistim cislo controlleru
+
+                controller_number = controller_label.split("_");
+                controller_number = controller_number[controller_number.length - 1];
+
+
+                //if (controller_label.search(/\d{6}/) != -1)
+                //    controller_number = controller_label.match(/\d{6}/)[0];
+
+                // Zjsitim, zda je pouzit nejaky prefix
+                var prefix = "";
+                if (controller_label.startsWith('inels3'))
+                    prefix = controller_label.split("_")[0] + "_";
+
+                var tableCompare = {};
+
+                // Tabulka defaultnich jmen, jaka by se mela vyplnit do select boxu
+                tableCompare["input_control_in"]          = prefix + "Controller_Control-IN_" + controller_number;
+                tableCompare["input_control_hc_in"]       = prefix + "Controller_Control-HC-IN_" + controller_number;
+                tableCompare["input_control_manual_in"]   = prefix + "Controller_Control-Manual-IN_" + controller_number;
+                tableCompare["input_control_plan_in"]     = prefix + "Controller_Control-Plan-IN_" + controller_number;
+                tableCompare["input_control_type_aout"]   = prefix + "Controller_Control-Type-AOUT_" + controller_number;
+                tableCompare["input_actual_therm_aout"]   = prefix + "Controller_Actual-Therm-AOUT_" + controller_number;
+                tableCompare["input_manual_therm_ain"]    = prefix + "Controller_Manual-Therm-AIN_" + controller_number;
+                tableCompare["input_manual_cool_therm_ain"] = prefix + "Controller_Manual-Cool-Therm-AIN_" + controller_number;
+                tableCompare["input_required_therm_aout"] = prefix + "Controller_Required-Therm-AOUT_" + controller_number;
+                tableCompare["input_required_cool_therm_aout"] = prefix + "Controller_Required-Cool-Therm-AOUT_" + controller_number;
+                tableCompare["input_required_heat_dout"]  = prefix + "Controller_Required-Heat-DOUT_" + controller_number;
+                tableCompare["input_required_cool_dout"]  = prefix + "Controller_Required-Cool-DOUT_" + controller_number;
+                tableCompare["input_mode_dout"]           = prefix + "Controller_Mode-DOUT_" + controller_number;
+                tableCompare["input_status_dout"]         = prefix + "Controller_Status-DOUT_" + controller_number;
+
+                var tableCompareKeys = Object.keys(tableCompare);
+
+                // Projdu select boxy a vyplnim jmeny
+                for (i = 0; i < tableCompareKeys.length; i++)
+                {
+                    if (tableCompare[tableCompareKeys[i]] in export_alias)
+                    {
+                        //document.getElementById(tableCompareKeys[i]).value = tableCompare[tableCompareKeys[i]];
+                        document.getElementById(tableCompareKeys[i]).value = export_alias[tableCompare[tableCompareKeys[i]]];
+                    }
+                }
+            }
+
+			function load_new_dev_attrs() {
+				var sel = document.getElementById("dev_type");
+				var row = document.getElementById("row");
+				var col = document.getElementById("column");
+				var cell_attrs = document.getElementById("cel_attrs");
+				var cell_label = document.getElementById("cel_label");
+				var dev_type = sel.options[sel.selectedIndex].value;
+				var item = static[dev_type];
+				var cell_name = document.getElementById("cell_name");
+
+				if (item["pos"]) {
+					row.disabled = false;
+					col.disabled = false;
+					for (i=0; i<rows.length; ++i) {
+						if (item["def_row"] == rows[i]) {
+							row.selectedIndex = i;
+							break;
+						}
+					}
+				}else {
+					row.disabled = true;
+					col.disabled = true;
+				}
+
+				var enable_add = true;
+				if (dev_type == "zones" || dev_type == "clims" || dev_type == "ess" || dev_type == "pool_technology") {
+					if (  cell_name.childNodes.length == 0
+					   || cell_name.childNodes[0].nodeName != "SELECT")
+					{
+						var sel_child = document.createElement("select");
+						var l         = (dev_type == "zones") ? zones : (dev_type == "clims") ? clims : (dev_type == "ess") ? ess_all : pool_technology_all;
+						sel_child.setAttribute("id",   "dev_name");
+						sel_child.setAttribute("name", "dev_name");
+						for (j=0; j<l.length; ++j) {
+							var o = document.createElement("option");
+							o.appendChild(document.createTextNode(l[j]));
+							sel_child.appendChild(o);
+						}
+						if (cell_name.childNodes.length > 0) {
+							cell_name.replaceChild(
+								sel_child, cell_name.childNodes[0]);
+						}else {
+							cell_name.appendChild(sel_child);
+						}
+						enable_add = enable_add && sel_child.childNodes.length > 0;
+					}
+				}else {
+					if (  cell_name.childNodes.length == 0
+					   || cell_name.childNodes[0].nodeName != "INPUT")
+					{
+						var input_child = document.createElement("input");
+						input_child.setAttribute("id",    "dev_name");
+						input_child.setAttribute("name",  "dev_name");
+						input_child.setAttribute("class", "name_field");
+						if (cell_name.childNodes.length > 0) {
+							cell_name.replaceChild(
+								input_child, cell_name.childNodes[0]);
+						}else {
+							cell_name.appendChild(input_child);
+						}
+					}
+				}
+				var cnt = cell_attrs.childNodes.length
+				cell_attrs.innerHTML = "";
+				cell_label.innerHTML = "";
+				/*for (i=0; i < cnt; ++i) {
+					cell_attrs.removeChild(cell_attrs.childNodes[0]);
+					cell_label.removeChild(cell_label.childNodes[0]);
+				}*/
+				for (i=0; i < item["attrs"].length; ++i) {
+					var key  = item["attrs"][i][0];
+					var type = item["attrs"][i][1];
+					var filter_type = item["attrs"][i][2];
+					//var label = document.createTextNode(key+": ");
+					//label.nodeValue = key;
+
+					var label = document.createElement("p");
+					if (key in label_convert_table[dev_type])
+					{
+					    label.innerHTML = label_convert_table[dev_type][key] + ": ";
+					}
+					else
+					{
+					    label.innerHTML = key + ": ";
+					}
+
+					//if (dev_type == "hc4")
+					//    label.setAttribute("style", "margin-top:1px;margin-bottom:0px;");
+
+                    label.setAttribute("style", "height:35px; margin:5px;");
+
+					switch (type) {
+						case "inels":
+						case "inels_rb":
+						case "inels_real":
+						case "inels_bool":
+
+
+							var filter_text = 0;
+							if (dev_type == "heat-control" && key == "stateth") {
+								filter_text = /StateTH.*$$/;
+                            }
+                            else if (dev_type == "hc3" && key == "hca_h") {
+                                filter_text = /_H.*$$|_HC.*$$|_CH.*$$|_&.*$$/;
+                            }
+                            else if (dev_type == "hc3" && key == "hca_c") {
+                                filter_text = /_C.*$$|_HC.*$$|_CH.*$$|_&.*$$/;
+                            }
+							else if (dev_type == "ezs_zone") {
+							    filter_text = /EZS-Zone_OUT_Status/;
+							}
+
+							if (type == "inels") { type = "inels_rb"; }
+
+							var inp = create_inels_select("input_"+key, type, dev_type, filter_text, filter_type);
+
+
+							enable_add = enable_add && inp.childNodes.length > 0;
+							break;
+						case "bool":
+							var inp = document.createElement("select");
+							inp.setAttribute("id", "input_"+key);
+							inp.name = "input_"+key;
+							var answers = ["yes", "no"];
+							for (j=0; j<answers.length; ++j) {
+								var o = document.createElement("option");
+								o.appendChild(document.createTextNode(answers[j]));
+								inp.appendChild(o);
+							}
+							if ('attr_defs' in item && key in item['attr_defs']) {
+								inp.selectedIndex = item['attr_defs'][key] == 1 ? 0:1;
+							}
+							enable_add = enable_add && inp.childNodes.length > 0;
+							break;
+						case "string":
+						case "int":
+						case "real":
+							var inp = document.createElement("input");
+							inp.setAttribute("id", "input_"+key);
+                            if (key == "abs_path") {
+								inp.setAttribute("size", "40");
+							}
+							inp.name = "input_"+key;
+							if (type == "int") {
+								inp.onkeypress = function(e) { return block_non_numbers(inp, e, false, true); };
+							}else if (type == "real") {
+								inp.onkeypress = function(e) { return block_non_numbers(inp, e, true, true); };
+							}
+							if ('attr_defs' in item && key in item['attr_defs']) {
+								inp.value = item['attr_defs'][key];
+							}
+							break;
+						case "placement":
+							var inp = document.createElement("select");
+							inp.setAttribute("id", "input_"+key);
+							inp.name = "input_"+key;
+							var answers = ["indoor", "outdoor"];
+							for (j=0; j<answers.length; ++j) {
+								var o = document.createElement("option");
+								o.appendChild(document.createTextNode(answers[j]));
+								inp.appendChild(o);
+							}
+							break;
+						case "clim_type":
+							var inp = document.createElement("select");
+							inp.setAttribute("id", "input_"+key);
+							inp.name = "input_"+key;
+							var answers = ${clim_type_names};
+							for (j=0; j < answers.length; ++j) {
+								var o = document.createElement("option");
+								o.appendChild(document.createTextNode(answers[j]));
+								inp.appendChild(o);
+								if (answers[j] == item['attr_defs'][key]) {
+									inp.selectedIndex = j;
+								}
+							}
+							enable_add = enable_add && inp.childNodes.length > 0;
+							break;
+						default:
+							continue;
+					}
+					document.getElementById("createnew").disabled = !enable_add;
+					if ("attr_tooltips" in item && key in item["attr_tooltips"]) {
+						inp.title = item["attr_tooltips"][key];
+					}
+					//if (i > 0) {
+					//	 var break_elem = document.createElement("br");
+					//	 cell_attrs.appendChild(break_elem);
+					//}
+
+
+					var tmp = document.createElement("p");
+					tmp.appendChild(inp);
+                    tmp.setAttribute("style", "height:35px; margin:5px;");
+
+
+					cell_label.appendChild(label);
+					cell_attrs.appendChild(tmp);
+				}
+				if (dev_type == "scenes") {
+					add_b = document.createElement("input");
+					add_b.setAttribute("id", "add_scene_dev");
+					add_b.name = "add_scene_dev";
+					add_b.setAttribute("type", "button");
+					add_b.value = "Add";
+					add_b.onclick = add_scene_dev;
+					cell_attrs.appendChild(add_b);
+					add_scene_dev();
+				}else {
+					scene_item_index = 0;
+				}
+				if (dev_type == "lightGroup") {
+					add_b = document.createElement("input");
+					add_b.setAttribute("id", "add_lightGroup_dev");
+					add_b.name = "add_lightGroup_dev";
+					add_b.setAttribute("type", "button");
+					add_b.value = "Add";
+					add_b.onclick = add_lightGroup_dev;
+					cell_attrs.appendChild(add_b);
+					add_lightGroup_dev();
+				}else {
+					lightGroup_item_index = 0;
+				}
+			}
+
+			function check_name(form) {
+                var e = document.getElementById("dev_type");
+                var t_value = e.options[e.selectedIndex].value;
+                if (t_value == "tunable_white") {
+                    var min_v = parseInt(document.getElementById('input_min').value)
+                    var max_v = parseInt(document.getElementById('input_max').value)
+                    if (isNaN(min_v) || isNaN(max_v)) {
+                         alert("MAX or MIN cannot be empty");
+                         return false;
+                    }
+                    
+                    var index;
+                    for (index = 1; index < 7; ++index) {
+                        var preset = parseInt(document.getElementById('input_preset_'+index).value)
+                        if (!isNaN(preset)) {
+                            if (preset > max_v || preset < min_v) {
+                                alert('\"preset_'+index+'\"'+" must fulfill the condition:  MIN <= PRESET <= MAX");
+                                return false;
+                            }
+                        }   
+                    }   
+                }
+                
+				dev_name = document.getElementById("dev_name");
+				if (dev_name.type != "text") return true;
+				if (dev_name.value.length == 0) {
+					alert("Fill in the name of device!");
+					dev_name.focus();
+					return false;
+				}
+				return true;
+			}
+
+			function check_column(form) {
+				column = document.getElementById("column");
+				if (column.disabled || column.value == '') {
+					return true;
+				}
+				if (column.value == "0") {
+					alert("Column must be greater than zero!");
+					column.focus();
+					return false;
+				}
+				column.value -= 1;
+				return true;
+			}
+
+			function check_add_form(form) {
+				return check_name(form) && check_column(form);
+			}
+
+			function move_to_row(obj) {
+				var item_id = obj.id.slice("moverow_".length);
+				window.location = ( "/room?name=${page.data['room']}&item="
+								  + item_id
+								  + "&action=moverow&row="
+								  + obj.value);
+			}
+
+		</script>
+	</HEAD>
+	<BODY>
+
+<div class="header">
+	<div id="title">iMM Control Center / $page.data['title']</div>
+	<div id="version">ver. $page.data['siteData']['version']</div>
+	<div id="menu">
+	$for i in page.data['menu']:
+		<a href="$i[1]">$i[0]</a>
+	</div>
+</div>
+
+<div class="body" id="room_body">
+
+$if (page.data.has_key('warning')):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h1>Devices of room <i>$page.data['room']</i></h1>
+<hr />
+<h2>Add new device</h2>
+<h3r><h3>Recommended lenght of the item "Name" is 8 characters. If the lenght is longer then it does not display correctly.</h3></h3r>
+<form id="new_device" action="/room?name=$page.data['room']" method="post" onSubmit="return check_add_form(this)">
+	<table id="new_device_table">
+		<tr><th>Type</th><th>Name</th><th>Row</th><th>Column</th><th></th><th>Attributes</th></tr>
+		<tr>
+			$code:
+				dev_type_list = list(page.data['static'])
+				dev_type_list.sort()
+			<td><select name="dev_type" id="dev_type" onChange="load_new_dev_attrs();autofillHC4();">
+			$for type, label in [ (key, page.data['static'][key]['name']) for key in dev_type_list ]:
+				<option value="$type">$label</option>
+			</select></td>
+			<td id="cell_name"></td>
+			<td id="cell_row"><select id="row" name="row">
+			$for row in page.data['rows']:
+				<option value="$row">${row+1}</option>
+			</select></td>
+			<td id="cell_col"><input type="text" name="column" id="column" onKeyPress="return block_non_numbers(this, event, false, false)" /></td>
+			<td id="cel_label"></td>
+			<td id="cel_attrs"></td>
+		</tr>
+	</table><br>
+	<input type="hidden" name="room_name" value="$page.data['room']" />
+	<input type="submit" id="createnew" name="createnew" value='Add' />
+</form>
+<hr />
+
+<form id="devs_form" action="/room?name=$page.data['room']" method="post">
+	<table class="devicesTable" cellpadding="0">
+		<tr><th>Row</th><th>Name</th><th>Type</th><th>Column</th><th>Attributes</th><th>Actions</th></tr>
+		$for row in page.data['rows']:
+			$if len(page.data['devices'][row]) > 0:
+				$for column, name, type, attrs in page.data['devices'][row]:
+					$code:
+						id_name = "{0}:{1}".format(row, column)
+					<tr ${'class="first_dev_of_row"' if loop.first else ''}${" class=\"last_dev_of_row\"" if loop.last else ""}>
+					<td class="row_number">
+						<select name="moverow_${id_name}" id="moverow_${id_name}" title="select destination row" onChange="move_to_row(this)">
+						$for r in page.data['rows']:
+							<option${' selected="selected"' if r == row else ''} value="${r}">${r+1}</option>
+						</select></td>
+					<td>
+					$if type == 'clims':
+						<select class="name_field" id="name:${id_name}" name="name:${id_name}">
+						$for i in page.data['clims']:
+							<option${' selected="selected"' if name == i else ""}>$i</option>
+						</select>
+					$elif type == 'ess':
+						<select class="name_field" id="name:${id_name}" name="name:${id_name}">
+						$for i in page.data['ess_all']:
+							<option${' selected="selected"' if name == i else ""}>$i</option>
+						</select>
+					$elif type == 'pool_technology':
+						<select class="name_field" id="name:${id_name}" name="name:${id_name}">
+						$for i in page.data['pool_technology']:
+							<option${' selected="selected"' if name == i else ""}>$i</option>
+						</select>
+					$else:
+					  <input type="text" class="name_field" id="name:${id_name}" name="name:${id_name}" value="$name" />
+					</td><td>$page.data['static'][type]['name']</td><td>${column+1}</td><td style="text-align:right">
+					$code:
+						attrs_static = page.data['static'][type]['attrs']
+						if type == 'scenes' or type == 'lightGroup':
+							attrs_static = attrs_static + [(k, 'inels_bool' if not type == 'lightGroup' else 'inels_real', [])
+							                                    for k in attrs.keys() if k.startswith('dev_')
+							                              ]
+					$for attr_name, attr_type, attr_filter in attrs_static:
+						$code:
+							attr_id_name = ":".join([attr_name, "%d"%row, "%d"%column])
+						$make_attribute(type, attr_id_name, attr_name, attr_type, attrs, True)
+						$if not loop.last:
+							<br>
+					</td><td>
+						$if column > 0:
+							<a href="/room?name=$page.data['room']&amp;item=${id_name}&amp;action=up">UP</a>
+						<a href="/room?name=$page.data['room']&amp;item=${id_name}&amp;action=down">DOWN</a>
+						<a onclick="confirm_dialog_open('/room?name=$page.data["room"]&amp;item=${id_name}&amp;action=remove', '$name', '$type');" style="cursor:pointer;">REMOVE</a>
+					</td></tr>
+	</table><hr />
+	<h3>Thermo meters</h3>
+	$if len(page.data['thermals']) > 0:
+		<table class="thermoMeters" cellpadding="0">
+			<tr><th>Placement</th><th>Name</th><th>Inels</th><th>Actions</th></tr>
+			$for name, type, attrs in page.data['thermals']:
+				<tr><td>$attrs['placement']</td>
+				$code:
+					therm_name_id = "therm_{0}_name".format(attrs['placement'])
+				<td><input class="name_field" type="text" id=$"therm_name_id" name="$therm_name_id" value="$name" /></td><td style="text-align:right">
+                <label for="therm_${attrs['placement']}">$label_convert_table['thermals'].get('inels', 'device')</label>
+                <input type="text" class="name_field" id="therm_${attrs['placement']}" name="therm_${attrs['placement']}" title="Edit device" value="${attrs['inels']}" style="width:300px;cursor:pointer;" onclick="select_inels_device_open('thermals', 'inels', 'therm_${attrs["placement"]}', 0);" readonly />
+				$code:
+					id_name = "thermc_{0}_customise".format(attrs['placement'])
+				<br>
+				<label for="${id_name}">$label_convert_table['thermals'].get('customize', 'customize')</label>
+				<select name="${id_name}" id="${id_name}" style="width:300px;cursor:pointer;">
+				$if 'customise' in attrs and attrs['customise'] == "1":
+					<option value="1" selected>yes</option>
+					<option value="0">no</option>
+				$else:
+					<option value="0" selected>no</option>
+					<option value="1">yes</option>
+				</select>    
+
+				$for attr in [u'koef_mult', u'koef_add', u'max_disp', u'min_disp', u'decimal_digits', u'units']:
+					$code:
+					    id_name = "thermc_{0}_{1}".format(attrs['placement'], attr)
+				    <br>
+				    <label for="${id_name}">$label_convert_table['thermals'].get(attr, attr)</label>
+				    $if attr in attrs:
+				        <input id="${id_name}" type="text" value="${attrs[attr]}" name="${id_name}" style="width:300px;" />
+				    $else:
+				        <input id="${id_name}" type="text" value="" name="${id_name}" style="width:300px;" />
+
+				</td><td>
+				    <a onclick="confirm_dialog_open('/room?name=$page.data["room"]&amp;item=therm_${attrs["placement"]}&amp;action=remove', '$name', '$type');" style="cursor:pointer;">REMOVE</a>
+				</td></tr>
+		</table>
+	$else:
+		<h3>No thermo meters defined</h3>
+
+	<hr />
+	<h3>Zones</h3>
+	$if len(page.data['zones']) > 0 and len(page.data['room_zones']) > 0:
+		<table class="zonesTable" cellpadding="0">
+			<tr><th>Zone name</th><th>Attributes</th><th>Actions</th></tr>
+			$for room_zone, type, attrs in page.data['room_zones']:
+				$code
+					id_name = "zone_{0}".format(loop.index0)
+				<tr><td><select id="name:${id_name}" name="name:${id_name}">
+				$for zone in page.data['zones']:
+					<option${" selected=\"selected\"" if zone == room_zone else ""}>$zone</option>
+				</select></td><td>
+				$for attr_name, attr_type, attr_filter in page.data['static'][type]['attrs']:
+					$code
+						id_attr = "{0}:{1}".format(attr_name, id_name)
+					${make_attribute(type, id_attr, attr_name, attr_type, attrs, True)}
+				</td><td>
+				    <a onclick="confirm_dialog_open('/room?name=$page.data["room"]&amp;item=${id_name}&amp;action=remove', '$room_zone', '$type');" style="cursor:pointer;">REMOVE</a>
+				</td></tr>
+
+		</table>
+	$else:
+		<h3>No zones defined</h3>
+
+	<hr />
+	<input type="hidden" name="room_name" value="$page.data['room']" />
+	<input type="submit" name="save" id="save" value="Save" />
+</form>
+
+<script type="text/javascript">
+	load_new_dev_attrs();
+</script>
+
+
+
+<div id="selectInelsDeviceDialog" class="modal">
+    <input type="hidden" id="selectInelsDeviceOldId" value="" />
+    <div class="modal-content">
+        <p style="text-align:left;"><label>Device:</label></p>
+        <div id="selectInelsDeviceChoiceBlock">
+        </div>
+        <br>
+        <menu style="padding-left:0;">
+            <button onclick="select_inels_device_save(0);">Cancel</button>
+            <button onclick="select_inels_device_save(1);">Confirm</button>
+        </menu>
+    </div>
+</div>
+
+<div id="confirmDialog" class="modal">
+    <input type="hidden" id="confirmDialogHref" value="" />
+    <div class="modal-content">
+        <p id="confirmDialogLabel"></p>
+        <br>
+        <menu style="padding-left:0;">
+            <button onclick="confirm_dialog_save(0);">Cancel</button>
+            <button onclick="confirm_dialog_save(1);">Confirm</button>
+        </menu>
+    </div>
+</div>
+
+
+$page.render.footer(page)

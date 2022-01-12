@@ -1,0 +1,178 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+    
+$if (page.data.has_key('info')):
+	<div id="info">
+	<b>INFO</b><br/>
+	$page.data['info']
+	</div>
+
+$if (page.data.has_key('cu_state')):
+    <div id="info">
+    <b>CU STATE</b><br/>
+        $if 'CU3' in page.data['cu_state']:
+            CU addrress: $page.data['cu_state']['CU3']['address']<br/>
+            CU connection: $page.data['cu_state']['CU3']['connection']<br/>
+            CU state: $page.data['cu_state']['CU3']['state']<br/>
+            Protocol version: $page.data['cu_state']['CU3']['protocol']<br/>
+            User password enabled: $page.data['cu_state']['CU3']['password']<br/>
+            Login state: $page.data['cu_state']['CU3']['login']<br/>
+    </div>  
+    
+<form method="post">
+    <h2>iNELS3</h2>
+    <table cellpadding="3">
+        <tr>
+            <td>IP of iNELS3 CU:</td>
+            <td><input type=text name="inels3ip" value="" style="width: 150px;"/></td> 
+        </tr>
+        <tr>
+            <td>ASCII port:</td>
+            <td><input type=text name="ascii_port" value="1111" style="width: 50px;"/></td> 
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type=password name="cu_pwd" value="" style="width: 150px;"/></td> 
+        </tr>
+        <tr>
+            <td>Note:</td>
+            <td><input type=text name="Note" value="" style="width: 150px;"/></td> 
+        </tr>
+        <tr>
+            <td>Export type:</td>
+            <td>
+                <select style="font-size: 16px; width: 150px;" name="load_export_type">
+                    <option value="is3">is3</option>
+                    <option value="imm">imm</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <input type="submit" value="Add" name="Save" />
+    <input type="submit" value="Check iNELS3 CU" name="check inels3 cu" />
+</form>
+
+$if (len(page.data['hcc'])):
+	<table class="cuTable" cellpadding=0>
+	<tr>
+	    <td>Prefix</td>
+	    <td>IP address</td>
+        <td>ASCII port</td>
+	    <td>Note</td>
+    </tr>
+	$for cid, cfg in page.data['hcc'].iteritems():
+	    $if 'ip_http_input' in cfg:
+	        <tr>
+	            <td>$cid</td>
+		        <td>$cfg['ip_http_input']</td>
+                <td>
+                    $if 'ascii_port' in cfg:
+                        $cfg['ascii_port']
+                    $else:
+                        1111
+                </td>
+		        <td>$cfg['note']</td>
+		        <td>
+		            <select style="font-size: 16px; width: 150px;" id="export_type_$cid" name="load_export_type" onChange="export_type_changed('$cid');">
+                        <option value="is3">is3</option>
+                        <option value="imm">imm</option>
+                    </select>
+		        </td>
+		        <td><a href="?ip=$cfg['ip_http_input']&reloadExport=$cid&type=is3" id="link_is3_$cid">reload_iNELS3_export_(is3)</a></td>
+		        <td><a href="?ip=$cfg['ip_http_input']&reloadExport=$cid&type=imm" id="link_imm_$cid" hidden>reload_iNELS3_export_(imm)</a></td>
+		        <td><a href="?delete=$cid">Remove</a></td>
+                <td><a href="?check=$cid">Check_state</a></td>
+	        </tr>
+	</table>
+
+<hr/>
+    
+<form method="post" enctype="multipart/form-data">
+<h2>KNX</h2>
+$if "knx" in page.data['hcc']:
+    IP of KNX Gateway: <input type=text name="knxip" value="$page.data['hcc']['knx']['knxnet ip']" />
+$else:
+    IP of KNX Gateway: <input type=text name="knxip" value="" />
+<p>
+    <input type="submit" value="Save" name="Save" />
+    <input type="submit" value="Delete" name="knx" />
+    <input type="file" name="knxfile" />
+    <input type="submit" value="Upload KNX export" name="knxexport" />
+</p>
+</form>
+
+
+<hr/>
+<br>
+
+<form method="post">
+    <h2>KNX - CU3 synchronization</h2>
+    <table cellpadding="3">
+        <tr>
+            <td>KNX device:</td>
+            <td>
+                <select style="font-size: 16px; width: 100%" name="knx_cu_sync_knx_device">
+                    $for row in page.data['knx_devices']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>CU device:</td>
+            <td>
+                <select style="font-size: 16px; width: 100%" name="knx_cu_sync_cu_device">
+                    $for row in page.data['cu_devices']:
+                        <option value="$row">$row</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <input type="submit" value="Add" name="knx_cu_sync_add" />
+    <input type="submit" value="Restart service" name="knx_cu_sync_restart" />
+</form>
+
+$if (len(page.data['knx_cu_sync'])):
+	<table class="cuTable" cellpadding=0>
+	<tr>
+	    <td>KNX device</td>
+	    <td>CU device</td>
+    </tr>
+	$for i, pair in page.data['knx_cu_sync'].iteritems():
+	    <tr>
+	        <td>$pair["knx"]</td>
+	        <td>$pair["cu"]</td>
+		    <td><a href="?deleteKNXCUSync=$i">Remove</a></td>
+	    </tr>
+	</table>
+
+
+
+$page.render.footer(page)
+
+
+
+
+<script>
+function export_type_changed(cid) {
+    var sel = document.getElementById("export_type_" + cid);
+
+    if (sel.value == "is3")
+    {
+        document.getElementById("link_is3_" + cid).style.display = "block";
+        document.getElementById("link_imm_" + cid).style.display = "none";
+    }
+    else
+    {
+        document.getElementById("link_is3_" + cid).style.display = "none";
+        document.getElementById("link_imm_" + cid).style.display = "block";
+    }
+};
+</script>

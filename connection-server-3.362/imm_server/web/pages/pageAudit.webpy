@@ -1,0 +1,20 @@
+$def with (page)
+$page.render.header(page)
+
+<h1>Logged events</h1>
+<div id="" style="overflow-y: scroll; height:300px;">
+<pre>
+$page.data['auditData']
+</pre>
+</div>
+
+$if (len(page.data['auditDirContent'])):
+	<h2>Archived configuration and log files</h2>
+	$page.data['auditDirContent']
+	<hr>
+
+<form method="post">
+<input type="submit" name="action" value="Download logs"/>
+</form>
+
+$page.render.footer(page)

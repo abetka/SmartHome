@@ -1,0 +1,48 @@
+$def with (page)
+$page.render.header(page)
+
+$if page.data.has_key('warning'):
+	<div id="warning">
+	<b>WARNING</b><br>
+	$page.data['warning']
+	</div>
+
+<h2>Miele</h2>
+<form method="post">
+<table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>IP:</td>
+        <td><input type=text name="ip" value="$page.data['options']['ip']"/></td>
+    </tr>
+    <tr>
+        <td>E-mail:&nbsp&nbsp</td>
+        <td><input type=text name="email" value="$page.data['options']['email']"/></td>
+    </tr>
+    <tr>
+        <td>Relay:</td>
+        <td style="vertical-align:middle">
+            <select style="font-size: 16px" name="relay">
+                <option value=''></option>
+                $for row in page.data['inels_dev']:
+                    <option value="$row">$row</option>
+                <option selected="selected">$page.data['options']['relay']</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Smart Grid:</td>
+        <td style="vertical-align:middle">
+            <select style="font-size: 16px" name="hdo">
+                <option value=''></option>
+                $for row in page.data['inels_dev']:
+                    <option value="$row">$row</option>
+                <option selected="selected">$page.data['options']['hdo']</option>
+            </select>
+        </td>
+    </tr>
+</table>
+</br>
+<input type="submit" value="update" name="submitSettings" />
+</form>
+
+$page.render.footer(page)

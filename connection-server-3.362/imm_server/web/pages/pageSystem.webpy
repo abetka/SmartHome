@@ -1,0 +1,242 @@
+$def with (page)
+$page.render.header(page)
+
+$if (page.data.has_key('warning')):
+    <div id="warning">
+    <b>WARNING</b><br/>
+    $page.data['warning']
+    </div>
+
+$if (page.data.has_key('info')):
+    <div id="info">
+    <b>INFO</b><br/>
+    $page.data['info']
+    </div>
+
+<h2>Network settings</h2>
+<form method="post">
+$if page.data['network']['dhcp']:
+    <input type="radio" name="dhcp" value="True"  checked>DHCP<br>
+    <input type="radio" name="dhcp" value="False" />
+$else:
+    <input type="radio" name="dhcp" value="True">DHCP<br>
+    <input type="radio" name="dhcp" value="False" checked/>
+
+IP: <input type=text name="ip" value="$page.data['network']['static']['ip']"/>
+Netmask: <input type=text name="netmask" value="$page.data['network']['static']['netmask']"/>
+Gateway: <input type=text name="gateway" value="$page.data['network']['static']['gateway']"/>
+DNS: <input type=text name="dns" value="$page.data['network']['static']['dns']"/>
+<p><input type="submit" value="Save" name="Save" /></p>
+</form>
+
+
+
+<hr/>
+
+<h2>Date and time settings</h2>
+<form method="post">
+
+    <table cellpadding="3">
+        <tr>
+            <td>Day:</td>
+            <td>	&nbsp
+                <select name="date_day" style="width:50px;">
+                    $code:
+                        days = range(1, 32)
+                    $for i in days:
+                        $if i == page.data['date_day']:
+                            <option value="$i" selected>$i</option>
+                        $else:
+                            <option value="$i">$i</option>
+                </select>
+            </td>
+            <td>Month:</td>
+            <td>	&nbsp
+                <select name="date_month" style="width:100px;">
+                    $code:
+                        months = range(1, 13)
+                        monthNames = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June', 7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
+                    $for i in months:
+                        $if i == page.data['date_month']:
+                            <option value="$i" selected>$monthNames[i]</option>
+                        $else:
+                            <option value="$i">$monthNames[i]</option>
+                </select>
+            </td>
+            <td>Year:</td>
+            <td>	&nbsp
+                <select name="date_year" style="width:70px;">
+                    $code:
+                        years = range(2017, 2117)
+                    $for i in years:
+                        $if i == page.data['date_year']:
+                            <option value="$i" selected>$i</option>
+                        $else:
+                            <option value="$i">$i</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Hour:</td>
+            <td>	&nbsp
+                <select name="date_hour" style="width:50px;">
+                    $code:
+                        hours = range(0, 24)
+                    $for i in hours:
+                        $if i == page.data['date_hour']:
+                            <option value="$i" selected>$i</option>
+                        $else:
+                            <option value="$i">$i</option>
+                </select>
+            </td>
+            <td>Minute:</td>
+            <td>	&nbsp
+                <select name="date_minute" style="width:100px;">
+                    $code:
+                        minutes = range(0, 60)
+                    $for i in minutes:
+                        $if i == page.data['date_minute']:
+                            <option value="$i" selected>$i</option>
+                        $else:
+                            <option value="$i">$i</option>
+                </select>
+            </td>
+            <td>Second:</td>
+            <td>	&nbsp
+                <select name="date_second" style="width:70px;">
+                    $code:
+                        seconds = range(0, 60)
+                    $for i in seconds:
+                        $if i == page.data['date_second']:
+                            <option value="$i" selected>$i</option>
+                        $else:
+                            <option value="$i">$i</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+<br/>
+
+<input type="submit" value="Refresh" name="RefreshDate" />
+<input type="submit" value="Save" name="SaveDate" />
+</form>
+
+<hr/>
+
+<h2>Change password</h2>
+<form method="post">
+    <table cellpadding="3">
+        <tr>
+            <td>New password:</td>
+            <td>	&nbsp
+                <input type="password" value="" name="Password1" placeholder="&#9679&#9679&#9679&#9679&#9679&#9679" onclick="document.getElementById('passwordButton').disabled=false;document.getElementsByName('Password1')[0].placeholder=''" />
+            </td>
+        </tr>
+        <tr>
+            <td>Retype new password:</td>
+            <td>	&nbsp
+                <input type="password" value="" name="Password2" placeholder="&#9679&#9679&#9679&#9679&#9679&#9679" onclick="document.getElementById('passwordButton').disabled=false;document.getElementsByName('Password2')[0].placeholder=''" />
+            </td>
+        </tr>
+    </table>
+    <input type="submit" id="passwordButton" value="Save" name="SavePassword" disabled />
+    <br/>
+</form>
+
+<hr/>
+
+<h2>Change password for application</h2>
+<form method="post">
+    <table cellpadding="3">
+        <tr>
+            <td>New password:</td>
+            <td>	&nbsp
+                $if page.data['edit_password_defined']:
+                    <input type="password" value="" name="EditPassword1" placeholder="&#9679&#9679&#9679&#9679&#9679&#9679" onclick="document.getElementById('passwordButtonEdit').disabled=false;document.getElementsByName('EditPassword1')[0].placeholder=''" />
+                $else:
+                    <input type="password" value="" name="EditPassword1" placeholder="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Retype new password:</td>
+            <td>	&nbsp
+                $if page.data['edit_password_defined']:
+                    <input type="password" value="" name="EditPassword2" placeholder="&#9679&#9679&#9679&#9679&#9679&#9679" onclick="document.getElementById('passwordButtonEdit').disabled=false;document.getElementsByName('EditPassword2')[0].placeholder=''" />
+                $else:
+                    <input type="password" value="" name="EditPassword2" placeholder="" />
+            </td>
+        </tr>
+    </table>
+    $if page.data['edit_password_defined']:
+        <input type="submit" id="passwordButtonEdit" value="Save" name="SaveEditPassword" disabled />
+    $else:
+        <input type="submit" id="passwordButtonEdit" value="Save" name="SaveEditPassword" />
+    <br/>
+</form>
+
+<hr/>
+
+<h2>Update server</h2>
+<input type="button" value="Update" onclick="window.location.href='http://'+window.location.host.replace(':8080',':8081')" />
+</br>
+</br>
+
+<hr/>
+
+<h2>Shutdown server</h2>
+<form method="post">
+<input type="submit" value="Shutdown" name="Shutdown" />
+</form>
+
+<hr/>
+
+<h2>Restart server</h2>
+<form method="post">
+<input type="submit" value="Restart" name="Restart" />
+</form>
+
+<hr/>
+
+<h2>Restart server regularly</h2>
+<form method="post">
+<select name="sminute">
+    $code:
+        minutes = range(0, 60)
+    $for i in minutes:
+        $if i == page.data['minute']: 
+            <option value="$i" selected>$i</option>
+        $else:
+	        <option value="$i">$i</option>	
+</select>m
+<select name="shour">
+    $code:
+        hours = range(0, 24)
+    $for i in hours:
+        $if i == page.data['hour']: 
+            <option value="$i" selected>$i</option>
+        $else:
+            <option value="$i">$i</option>	
+</select>h
+<select name="sday">
+    $code:
+        days = range(1, 8)
+        dayNames = {1:'Monday', 2:'Tuesday', 3:'Wednesday', 4:'Thursday', 5:'Friday', 6:'Saturday', 7:'Sunday'}
+    $for i in days:
+        $if i == page.data['day']: 
+            <option value="$i" selected>$dayNames[i]</option>
+        $else:
+            <option value="$i">$dayNames[i]</option>	
+</select>d
+<input type="submit" value="Set" name="Set" />
+<input type="submit" value="Delete" name="Delete" />
+</form>
+
+<hr/>
+
+<h2>NFS Server Configuration</h2>
+<form method="post">
+<input type="submit" value="Update" name="NFSupdate" />
+</form>
+
+$page.render.footer(page)

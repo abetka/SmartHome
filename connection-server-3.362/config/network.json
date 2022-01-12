@@ -1,0 +1,9 @@
+{
+    "dhcp": true,
+    "static": {
+        "ip": "",
+        "netmask": "",
+        "gateway": "",
+        "dns": ""
+    }
+}
