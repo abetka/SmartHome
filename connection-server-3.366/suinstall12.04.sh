@@ -73,14 +73,14 @@ then
     cd $wd
     sudo rm -r libxml2-2.7.2/
 
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
     python get-pip.py
     pip install -r requirements12.04.txt
 fi
 
 # install requirements(new ones)
 source /opt/imm/.virtualenvs/imm_server/bin/activate
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 python get-pip.py
 pip install -r requirements12.04.txt
 
