@@ -1,0 +1,261 @@
+﻿podsvetka_vannaya 0x01020001 0x00000000 
+nochniki 0x01020002 0x00000000 
+podsvetka_zerkala_wc 0x01020003 0x00000000 
+termogolovka_detskaya 0x01020004 0x00000000 
+osnovnoi_svet_spalnya 0x01020005 0x00000000 
+osnovnoi_svet_kuhnya 0x01020006 0x00000000 
+podsvetka_stoleshnica 0x01020007 0x00000000 
+termogolovka_spalnya 0x01020008 0x00000000 
+nochnik_spalnya_u_okna 0x01020009 0x00000000 
+podsvetka_zerkala_spalnya 0x0102000A 0x00000000 
+osnovnoi_svet_vannaya 0x0102000B 0x00000000 
+vse_rgb_podsvetki 0x0102000C 0x00000000 
+osnovnoi_svet_detskaya 0x0102000D 0x00000000 
+nochniki_na_stene_kuhnya 0x0102000E 0x00000000 
+svet_servernaya 0x0102000F 0x00000000 
+svet_prihozhaya 0x01020010 0x00000000 
+podsvetka_nishi_kabinet 0x01020011 0x00000000 
+podsvetka_nisha_vannaya 0x01020012 0x00000000 
+termogolovka_kuhnya 0x01020013 0x00000000 
+podsvetka_polki_wc 0x01020014 0x00000000 
+rgb_spalnya_R 0x01040001 0x00000000 %
+rgb_spalnya_G 0x01040002 0x00000000 %
+rgb_spalnya_B 0x01040003 0x00000000 %
+rgb_kabinet_R 0x01040005 0x00000000 %
+rgb_kabinet_G 0x01040006 0x00000000 %
+rgb_kabinet_B 0x01040007 0x00000000 %
+rgb_kuhnya_R 0x01040009 0x00000000 %
+rgb_kuhnya_G 0x0104000A 0x00000000 %
+rgb_kuhnya_B 0x0104000B 0x00000000 %
+rgb_detskaya_R 0x0104000D 0x00000000 %
+rgb_detskaya_G 0x0104000E 0x00000000 %
+rgb_detskaya_B 0x0104000F 0x00000000 %
+zakrit_shtory_spalnya 0x01020072 0x00000000 
+otkrit_shtory_spalnya 0x01020073 0x00000000 
+otkrit_tul_spalnya 0x01020074 0x00000000 
+zakrit_tul_spalnya 0x01020075 0x00000000 
+otkrit_shtory_detskaya 0x0102006E 0x00000000 
+zakrit_shtory_detskaya 0x0102006F 0x00000000 
+zakrit_tul_detskaya 0x01020070 0x00000000 
+otkrit_tul_detskaya 0x01020071 0x00000000 
+otkrit_shtory_kuhnya 0x01020076 0x00000000 
+zakrit_shtory_kuhnya 0x01020077 0x00000000 
+zakrit_tul_kuhnya 0x01020078 0x00000000 
+otkrit_tul_kuhnya 0x01020079 0x00000000 
+teplui_pol_kuhnya 0x0102001A 0x00000000 
+termodatchik_kuhnya 0x01050003 0x00000000 °C
+temperatura_vannaya 0x01050004 0x00000000 °C
+vlazhnost_vannaya 0x01050006 0x00000000 %
+temperatura_wc 0x01050007 0x00000000 °C
+temperatura_kuhnya 0x0105000A 0x00000000 °C
+teplui_pol_wc 0x01020023 0x00000000 
+termodatchik_wc 0x0105000D 0x00000000 °C
+ventilyaciya_vannaya 0x01020024 0x00000000 
+ventilyaciya_wc 0x01020025 0x00000000 
+zakrit_shtory_kabinet 0x01020026 0x00000000 
+datchik_protechki 0x01020027 0x00000000 
+svetilniki_detskaya_ 0x01020028 0x00000000 
+svetilnik_nad_stolom_kabinet 0x01020029 0x00000000 
+nochnik_spalnya_vozle_dveri 0x0102002A 0x00000000 
+svetilniki_spalnya 0x0102002B 0x00000000 
+svet_koridor_ 0x0102002C 0x00000000 
+podsvetka_prihozhaya 0x0102002D 0x00000000 
+osnovnoi_svet_wc 0x0102002E 0x00000000 
+otkrit_shtory_kabinet 0x0102002F 0x00000000 
+svetilniki_u_okna_kuhnya 0x01020037 0x00000000 
+svetilniki_u_vhoda_kuhnya 0x01020038 0x00000000 
+osnovnoi_svet_kabinet 0x01020039 0x00000000 
+svetilnik_na_stene__detskaya 0x0102003A 0x00000000 
+teplui_pol_prihozhaya 0x0102003B 0x00000000 
+termodatchik_prihozhaya 0x01050010 0x00000000 °C
+temperatura_detskaya 0x01050011 0x00000000 °C
+temperatura_spalnya 0x01050014 0x00000000 °C
+teplui_pol_vannaya 0x01020043 0x00000000 
+termodatchik_vannaya 0x01050013 0x00000000 °C
+temperatura_kabinet 0x01050017 0x00000000 °C
+Controller_Control-IN_026A2F 0x01110001 0x00000000 
+Controller_Control-HC-IN_026A2F 0x01110002 0x00000000 
+Controller_Control-Plan-IN_026A2F 0x01110003 0x00000000 
+Controller_Control-Manual-IN_026A2F 0x01110004 0x00000000 
+Controller_Actual-Therm-AIN_026A2F 0x01120005 0x00000000 °C
+Controller_Critical-Therm-AIN_026A2F 0x01120006 0x00000000 °C
+Controller_Manual-Therm-AIN_026A2F 0x01120007 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A2F 0x01120008 0x00000000 °C
+Controller_Window-Detector-DIN_026A2F 0x01020066 0x00000000 
+Controller_Actual-Therm-AOUT_026A2F 0x01080007 0x00000000 °C
+Controller_Required-Therm-AOUT_026A2F 0x01080008 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A2F 0x01080009 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A2F 0x0108000A 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A2F 0x0108000B 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A2F 0x0108000C 0x00000000 °C
+Controller_Status-DOUT_026A2F 0x0101005D 0x00000000 
+Controller_Mode-DOUT_026A2F 0x0101005E 0x00000000 
+Controller_Required-Heat-DOUT_026A2F 0x0101005F 0x00000000 
+Controller_Required-Cool-DOUT_026A2F 0x01010060 0x00000000 
+Controller_Holiday-DOUT_026A2F 0x01010061 0x00000000 
+Controller_Public_holiday-AOUT_026A2F 0x01030001 0x00000000 
+Controller_Disable-Regulator-DOUT_026A2F 0x01010062 0x00000000 
+Controller_Correction_026A2F 0x01120009 0x00000000 
+Controller_Control-Type-AOUT_026A2F 0x01040011 0x00000000 
+Controller_Control-IN_026A32 0x01110005 0x00000000 
+Controller_Control-HC-IN_026A32 0x01110006 0x00000000 
+Controller_Control-Plan-IN_026A32 0x01110007 0x00000000 
+Controller_Control-Manual-IN_026A32 0x01110008 0x00000000 
+Controller_Actual-Therm-AIN_026A32 0x01120011 0x00000000 °C
+Controller_Critical-Therm-AIN_026A32 0x01120012 0x00000000 °C
+Controller_Manual-Therm-AIN_026A32 0x01120013 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A32 0x01120014 0x00000000 °C
+Controller_Window-Detector-DIN_026A32 0x0102007A 0x00000000 
+Controller_Actual-Therm-AOUT_026A32 0x0108000D 0x00000000 °C
+Controller_Required-Therm-AOUT_026A32 0x0108000E 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A32 0x0108000F 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A32 0x01080010 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A32 0x01080011 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A32 0x01080012 0x00000000 °C
+Controller_Status-DOUT_026A32 0x01010067 0x00000000 
+Controller_Mode-DOUT_026A32 0x01010068 0x00000000 
+Controller_Required-Heat-DOUT_026A32 0x01010069 0x00000000 
+Controller_Required-Cool-DOUT_026A32 0x0101006A 0x00000000 
+Controller_Holiday-DOUT_026A32 0x0101006B 0x00000000 
+Controller_Public_holiday-AOUT_026A32 0x01030002 0x00000000 
+Controller_Disable-Regulator-DOUT_026A32 0x0101006C 0x00000000 
+Controller_Correction_026A32 0x01120015 0x00000000 
+Controller_Control-Type-AOUT_026A32 0x01040012 0x00000000 
+Controller_Control-IN_026A35 0x01110009 0x00000000 
+Controller_Control-HC-IN_026A35 0x0111000A 0x00000000 
+Controller_Control-Plan-IN_026A35 0x0111000B 0x00000000 
+Controller_Control-Manual-IN_026A35 0x0111000C 0x00000000 
+Controller_Actual-Therm-AIN_026A35 0x0112001D 0x00000000 °C
+Controller_Critical-Therm-AIN_026A35 0x0112001E 0x00000000 °C
+Controller_Manual-Therm-AIN_026A35 0x0112001F 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A35 0x01120020 0x00000000 °C
+Controller_Window-Detector-DIN_026A35 0x01020082 0x00000000 
+Controller_Actual-Therm-AOUT_026A35 0x01080013 0x00000000 °C
+Controller_Required-Therm-AOUT_026A35 0x01080014 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A35 0x01080015 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A35 0x01080016 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A35 0x01080017 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A35 0x01080018 0x00000000 °C
+Controller_Status-DOUT_026A35 0x01010071 0x00000000 
+Controller_Mode-DOUT_026A35 0x01010072 0x00000000 
+Controller_Required-Heat-DOUT_026A35 0x01010073 0x00000000 
+Controller_Required-Cool-DOUT_026A35 0x01010074 0x00000000 
+Controller_Holiday-DOUT_026A35 0x01010075 0x00000000 
+Controller_Public_holiday-AOUT_026A35 0x01030003 0x00000000 
+Controller_Disable-Regulator-DOUT_026A35 0x01010076 0x00000000 
+Controller_Correction_026A35 0x01120021 0x00000000 
+Controller_Control-Type-AOUT_026A35 0x01040013 0x00000000 
+Controller_Control-IN_026A38 0x0111000D 0x00000000 
+Controller_Control-HC-IN_026A38 0x0111000E 0x00000000 
+Controller_Control-Plan-IN_026A38 0x0111000F 0x00000000 
+Controller_Control-Manual-IN_026A38 0x01110010 0x00000000 
+Controller_Actual-Therm-AIN_026A38 0x01120029 0x00000000 °C
+Controller_Critical-Therm-AIN_026A38 0x0112002A 0x00000000 °C
+Controller_Manual-Therm-AIN_026A38 0x0112002B 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A38 0x0112002C 0x00000000 °C
+Controller_Window-Detector-DIN_026A38 0x0102008A 0x00000000 
+Controller_Actual-Therm-AOUT_026A38 0x01080019 0x00000000 °C
+Controller_Required-Therm-AOUT_026A38 0x0108001A 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A38 0x0108001B 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A38 0x0108001C 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A38 0x0108001D 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A38 0x0108001E 0x00000000 °C
+Controller_Status-DOUT_026A38 0x0101007B 0x00000000 
+Controller_Mode-DOUT_026A38 0x0101007C 0x00000000 
+Controller_Required-Heat-DOUT_026A38 0x0101007D 0x00000000 
+Controller_Required-Cool-DOUT_026A38 0x0101007E 0x00000000 
+Controller_Holiday-DOUT_026A38 0x0101007F 0x00000000 
+Controller_Public_holiday-AOUT_026A38 0x01030004 0x00000000 
+Controller_Disable-Regulator-DOUT_026A38 0x01010080 0x00000000 
+Controller_Correction_026A38 0x0112002D 0x00000000 
+Controller_Control-Type-AOUT_026A38 0x01040014 0x00000000 
+Controller_Control-IN_026A3B 0x01110011 0x00000000 
+Controller_Control-HC-IN_026A3B 0x01110012 0x00000000 
+Controller_Control-Plan-IN_026A3B 0x01110013 0x00000000 
+Controller_Control-Manual-IN_026A3B 0x01110014 0x00000000 
+Controller_Actual-Therm-AIN_026A3B 0x01120035 0x00000000 °C
+Controller_Critical-Therm-AIN_026A3B 0x01120036 0x00000000 °C
+Controller_Manual-Therm-AIN_026A3B 0x01120037 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A3B 0x01120038 0x00000000 °C
+Controller_Window-Detector-DIN_026A3B 0x01020092 0x00000000 
+Controller_Actual-Therm-AOUT_026A3B 0x0108001F 0x00000000 °C
+Controller_Required-Therm-AOUT_026A3B 0x01080020 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A3B 0x01080021 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A3B 0x01080022 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A3B 0x01080023 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A3B 0x01080024 0x00000000 °C
+Controller_Status-DOUT_026A3B 0x01010085 0x00000000 
+Controller_Mode-DOUT_026A3B 0x01010086 0x00000000 
+Controller_Required-Heat-DOUT_026A3B 0x01010087 0x00000000 
+Controller_Required-Cool-DOUT_026A3B 0x01010088 0x00000000 
+Controller_Holiday-DOUT_026A3B 0x01010089 0x00000000 
+Controller_Public_holiday-AOUT_026A3B 0x01030005 0x00000000 
+Controller_Disable-Regulator-DOUT_026A3B 0x0101008A 0x00000000 
+Controller_Correction_026A3B 0x01120039 0x00000000 
+Controller_Control-Type-AOUT_026A3B 0x01040015 0x00000000 
+Controller_Control-IN_026A3E 0x01110015 0x00000000 
+Controller_Control-HC-IN_026A3E 0x01110016 0x00000000 
+Controller_Control-Plan-IN_026A3E 0x01110017 0x00000000 
+Controller_Control-Manual-IN_026A3E 0x01110018 0x00000000 
+Controller_Actual-Therm-AIN_026A3E 0x01120041 0x00000000 °C
+Controller_Critical-Therm-AIN_026A3E 0x01120042 0x00000000 °C
+Controller_Manual-Therm-AIN_026A3E 0x01120043 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A3E 0x01120044 0x00000000 °C
+Controller_Window-Detector-DIN_026A3E 0x0102009A 0x00000000 
+Controller_Actual-Therm-AOUT_026A3E 0x01080025 0x00000000 °C
+Controller_Required-Therm-AOUT_026A3E 0x01080026 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A3E 0x01080027 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A3E 0x01080028 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A3E 0x01080029 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A3E 0x0108002A 0x00000000 °C
+Controller_Status-DOUT_026A3E 0x0101008F 0x00000000 
+Controller_Mode-DOUT_026A3E 0x01010090 0x00000000 
+Controller_Required-Heat-DOUT_026A3E 0x01010091 0x00000000 
+Controller_Required-Cool-DOUT_026A3E 0x01010092 0x00000000 
+Controller_Holiday-DOUT_026A3E 0x01010093 0x00000000 
+Controller_Public_holiday-AOUT_026A3E 0x01030006 0x00000000 
+Controller_Disable-Regulator-DOUT_026A3E 0x01010094 0x00000000 
+Controller_Correction_026A3E 0x01120045 0x00000000 
+Controller_Control-Type-AOUT_026A3E 0x01040016 0x00000000 
+Controller_Control-IN_026A41 0x01110019 0x00000000 
+Controller_Control-HC-IN_026A41 0x0111001A 0x00000000 
+Controller_Control-Plan-IN_026A41 0x0111001B 0x00000000 
+Controller_Control-Manual-IN_026A41 0x0111001C 0x00000000 
+Controller_Actual-Therm-AIN_026A41 0x0112004D 0x00000000 °C
+Controller_Critical-Therm-AIN_026A41 0x0112004E 0x00000000 °C
+Controller_Manual-Therm-AIN_026A41 0x0112004F 0x00000000 °C
+Controller_Manual-Cool-Therm-AIN_026A41 0x01120050 0x00000000 °C
+Controller_Window-Detector-DIN_026A41 0x010200A2 0x00000000 
+Controller_Actual-Therm-AOUT_026A41 0x0108002B 0x00000000 °C
+Controller_Required-Therm-AOUT_026A41 0x0108002C 0x00000000 °C
+Controller_Required-Cool-Therm-AOUT_026A41 0x0108002D 0x00000000 °C
+Controller_Critical-Therm-AOUT_026A41 0x0108002E 0x00000000 °C
+Controller_Maximal-Therm-AOUT_026A41 0x0108002F 0x00000000 °C
+Controller_Antifreeze-Therm-AOUT_026A41 0x01080030 0x00000000 °C
+Controller_Status-DOUT_026A41 0x01010099 0x00000000 
+Controller_Mode-DOUT_026A41 0x0101009A 0x00000000 
+Controller_Required-Heat-DOUT_026A41 0x0101009B 0x00000000 
+Controller_Required-Cool-DOUT_026A41 0x0101009C 0x00000000 
+Controller_Holiday-DOUT_026A41 0x0101009D 0x00000000 
+Controller_Public_holiday-AOUT_026A41 0x01030007 0x00000000 
+Controller_Disable-Regulator-DOUT_026A41 0x0101009E 0x00000000 
+Controller_Correction_026A41 0x01120051 0x00000000 
+Controller_Control-Type-AOUT_026A41 0x01040017 0x00000000 
+otkr_shtoru_ytrom 0x0207000B
+zakr_shtoru_ytrom 0x0207000C
+mk_prihozhaya 0x02040002
+mk_vannaya 0x02040005
+mk_kuhnya 0x02040006
+mk_spalnya 0x02040007
+mk_detskaya 0x02040008
+mk_vse 0x02040009
+shtoru_off 0x0204000A
+shtoru_on 0x0204000E
+mk_wc 0x02040011
+kuhnya radiator_26A2F 0x0208002B 0x02
+kuhnya pol_26A32 0x02080031 0x02
+prihozhaya teplui pol_26A35 0x02080034 0x02
+vannaya_26A38 0x02080037 0x02
+wc teplui pol_26A3B 0x0208003A 0x02
+radiator detskaya_26A3E 0x0208003D 0x02
+radiator spalnya_26A41 0x02080040 0x02
