@@ -83,11 +83,11 @@ def openCurtains(scheduler):
 
 
 if __name__ == '__main__':
-    # scheduler = BackgroundScheduler()
-    # scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today()), args=[scheduler] )
-    # scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today()), args=[scheduler] )
-    # logging.debug(scheduler.print_jobs())
-    # scheduler.start()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today()), args=[scheduler] )
+    scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today()), args=[scheduler] )
+    logging.debug(scheduler.print_jobs())
+    scheduler.start()
     print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
 
     try:
