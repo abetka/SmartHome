@@ -52,50 +52,31 @@ def telnetGet( cmd, delimeter = ';'):
     tn = telnetConnect()
     tn.write(b"GET" + delimeter.encode('ascii') + cmd.encode('ascii') + b"\r\n")
     recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
-    logging.debug("Telnet GET Answer" + cmd + ": " + recv)
+    logging.debug("Telnet GET Answer " + cmd + ": " + recv)
+    return recv
     tn.close()
 
 def telnetSet( cmd, arg, delimeter = ';'):
     tn = telnetConnect()
     tn.write(b"SET" + delimeter.encode('ascii') + cmd.encode('ascii')+ delimeter.encode('ascii')+ arg.encode('ascii') + b"\r\n")
     recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
-    logging.debug("Telnet SET Answer" + cmd + ": " + recv)
+    logging.debug("Telnet SET Answer " + cmd + ": " + recv)
     tn.close()
 
-def sunTime(type,date=date.today()):
-    cityInfo = LocationInfo(city, country, timezone)
-    s = sun(cityInfo.observer, date=date, tzinfo=cityInfo.timezone)
-    logging.debug(type)
-    logging.debug(s)
-    return s[type]
-
-def closeCurtains(scheduler):
-    for x in close_curtains:
-        telnetSet(x,"1")
-        logging.debug("Will be closed " + x)
-    scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today() + timedelta(days = 1)), args=[scheduler] )
-    logging.debug(scheduler.print_jobs())
-
-def openCurtains(scheduler):
-    for x in open_curtains:
-        telnetSet(x,"1")
-        logging.debug("Will be opened " + x)
-    scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today() + timedelta(days = 1, hours = 1)), args=[scheduler] )
-    logging.debug(scheduler.print_jobs())
-
-
 if __name__ == '__main__':
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today()), args=[scheduler] )
-    scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today()), args=[scheduler] )
-    logging.debug(scheduler.print_jobs())
-    scheduler.start()
-    logging.debug('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
-
-    try:
-        # This is here to simulate application activity (which keeps the main thread alive).
-        while True:
-            time.sleep(2)
-    except (KeyboardInterrupt, SystemExit):
-        # Not strictly necessary if daemonic mode is enabled but should be done if possible
-        scheduler.shutdown()
+    pointLights = telnetGet("0x0102002E")
+    fan = telnetGet("0x01020025")
+    backLightMirror = telnetGet("0x01020003")
+    backLight = telnetGet("0x01020014")
+    if int(pointLights) == 0 and int(fan) == 0 :
+        telnetSet("0x01020053","1")
+        telnetSet("0x01020054","0")
+    else:
+        telnetSet("0x01020053","0")
+        telnetSet("0x01020054","1")
+    if int(backLightMirror) == 0 and int(backLight) == 0 :
+        telnetSet("0x01020055","1")
+        telnetSet("0x01020056","0")
+    else:
+        telnetSet("0x01020055","0")
+        telnetSet("0x01020056","1")
