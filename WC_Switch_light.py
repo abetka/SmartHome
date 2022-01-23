@@ -15,11 +15,12 @@ tn_port = "1111"
 city = "Kiev"
 country = "Ukraine"
 timezone = "Europe/London"
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler("sunset-sunrise-debug.log"),
+        logging.FileHandler("WC_Switch_light.log"),
         logging.StreamHandler()
     ]
 )
@@ -43,7 +44,6 @@ def telnetConnect(host = tn_ip,port = tn_port):
         tn = telnetlib.Telnet(tn_ip, tn_port, 15)
     except:
         logging.debug("Unable to connect to Telnet server: " + tn_ip)
-        # print("Unable to connect to Telnet server: " + tn_ip)
         return
     # tn.set_debuglevel(100)
     return tn
@@ -53,8 +53,8 @@ def telnetGet( cmd, delimeter = ';'):
     tn.write(b"GET" + delimeter.encode('ascii') + cmd.encode('ascii') + b"\r\n")
     recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
     logging.debug("Telnet GET Answer " + cmd + ": " + recv)
-    return recv
     tn.close()
+    return int(recv)
 
 def telnetSet( cmd, arg, delimeter = ';'):
     tn = telnetConnect()
@@ -63,20 +63,44 @@ def telnetSet( cmd, arg, delimeter = ';'):
     logging.debug("Telnet SET Answer " + cmd + ": " + recv)
     tn.close()
 
-if __name__ == '__main__':
-    pointLights = telnetGet("0x0102002E")
-    fan = telnetGet("0x01020025")
+def changeWCSwitchState():
+    pointLights = telnetGet("0x02030024")
+    fan = telnetGet("0x02030025")
     backLightMirror = telnetGet("0x01020003")
     backLight = telnetGet("0x01020014")
-    if int(pointLights) == 0 and int(fan) == 0 :
+    if pointLights == 0 and fan == 0:
         telnetSet("0x01020053","1")
         telnetSet("0x01020054","0")
     else:
         telnetSet("0x01020053","0")
         telnetSet("0x01020054","1")
-    if int(backLightMirror) == 0 and int(backLight) == 0 :
+    if backLightMirror == 0 and backLight == 0:
         telnetSet("0x01020055","1")
         telnetSet("0x01020056","0")
+        telnetSet("0x0102001D","1")
+        telnetSet("0x0102001E","0")
     else:
         telnetSet("0x01020055","0")
         telnetSet("0x01020056","1")
+        telnetSet("0x0102001D","0")
+        telnetSet("0x0102001E","1")
+
+if __name__ == '__main__':
+    try:
+        while True:
+            tn = telnetConnect()
+            line = tn.read_until(b"\n")
+            splitted_line = str(line).split(';')
+            if 'EVENT' in splitted_line[0]:
+                logging.debug(line)
+                try:
+                    switchCase = {
+                        '0x02030024': changeWCSwitchState,
+                        '0x02030025': changeWCSwitchState,
+                        '0x01020003': changeWCSwitchState,
+                        '0x01020014': changeWCSwitchState,
+                    }[splitted_line[2]]()
+                except KeyError:
+                    logging.debug("Key " + splitted_line[2] + " not in specific range")
+    except (KeyboardInterrupt, SystemExit):
+        logging.debug("The application was closed")
