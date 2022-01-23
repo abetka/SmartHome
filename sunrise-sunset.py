@@ -80,7 +80,7 @@ def openCurtains(scheduler):
     for x in open_curtains:
         telnetSet(x,"1")
         logging.debug("Will be opened " + x)
-    scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today() + timedelta(days = 1, hours = 1)), args=[scheduler] )
+    scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today() + timedelta(days = 1, minutes = 30 )), args=[scheduler] )
     logging.debug(scheduler.print_jobs())
 
 
