@@ -23,11 +23,8 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
-close_curtains = ['0x01020026', '0x01020072']
-open_curtains = ['0x0102002f', '0x01020073']
-# close_curtains = ["0x0203000d", "0x01020072", "0x0203000c", "0x0102006f", "0x02030008", "0x01020077", "0x0203000a", "0x01020026"]
-# open_curtains = ["0x0203000e", "0x01020073", "0x0203000b", "0x0102006e", "0x02030007", "0x01020076", "0x02030009", "0x0102002f"]
-
+close_curtains = [ '0x01020026', '0x01020072', '0x0102006f', '0x01020077' ]
+open_curtains = [ '0x0102002f', '0x01020073', '0x0102006e', '0x01020076' ]
 
 # telnetSet("0x01020029","0")
 # zakrit_shtory_spalnya 0x01020072 0x00000000
@@ -40,6 +37,7 @@ open_curtains = ['0x0102002f', '0x01020073']
 # zakrit_shtory_kabinet 0x01020026 0x00000000
 # otkrit_shtory_kabinet 0x0102002F 0x00000000
 #========
+
 def telnetConnect(host = tn_ip,port = tn_port):
     try:
         tn = telnetlib.Telnet(tn_ip, tn_port, 15)
@@ -88,10 +86,10 @@ def openCurtains(scheduler):
 
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
-    # scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today() + timedelta(days = 1)), args=[scheduler] )
-    # scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today() + timedelta(days = 1, minutes = 30 )), args=[scheduler] )
-    scheduler.add_job(closeCurtains, 'date', run_date=datetime.now() + timedelta(minutes = 3 ), args=[scheduler] )
-    scheduler.add_job(openCurtains, 'date', run_date=datetime.now() + timedelta(minutes = 1 ), args=[scheduler] )
+    scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today() + timedelta(days = 1)), args=[scheduler] )
+    scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today() + timedelta(days = 1, minutes = 30 )), args=[scheduler] )
+    # scheduler.add_job(closeCurtains, 'date', run_date=datetime.now() + timedelta(minutes = 3 ), args=[scheduler] )
+    # scheduler.add_job(openCurtains, 'date', run_date=datetime.now() + timedelta(minutes = 1 ), args=[scheduler] )
     logging.debug(scheduler.print_jobs())
     scheduler.start()
     logging.debug('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
