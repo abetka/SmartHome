@@ -24,8 +24,9 @@ logging.basicConfig(
     ]
 )
 
-close_curtains = ["0x01020072", "0x0102006F", "0x01020077","0x01020026"]
-open_curtains = ["0x01020073", "0x0102006E", "0x01020076","0x0102002F"]
+close_curtains = ["0x0203000d", "0x01020072", "0x0203000c", "0x0102006f", "0x02030008", "0x01020077", "0x0203000a", "0x01020026"]
+open_curtains = ["0x0203000e", "0x01020073", "0x0203000b", "0x0102006e", "0x02030007", "0x01020076", "0x02030009", "0x0102002f"]
+
 
 # telnetSet("0x01020029","0")
 # zakrit_shtory_spalnya 0x01020072 0x00000000
@@ -71,6 +72,7 @@ def sunTime(type,date=date.today()):
 
 def closeCurtains(scheduler):
     for x in close_curtains:
+        telnetSet(x,"0")
         telnetSet(x,"1")
         logging.debug("Will be closed " + x)
     scheduler.add_job(closeCurtains, 'date', run_date=sunTime("sunset",date.today() + timedelta(days = 1)), args=[scheduler] )
@@ -78,6 +80,7 @@ def closeCurtains(scheduler):
 
 def openCurtains(scheduler):
     for x in open_curtains:
+        telnetSet(x,"0")
         telnetSet(x,"1")
         logging.debug("Will be opened " + x)
     scheduler.add_job(openCurtains, 'date', run_date=sunTime("sunrise",date.today() + timedelta(days = 1, minutes = 30 )), args=[scheduler] )
