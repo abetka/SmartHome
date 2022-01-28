@@ -9,6 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from astral.sun import sun
 from astral import LocationInfo
 import logging
+import threading
 #--configuration
 tn_ip = "192.168.88.246"
 tn_port = "1111"
@@ -64,10 +65,13 @@ def telnetSet( cmd, arg, delimeter = ';'):
     tn.close()
 
 def changeCurtainsState(x):
-    time.sleep(30)
-    telnetSet(x ,'0')
+    timer = threading.Timer( 30.0, telnetSet, [x[2],'0'] )
+    logging.debug("Current State for " + x[2] + " is " + x[3] )
+    if int(x[3][:-5]) == 1:
+            timer.start()
+    logging.debug(timer.is_alive())
 
-def changeWCSwitchState():
+def changeWCSwitchState(x):
     pointLights = telnetGet("0x02030024")
     fan = telnetGet("0x02030025")
     backLightMirror = telnetGet("0x01020003")
@@ -91,8 +95,8 @@ def changeWCSwitchState():
 
 if __name__ == '__main__':
     try:
+        tn = telnetConnect()
         while True:
-            tn = telnetConnect()
             line = tn.read_until(b"\n")
             splitted_line = str(line).split(';')
             if 'EVENT' in splitted_line[0]:
@@ -103,16 +107,23 @@ if __name__ == '__main__':
                         '0x02030025': changeWCSwitchState,
                         '0x01020003': changeWCSwitchState,
                         '0x01020014': changeWCSwitchState,
-                        '0x01020072': changeCurtainsState('0x01020072'),
-                        '0x01020073': changeCurtainsState('0x01020073'),
-                        '0x0102006e': changeCurtainsState('0x0102006e'),
-                        '0x0102006f': changeCurtainsState('0x0102006f'),
-                        '0x01020076': changeCurtainsState('0x01020076'),
-                        '0x01020077': changeCurtainsState('0x01020077'),
-                        '0x01020026': changeCurtainsState('0x01020026'),
-                        '0x0102002f': changeCurtainsState('0x0102002f'),
-                    }[splitted_line[2]]()
+                        '0x01020072': changeCurtainsState,
+                        '0x01020073': changeCurtainsState,
+                        '0x01020074': changeCurtainsState,
+                        '0x01020075': changeCurtainsState,
+                        '0x0102006e': changeCurtainsState,
+                        '0x0102006f': changeCurtainsState,
+                        '0x01020070': changeCurtainsState,
+                        '0x01020071': changeCurtainsState,
+                        '0x01020076': changeCurtainsState,
+                        '0x01020077': changeCurtainsState,
+                        '0x01020078': changeCurtainsState,
+                        '0x01020079': changeCurtainsState,
+                        '0x01020026': changeCurtainsState,
+                        '0x0102002f': changeCurtainsState,
+                    }[splitted_line[2]](splitted_line)
                 except KeyError:
-                    logging.debug("Key " + splitted_line[2] + " not in specific range")
+                    print('')
+                    # logging.debug("Key " + splitted_line[2] + " not in specific range")
     except (KeyboardInterrupt, SystemExit):
         logging.debug("The application was closed")

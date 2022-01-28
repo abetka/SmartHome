@@ -51,14 +51,14 @@ def telnetSet( cmd, arg, delimeter = ';'):
 
 if __name__ == '__main__':
 
-    telnetGet('0x01020072')
-    telnetGet('0x01020073')
-    telnetSet('0x01020073','1')
+    telnetGet('0x0102006e')
+    telnetGet('0x0102006f')
+    telnetSet('0x0102006e','1')
     time.sleep(30)
-    telnetSet('0x01020073','0')
-    telnetSet('0x01020072','1')
+    telnetSet('0x0102006e','0')
+    telnetSet('0x0102006f','1')
     time.sleep(30)
-    telnetSet('0x01020072','0')
+    telnetSet('0x0102006f','0')
     # telnetSet('0x0102002f','1')
     # telnetSet('0x0102002f','0')
 
