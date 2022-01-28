@@ -52,3 +52,83 @@
 2022-01-28 13:44:41,295 [DEBUG] Telnet SET Answer0x0102006f: A
 2022-01-28 13:45:11,343 [DEBUG] Telnet SET Answer0x0102006f: A
 2022-01-28 13:45:11,343 [DEBUG] Press Ctrl+C to exit
+2022-01-28 18:11:49,478 [DEBUG] sunset
+2022-01-28 18:11:49,479 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:11:49,479 [DEBUG] sunrise
+2022-01-28 18:11:49,479 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:11:49,480 [DEBUG] sunset
+2022-01-28 18:11:49,480 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:11:49,534 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:11:49,534 [DEBUG] sunrise
+2022-01-28 18:11:49,534 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:11:49,535 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:11:49,535 [DEBUG] None
+2022-01-28 18:11:49,536 [INFO] Added job "closeCurtains" to job store "default"
+2022-01-28 18:11:49,536 [INFO] Added job "openCurtains" to job store "default"
+2022-01-28 18:11:49,536 [INFO] Scheduler started
+2022-01-28 18:11:49,536 [DEBUG] Looking for jobs to run
+2022-01-28 18:11:49,536 [DEBUG] Next wakeup is due at 2022-01-29 09:43:04.134027+02:00 (in 55874.597363 seconds)
+2022-01-28 18:11:49,536 [DEBUG] Press Ctrl+C to exit
+2022-01-28 18:11:52,540 [INFO] Scheduler has been shut down
+2022-01-28 18:11:52,540 [DEBUG] Looking for jobs to run
+2022-01-28 18:11:52,540 [DEBUG] No jobs; waiting until a job is added
+2022-01-28 18:17:06,685 [DEBUG] sunset
+2022-01-28 18:17:06,685 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:17:06,685 [DEBUG] sunrise
+2022-01-28 18:17:06,686 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:17:06,686 [DEBUG] sunset
+2022-01-28 18:17:06,686 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:17:06,750 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:17:06,750 [DEBUG] sunrise
+2022-01-28 18:17:06,750 [DEBUG] {'dawn': datetime.datetime(2022, 1, 29, 7, 5, 49, 8487, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunrise': datetime.datetime(2022, 1, 29, 7, 43, 4, 134027, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'noon': datetime.datetime(2022, 1, 29, 12, 13, 2, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'sunset': datetime.datetime(2022, 1, 29, 16, 43, 46, 467231, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>), 'dusk': datetime.datetime(2022, 1, 29, 17, 21, 4, 30221, tzinfo=<DstTzInfo 'Europe/London' GMT0:00:00 STD>)}
+2022-01-28 18:17:06,751 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:17:06,751 [DEBUG] None
+2022-01-28 18:17:06,752 [INFO] Added job "closeCurtains" to job store "default"
+2022-01-28 18:17:06,752 [INFO] Added job "openCurtains" to job store "default"
+2022-01-28 18:17:06,752 [INFO] Scheduler started
+2022-01-28 18:17:06,752 [DEBUG] Looking for jobs to run
+2022-01-28 18:17:06,752 [DEBUG] Next wakeup is due at 2022-01-29 09:43:04.134027+02:00 (in 55557.381181 seconds)
+2022-01-28 18:17:06,752 [DEBUG] Press Ctrl+C to exit
+2022-01-28 18:17:11,094 [INFO] Scheduler has been shut down
+2022-01-28 18:17:11,094 [DEBUG] Looking for jobs to run
+2022-01-28 18:17:11,094 [DEBUG] No jobs; waiting until a job is added
+2022-01-28 18:37:38,468 [DEBUG] sunset
+2022-01-28 18:37:38,469 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:37:38,470 [DEBUG] sunrise
+2022-01-28 18:37:38,470 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:37:38,470 [DEBUG] sunset
+2022-01-28 18:37:38,470 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:37:38,528 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:37:38,528 [DEBUG] sunrise
+2022-01-28 18:37:38,528 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:37:38,528 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:37:38,528 [DEBUG] None
+2022-01-28 18:37:38,529 [INFO] Added job "closeCurtains" to job store "default"
+2022-01-28 18:37:38,529 [INFO] Added job "openCurtains" to job store "default"
+2022-01-28 18:37:38,529 [INFO] Scheduler started
+2022-01-28 18:37:38,529 [DEBUG] Looking for jobs to run
+2022-01-28 18:37:38,529 [DEBUG] Press Ctrl+C to exit
+2022-01-28 18:37:38,529 [DEBUG] Next wakeup is due at 2022-01-29 07:26:00+02:00 (in 46101.470086 seconds)
+2022-01-28 18:37:56,822 [INFO] Scheduler has been shut down
+2022-01-28 18:37:56,823 [DEBUG] Looking for jobs to run
+2022-01-28 18:37:56,823 [DEBUG] No jobs; waiting until a job is added
+2022-01-28 18:42:14,185 [DEBUG] sunset
+2022-01-28 18:42:14,185 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:42:14,185 [DEBUG] sunrise
+2022-01-28 18:42:14,185 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:42:14,186 [DEBUG] sunset
+2022-01-28 18:42:14,186 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:42:14,235 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:42:14,235 [DEBUG] sunrise
+2022-01-28 18:42:14,235 [DEBUG] {'sunrise': datetime.datetime(2022, 1, 29, 7, 26, tzinfo=tzlocal()), 'sunset': datetime.datetime(2022, 1, 29, 16, 58, tzinfo=tzlocal())}
+2022-01-28 18:42:14,235 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2022-01-28 18:42:14,236 [DEBUG] None
+2022-01-28 18:42:14,236 [INFO] Added job "closeCurtains" to job store "default"
+2022-01-28 18:42:14,236 [INFO] Added job "openCurtains" to job store "default"
+2022-01-28 18:42:14,236 [INFO] Scheduler started
+2022-01-28 18:42:14,236 [DEBUG] Looking for jobs to run
+2022-01-28 18:42:14,237 [DEBUG] Next wakeup is due at 2022-01-29 07:56:00+02:00 (in 47625.763043 seconds)
+2022-01-28 18:42:14,237 [DEBUG] Press Ctrl+C to exit
+2022-01-28 18:42:34,451 [INFO] Scheduler has been shut down
+2022-01-28 18:42:34,451 [DEBUG] Looking for jobs to run
+2022-01-28 18:42:34,452 [DEBUG] No jobs; waiting until a job is added
