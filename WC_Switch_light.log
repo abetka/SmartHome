@@ -3734,3 +3734,326 @@ ConnectionResetError: [Errno 54] Connection reset by peer
 2022-01-28 17:13:01,637 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
 2022-01-28 17:13:03,156 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
 2022-01-28 17:13:06,915 [DEBUG] The application was closed
+2022-01-30 12:22:22,563 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:22,564 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:22:22,564 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:22:22,568 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:22,568 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:22:22,568 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:22:25,100 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:25,100 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:22:25,100 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:22:25,101 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:25,102 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:22:25,102 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:22:34,228 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,228 [DEBUG] b'EVENT;3b;0x0104000b;0\r\n'
+2022-01-30 12:22:34,228 [DEBUG] Key 0x0104000b not in specific range
+2022-01-30 12:22:34,234 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,234 [DEBUG] b'EVENT;0b;0x0104000b;0\r\n'
+2022-01-30 12:22:34,234 [DEBUG] Key 0x0104000b not in specific range
+2022-01-30 12:22:34,244 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,244 [DEBUG] b'EVENT;09;0x0104000b;0\r\n'
+2022-01-30 12:22:34,244 [DEBUG] Key 0x0104000b not in specific range
+2022-01-30 12:22:34,246 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,246 [DEBUG] b'EVENT;3b;0x0104000a;0\r\n'
+2022-01-30 12:22:34,246 [DEBUG] Key 0x0104000a not in specific range
+2022-01-30 12:22:34,250 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,251 [DEBUG] b'EVENT;0b;0x0104000a;0\r\n'
+2022-01-30 12:22:34,251 [DEBUG] Key 0x0104000a not in specific range
+2022-01-30 12:22:34,252 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,253 [DEBUG] b'EVENT;09;0x0104000a;0\r\n'
+2022-01-30 12:22:34,253 [DEBUG] Key 0x0104000a not in specific range
+2022-01-30 12:22:34,256 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,256 [DEBUG] b'EVENT;3b;0x01040009;0\r\n'
+2022-01-30 12:22:34,256 [DEBUG] Key 0x01040009 not in specific range
+2022-01-30 12:22:34,259 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,260 [DEBUG] b'EVENT;0b;0x01040009;0\r\n'
+2022-01-30 12:22:34,260 [DEBUG] Key 0x01040009 not in specific range
+2022-01-30 12:22:34,261 [DEBUG] Used Current Telnet Session
+2022-01-30 12:22:34,261 [DEBUG] b'EVENT;09;0x01040009;0\r\n'
+2022-01-30 12:22:34,261 [DEBUG] Key 0x01040009 not in specific range
+2022-01-30 12:23:07,571 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:07,572 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:07,572 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
+2022-01-30 12:23:07,572 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:23:07,572 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:07,572 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
+2022-01-30 12:23:07,572 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:23:07,572 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:07,573 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:23:07,573 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:23:07,573 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:07,573 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:23:07,573 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:23:24,047 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,156 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,156 [DEBUG] b'EVENT;05;0x0102007f;1\r\n'
+2022-01-30 12:23:25,156 [DEBUG] Key 0x0102007f not in specific range
+2022-01-30 12:23:25,157 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,157 [DEBUG] b'EVENT;06;0x0102007b;0\r\n'
+2022-01-30 12:23:25,157 [DEBUG] Key 0x0102007b not in specific range
+2022-01-30 12:23:25,157 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,157 [DEBUG] b'EVENT;29;0x0101006a;1\r\n'
+2022-01-30 12:23:25,158 [DEBUG] Key 0x0101006a not in specific range
+2022-01-30 12:23:25,158 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,158 [DEBUG] b'EVENT;30;0x01010069;0\r\n'
+2022-01-30 12:23:25,158 [DEBUG] Key 0x01010069 not in specific range
+2022-01-30 12:23:25,158 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,158 [DEBUG] b'EVENT;04;0x01010069;0\r\n'
+2022-01-30 12:23:25,158 [DEBUG] Key 0x01010069 not in specific range
+2022-01-30 12:23:25,159 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,159 [DEBUG] b'EVENT;29;0x01010070;1\r\n'
+2022-01-30 12:23:25,159 [DEBUG] Key 0x01010070 not in specific range
+2022-01-30 12:23:25,160 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,161 [DEBUG] b'EVENT;29;0x0101006f;1\r\n'
+2022-01-30 12:23:25,161 [DEBUG] Key 0x0101006f not in specific range
+2022-01-30 12:23:25,363 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,363 [DEBUG] b'EVENT;30;0x0101006e;0\r\n'
+2022-01-30 12:23:25,363 [DEBUG] Key 0x0101006e not in specific range
+2022-01-30 12:23:25,378 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,378 [DEBUG] b'EVENT;04;0x0101006e;0\r\n'
+2022-01-30 12:23:25,378 [DEBUG] Key 0x0101006e not in specific range
+2022-01-30 12:23:25,378 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,378 [DEBUG] b'EVENT;30;0x0101006d;0\r\n'
+2022-01-30 12:23:25,378 [DEBUG] Key 0x0101006d not in specific range
+2022-01-30 12:23:25,378 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,379 [DEBUG] b'EVENT;04;0x0101006d;0\r\n'
+2022-01-30 12:23:25,379 [DEBUG] Key 0x0101006d not in specific range
+2022-01-30 12:23:25,381 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:25,381 [DEBUG] b'EVENT;06;0x0102001a;0\r\n'
+2022-01-30 12:23:25,381 [DEBUG] Key 0x0102001a not in specific range
+2022-01-30 12:23:26,728 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:26,729 [DEBUG] b'EVENT;03;0x0101006a;1\r\n'
+2022-01-30 12:23:26,729 [DEBUG] Key 0x0101006a not in specific range
+2022-01-30 12:23:26,731 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:26,731 [DEBUG] b'EVENT;03;0x01010070;1\r\n'
+2022-01-30 12:23:26,731 [DEBUG] Key 0x01010070 not in specific range
+2022-01-30 12:23:26,731 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:26,731 [DEBUG] b'EVENT;03;0x0101006f;1\r\n'
+2022-01-30 12:23:26,731 [DEBUG] Key 0x0101006f not in specific range
+2022-01-30 12:23:34,277 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:34,278 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
+2022-01-30 12:23:34,278 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:23:35,861 [DEBUG] Used Current Telnet Session
+2022-01-30 12:23:35,861 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
+2022-01-30 12:23:35,861 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,883 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,884 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:25:27,884 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,887 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,887 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:25:27,887 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,887 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,887 [DEBUG] b'EVENT;05;0x01020087;1\r\n'
+2022-01-30 12:25:27,887 [DEBUG] Key 0x01020087 not in specific range
+2022-01-30 12:25:27,887 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,887 [DEBUG] b'EVENT;06;0x01020083;0\r\n'
+2022-01-30 12:25:27,887 [DEBUG] Key 0x01020083 not in specific range
+2022-01-30 12:25:27,888 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,888 [DEBUG] b'EVENT;29;0x01010074;1\r\n'
+2022-01-30 12:25:27,888 [DEBUG] Key 0x01010074 not in specific range
+2022-01-30 12:25:27,888 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,888 [DEBUG] b'EVENT;30;0x01010073;0\r\n'
+2022-01-30 12:25:27,888 [DEBUG] Key 0x01010073 not in specific range
+2022-01-30 12:25:27,888 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,888 [DEBUG] b'EVENT;04;0x01010073;0\r\n'
+2022-01-30 12:25:27,888 [DEBUG] Key 0x01010073 not in specific range
+2022-01-30 12:25:27,888 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,889 [DEBUG] b'EVENT;30;0x01010078;0\r\n'
+2022-01-30 12:25:27,889 [DEBUG] Key 0x01010078 not in specific range
+2022-01-30 12:25:27,889 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,889 [DEBUG] b'EVENT;04;0x01010078;0\r\n'
+2022-01-30 12:25:27,889 [DEBUG] Key 0x01010078 not in specific range
+2022-01-30 12:25:27,889 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,889 [DEBUG] b'EVENT;30;0x01010077;0\r\n'
+2022-01-30 12:25:27,889 [DEBUG] Key 0x01010077 not in specific range
+2022-01-30 12:25:27,889 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,889 [DEBUG] b'EVENT;04;0x01010077;0\r\n'
+2022-01-30 12:25:27,889 [DEBUG] Key 0x01010077 not in specific range
+2022-01-30 12:25:27,890 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,890 [DEBUG] b'EVENT;29;0x0101007a;1\r\n'
+2022-01-30 12:25:27,890 [DEBUG] Key 0x0101007a not in specific range
+2022-01-30 12:25:27,890 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,890 [DEBUG] b'EVENT;29;0x01010079;1\r\n'
+2022-01-30 12:25:27,890 [DEBUG] Key 0x01010079 not in specific range
+2022-01-30 12:25:27,890 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,890 [DEBUG] b'EVENT;06;0x0102003b;0\r\n'
+2022-01-30 12:25:27,890 [DEBUG] Key 0x0102003b not in specific range
+2022-01-30 12:25:27,890 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,890 [DEBUG] b'EVENT;03;0x01010074;1\r\n'
+2022-01-30 12:25:27,890 [DEBUG] Key 0x01010074 not in specific range
+2022-01-30 12:25:27,891 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,891 [DEBUG] b'EVENT;03;0x0101007a;1\r\n'
+2022-01-30 12:25:27,891 [DEBUG] Key 0x0101007a not in specific range
+2022-01-30 12:25:27,891 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,891 [DEBUG] b'EVENT;03;0x01010079;1\r\n'
+2022-01-30 12:25:27,891 [DEBUG] Key 0x01010079 not in specific range
+2022-01-30 12:25:27,891 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,891 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,891 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,891 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
+2022-01-30 12:25:27,891 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,891 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,892 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
+2022-01-30 12:25:27,892 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,892 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,892 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:25:27,892 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,892 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,892 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:25:27,892 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,892 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,892 [DEBUG] b'EVENT;10;0x01080002;700\r\n'
+2022-01-30 12:25:27,892 [DEBUG] Key 0x01080002 not in specific range
+2022-01-30 12:25:27,892 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,892 [DEBUG] b'EVENT;0d;0x01080002;700\r\n'
+2022-01-30 12:25:27,893 [DEBUG] Key 0x01080002 not in specific range
+2022-01-30 12:25:27,893 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,893 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,893 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:25:27,893 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,893 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,893 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:25:27,893 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,893 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,893 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
+2022-01-30 12:25:27,893 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,894 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,894 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
+2022-01-30 12:25:27,894 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,894 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,894 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:25:27,894 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,894 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,894 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:25:27,894 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,894 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,894 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:25:27,894 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,895 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,895 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:25:27,895 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,895 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,895 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:25:27,895 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,895 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,895 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:25:27,895 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:27,895 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,895 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,895 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:25:27,896 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,896 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,896 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:25:27,896 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,896 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,896 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:25:27,896 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:27,998 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:27,998 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:25:27,998 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:33,924 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:33,924 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:25:33,924 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:33,926 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:33,926 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:25:33,926 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:34,121 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:34,121 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
+2022-01-30 12:25:34,121 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:35,674 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:35,675 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
+2022-01-30 12:25:35,675 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:35,894 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:35,895 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:25:35,895 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:37,477 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:37,477 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:25:37,477 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:40,990 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:40,991 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:25:40,991 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:40,992 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:40,992 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:25:40,993 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:43,045 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:43,045 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:25:43,045 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:44,556 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:44,557 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:25:44,557 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:44,596 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:44,596 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:25:44,596 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:44,597 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:44,597 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:25:44,597 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:25:51,964 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:51,964 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:25:51,964 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:51,968 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:51,968 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:25:51,968 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:54,440 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:54,440 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:25:54,440 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:25:55,952 [DEBUG] Used Current Telnet Session
+2022-01-30 12:25:55,953 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:25:55,953 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:12,502 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:12,503 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:12,503 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:26:12,504 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:12,505 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:12,505 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:26:12,505 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:13,702 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:13,703 [DEBUG] b'EVENT;29;0x010100a4;1\r\n'
+2022-01-30 12:26:13,703 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:26:15,294 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:15,294 [DEBUG] b'EVENT;03;0x010100a4;1\r\n'
+2022-01-30 12:26:15,294 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:26:18,063 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:18,063 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:26:18,064 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:19,543 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:19,544 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:26:19,544 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:23,038 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:23,038 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:26:23,038 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:23,040 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:23,040 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:26:23,040 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:24,203 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:24,204 [DEBUG] b'EVENT;30;0x010100a4;0\r\n'
+2022-01-30 12:26:24,205 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:26:24,206 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:24,207 [DEBUG] b'EVENT;04;0x010100a4;0\r\n'
+2022-01-30 12:26:24,207 [DEBUG] Key 0x010100a4 not in specific range
+2022-01-30 12:26:26,045 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:26,046 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:26:26,046 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:27,485 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:27,485 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:26:27,486 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:31,051 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:31,051 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:26:31,051 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:31,053 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:31,053 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:26:31,053 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:33,139 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:33,139 [DEBUG] b'EVENT;29;0x01010007;1\r\n'
+2022-01-30 12:26:33,140 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:34,659 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:34,660 [DEBUG] b'EVENT;03;0x01010007;1\r\n'
+2022-01-30 12:26:34,660 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:42,421 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:42,421 [DEBUG] b'EVENT;30;0x01010007;0\r\n'
+2022-01-30 12:26:42,422 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:42,427 [DEBUG] Used Current Telnet Session
+2022-01-30 12:26:42,427 [DEBUG] b'EVENT;04;0x01010007;0\r\n'
+2022-01-30 12:26:42,428 [DEBUG] Key 0x01010007 not in specific range
+2022-01-30 12:26:42,547 [DEBUG] The application was closed

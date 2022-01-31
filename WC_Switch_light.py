@@ -92,12 +92,35 @@ def changeWCSwitchState(x):
         telnetSet("0x01020056","1")
         telnetSet("0x0102001D","0")
         telnetSet("0x0102001E","1")
+def manageWCRoom(x):
+    if x[2] == '0x01010047':
+        pointLights = telnetGet("0x02030024")
+        fan = telnetGet("0x02030025")
+        if pointLights == 0:
+            telnetSet("0x02030024","1")
+        else:
+            telnetSet("0x02030024","0")
+        if fan == 0:
+            telnetSet("0x02030025","1")
+            
+    if x[2] == '0x01010048':
+
+    changeWCSwitchState(x)
+
 
 if __name__ == '__main__':
     try:
         tn = telnetConnect()
         while True:
-            line = tn.read_until(b"\n")
+            try:
+                line = tn.read_until(b"\n")
+                logging.debug("Used Current Telnet Session")
+            except EOFError:
+                timer.sleep(5)
+                tn = telnetConnect()
+                line = tn.read_until(b"\n")
+                logging.debug("It seems The previous session was closed so was used a new one.")
+
             splitted_line = str(line).split(';')
             if 'EVENT' in splitted_line[0]:
                 logging.debug(line)
@@ -123,7 +146,6 @@ if __name__ == '__main__':
                         '0x0102002f': changeCurtainsState,
                     }[splitted_line[2]](splitted_line)
                 except KeyError:
-                    print('')
-                    # logging.debug("Key " + splitted_line[2] + " not in specific range")
+                    logging.debug("Key " + splitted_line[2] + " not in specific range")
     except (KeyboardInterrupt, SystemExit):
         logging.debug("The application was closed")
