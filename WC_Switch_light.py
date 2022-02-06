@@ -80,11 +80,15 @@ def fanState(x):
     if fan == 1:
         if lightState == 1 or humidityState >= 50:
             telnetSet(x['fan'],'1')
-            threading.Timer( 10.0, fanState, [x] )
+            timer = threading.Timer( 100.0, fanState, [x] )
+            timer.start()
             logging.debug("Fan State of " + x['fan'] + " is 1" )
+            logging.debug(timer.is_alive())
         else:
-            telnetSet(x['fan'],'0')
+            timer = threading.Timer( 100, telnetSet, [x['fan'],'0'] )
+            timer.start()
             logging.debug("Fan State of " + x['fan'] + " is 0" )
+            logging.debug(timer.is_alive())
 
 def changeWCSwitchState():
     pointLights = telnetGet("0x0102002e")
