@@ -94,6 +94,7 @@ def changeSwitchState():
         telnetSet("0x0102001B","0") #green inside
         telnetSet("0x0102001C","1") #red inside
 
+
 def manageRoom(x):
     logging.debug("managedWCSwitch ")
     print(x)
