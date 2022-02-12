@@ -103,7 +103,7 @@ def manageRoom(x):
     backLights = telnetGet("0x01020012")
     mirrorLights = telnetGet("0x01020001")
     fanSwitch = ['0x01010012', '0x01010016']
-    lightSwitch = ['0x01010011', '0x01010015']
+    lightSwitch = ['0x0101000f', '0x01010015']
 
     # Up2
     if int(x[1]) == 29 and x[2] == '0x01010011' and int(x[3][:-5]) == 1:
