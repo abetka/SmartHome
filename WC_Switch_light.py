@@ -78,7 +78,7 @@ def fanState(x):
     logging.debug("lightState is " + str(lightState) )
     logging.debug("humidityState is " + str(humidityState) )
     if fan == 1:
-        if lightState == 1 or humidityState >= 50:
+        if lightState == 1 or humidityState >= 25:
             telnetSet(x['fan'],'1')
             timer = threading.Timer( 100.0, fanState, [x] )
             timer.start()
@@ -158,6 +158,11 @@ def manageWCRoom(x):
         telnetSet("0x01020014","0")
         telnetSet("0x0102002e","0")
         telnetSet('0x01020025','0')
+    # WaterLeak
+    if int(x[1]) == 29 and x[2] == '0x0101000a' and int(x[3][:-5]) == 1:
+        telnetSet('0x01020027','1')
+    if int(x[1]) == 30 and x[2] == '0x0101000a' and int(x[3][:-5]) == 0:
+        telnetSet('0x01020027','0')
 
 if __name__ == '__main__':
     try:
@@ -175,6 +180,7 @@ if __name__ == '__main__':
             '0x0101004a',
             '0x01010019',
             '0x0101001a',
+            '0x0101000a',
         ]
         CurtainsState = [
             '0x01020072',
