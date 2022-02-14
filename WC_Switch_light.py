@@ -78,7 +78,7 @@ def fanState(x):
     logging.debug("lightState is " + str(lightState) )
     logging.debug("humidityState is " + str(humidityState) )
     if fan == 1:
-        if lightState == 1 or humidityState >= 25:
+        if lightState == 1 or humidityState >= 30:
             telnetSet(x['fan'],'1')
             timer = threading.Timer( 100.0, fanState, [x] )
             timer.start()
