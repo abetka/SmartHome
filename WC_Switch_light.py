@@ -55,9 +55,9 @@ def telnetGet( cmd, delimeter = ';'):
     recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
     logging.debug("Telnet GET Answer " + cmd + ": " + recv)
     tn.close()
-    if recv.isnumeric():
+    try:
         return int(recv)
-    else:
+    except ValueError:
         return 0
 
 def telnetSet( cmd, arg, delimeter = ';'):
