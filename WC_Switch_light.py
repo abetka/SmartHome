@@ -55,7 +55,10 @@ def telnetGet( cmd, delimeter = ';'):
     recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
     logging.debug("Telnet GET Answer " + cmd + ": " + recv)
     tn.close()
-    return int(recv)
+    if recv.isnumeric():
+        return int(recv)
+    else:
+        return 0
 
 def telnetSet( cmd, arg, delimeter = ';'):
     tn = telnetConnect()
@@ -65,7 +68,7 @@ def telnetSet( cmd, arg, delimeter = ';'):
     tn.close()
 
 def changeCurtainsState(x):
-    timer = threading.Timer( 30.0, telnetSet, [x[2],'0'] )
+    timer = threading.Timer( 40.0, telnetSet, [x[2],'0'] )
     logging.debug("Current State for " + x[2] + " is " + x[3] )
     if int(x[3][:-5]) == 1:
             timer.start()
@@ -78,7 +81,7 @@ def fanState(x):
     logging.debug("lightState is " + str(lightState) )
     logging.debug("humidityState is " + str(humidityState) )
     if fan == 1:
-        if lightState == 1 or humidityState >= 30:
+        if lightState == 1 or humidityState >= 40:
             telnetSet(x['fan'],'1')
             timer = threading.Timer( 100.0, fanState, [x] )
             timer.start()
