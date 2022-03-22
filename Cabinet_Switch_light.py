@@ -9,16 +9,53 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from astral.sun import sun
 from astral import LocationInfo
 import logging
-import threading
+from threading import Thread
 #--configuration
 tn_ip = "192.168.88.246"
 tn_port = "1111"
 
+switchTools = {
+    'chandelier':'0x01020039',
+    'backlightWall':'0x01020011',
+    'backlightTable':'0x01020029',
+    'curtainsCabinetOpen':'0x0102002f',
+    'curtainsBigRoomOpen':'0x01020073',
+    'curtainsCabinetClose':'0x01020026',
+    'curtainsBigRoomClose':'0x01020072',
+    'RGB_Red': '0x01040005',
+    'RGB_Grean': '0x01040006',
+    'RGB_Blue': '0x01040007',
+    'RGB_Yellow': '0x01040008',
+}
+switchSensor = {
+    'Up1': '0x01010039',
+    'Down1': '0x0101003a',
+    'Up2': '0x0101003b',
+    'Down2': '0x0101003c',
+    'Up3': '0x0101003d',
+    'Down3': '0x0101003e',
+    'Green1': '0x01020048',
+    'Red1': '0x01020049',
+    'Green2': '0x0102004a',
+    'Red2': '0x0102004b',
+    'Green3': '0x0102004c',
+    'Red3': '0x0102004d',
+    'Therm_Inter': '0x01050017',
+    'Therm': '0x01050018',
+    'DIN1': '0x0101003f',
+    'DIN2': '0x01010040',
+    'Light_In': '0x0102004e',
+}
+switchImpulse = {
+    'Push1':'0x01010007',
+    'Push2':'0x0101006f',
+    'Push3':'0x01010004',
+}
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler("WC_Switch_light.log"),
+        logging.FileHandler("Cabinet_Switch_light.log"),
         logging.StreamHandler()
     ]
 )
@@ -51,117 +88,87 @@ def telnetSet( cmd, arg, delimeter = ';'):
     tn.close()
 
 def changeSwitchState():
-    pointLights = telnetGet("0x0102002e")
-    fan = telnetGet("0x01020025")
-    backLightMirror = telnetGet("0x01020003")
-    backLight = telnetGet("0x01020014")
-    if pointLights == 0 and fan == 0:
-        telnetSet("0x01020053","1")
-        telnetSet("0x01020054","0")
+    state = {}
+    for k, v in switchTools.items():
+        state.update( { k: telnetGet(v) } )
+    logging.debug(state)
+    if state['chandelier'] == 0 and state['RGB_Red'] == 0 and state['RGB_Grean'] == 0 and state['RGB_Blue'] == 0:
+        telnetSet(switchSensor['Green3'],'1')
+        telnetSet(switchSensor['Red3'],'0')
     else:
-        telnetSet("0x01020053","0")
-        telnetSet("0x01020054","1")
-    if backLightMirror == 0 and backLight == 0:
-        telnetSet("0x01020055","1")
-        telnetSet("0x01020056","0")
+        telnetSet(switchSensor['Green3'],'0')
+        telnetSet(switchSensor['Red3'],'1')
+    if state['backlightTable'] == 0 and state['curtainsCabinetOpen'] == 0 and state['curtainsCabinetClose'] == 0:
+        telnetSet(switchSensor['Green2'],'1')
+        telnetSet(switchSensor['Red2'],'0')
     else:
-        telnetSet("0x01020055","0")
-        telnetSet("0x01020056","1")
-    if backLightMirror == 0 and backLight == 0 and fan == 0:
-        telnetSet("0x0102001D","1")
-        telnetSet("0x0102001E","0")
+        telnetSet(switchSensor['Green2'],'0')
+        telnetSet(switchSensor['Red2'],'1')
+    if state['backlightWall'] == 0 and state['curtainsBigRoomOpen'] == 0 and state['curtainsBigRoomClose'] == 0:
+        telnetSet(switchSensor['Green1'],'1')
+        telnetSet(switchSensor['Red1'],'0')
     else:
-        telnetSet("0x0102001D","0")
-        telnetSet("0x0102001E","1")
+        telnetSet(switchSensor['Green1'],'0')
+        telnetSet(switchSensor['Red1'],'1')
+
+def dimmer(light,switch):
+    value = telnetGet(switchTools[light])
+    if switch:
+        for i in range(100):
+            telnetSet(switchTools[light],str(i+1))
+    else:
+        for i in range(value):
+            telnetSet(switchTools[light],str(value - (i+1)))
+
 def manageRoom(x):
-    logging.debug("managedWCSwitch ")
-    print(x)
-    pointLights = telnetGet("0x0102002e")
-    fan = telnetGet("0x01020025")
-    backLights = telnetGet("0x01020014")
-    mirrorLights = telnetGet("0x01020003")
-    fanSwitch = ['0x01010048', '0x0101001a']
-    lightSwitch = ['0x01010049', '0x01010019']
-    # Up1
-    if int(x[1]) == 29 and x[2] == '0x01010047' and int(x[3][:-5]) == 1:
-        if pointLights == 0:
-            telnetSet("0x0102002e","1")
-        else:
-            telnetSet("0x0102002e","0")
-        if fan == 0 and pointLights == 0:
-            telnetSet('0x01020025','1')
-    # Down1 Down1 inside
-    if int(x[1]) == 29 and x[2] in fanSwitch and int(x[3][:-5]) == 1:
-        if fan == 0:
-            telnetSet('0x01020025','1')
-        else:
-            telnetSet('0x01020025','0')
-    # Up2 Up1 inside
-    if int(x[1]) == 29 and x[2] in lightSwitch and int(x[3][:-5]) == 1:
-        if backLights == 0:
-            telnetSet("0x01020014","1")
-        else:
-            telnetSet("0x01020014","0")
-        if mirrorLights == 0:
-            telnetSet("0x01020003","1")
-        else:
-            telnetSet("0x01020003","0")
-    # Down2
-    if int(x[1]) == 29 and x[2] == '0x0101004a' and int(x[3][:-5]) == 1:
-        telnetSet("0x01020003","0")
-        telnetSet("0x01020014","0")
-        telnetSet("0x0102002e","0")
-        telnetSet('0x01020025','0')
-    # WaterLeak
-    if int(x[1]) == 29 and x[2] == '0x0101000a' and int(x[3][:-5]) == 1:
-        telnetSet('0x01020027','1')
-    if int(x[1]) == 30 and x[2] == '0x0101000a' and int(x[3][:-5]) == 0:
-        telnetSet('0x01020027','0')
+    if x == switchSensor['Up1'] or x == switchImpulse['Push1']:
+        telnetSet(switchTools['chandelier'],'1')
+    else:
+        telnetSet(switchTools['chandelier'],'0')
+    if x == switchSensor['Up2'] or x == switchImpulse['Push2']:
+        telnetSet(switchTools['backlightTable'],'1')
+    else:
+        telnetSet(switchTools['backlightTable'],'0')
+    if x == switchSensor['Up3'] or x == switchImpulse['Push3']:
+        telnetSet(switchTools['backlightWall'],'1')
+    else:
+        telnetSet(switchTools['backlightWall'],'0')
+    if x == switchSensor['Down1']:
+        t1 = Thread(dimmer('RGB_Red',True))
+        t2 = Thread(dimmer('RGB_Grean',True))
+        t3 = Thread(dimmer('RGB_Blue',True))
+        t1.start()
+        t2.start()
+        t3.start()
+    else:
+        t1 = Thread(dimmer('RGB_Red',False))
+        t2 = Thread(dimmer('RGB_Grean',False))
+        t3 = Thread(dimmer('RGB_Blue',False))
+        t1.start()
+        t2.start()
+        t3.start()
+    if x == switchSensor['Down2']:
+        telnetSet(switchTools['curtainsCabinetOpen'],'1')
+        telnetSet(switchTools['curtainsCabinetOpen'],'0')
+    else:
+        telnetSet(switchTools['curtainsCabinetClose'],'1')
+        telnetSet(switchTools['curtainsCabinetClose'],'0')
+    if x == switchSensor['Down3']:
+        telnetSet(switchTools['curtainsBigRoomOpen'],'1')
+        telnetSet(switchTools['curtainsBigRoomOpen'],'0')
+    else:
+        telnetSet(switchTools['curtainsBigRoomClose'],'1')
+        telnetSet(switchTools['curtainsBigRoomClose'],'0')
 
 if __name__ == '__main__':
     try:
         tn = telnetConnect()
-        SwitchState = [
-            '0x0102002e',
-            '0x01020025',
-            '0x01020003',
-            '0x01020014',
-        ]
-        Switch = [
-            '0x01010039',
-            '0x0101003a',
-            '0x0101003b',
-            '0x0101003c',
-            '0x0101003d',
-            '0x0101003e',
-            '0x0101000a',
-
-Cabinet_Switch_Up1 GSB3-60_Up1_024E65 0x01010039 0x00000000
-Cabinet_Switch_Down1 GSB3-60_Down1_024E65 0x0101003A 0x00000000
-Cabinet_Switch_Up2 GSB3-60_Up2_024E65 0x0101003B 0x00000000
-Cabinet_Switch_Down2 GSB3-60_Down2_024E65 0x0101003C 0x00000000
-Cabinet_Switch_Up3 GSB3-60_Up3_024E65 0x0101003D 0x00000000
-Cabinet_Switch_Down3 GSB3-60_Down3_024E65 0x0101003E 0x00000000
-Cabinet_Switch_Green1 GSB3-60_Green1_024E65 0x01020048 0x00000000
-Cabinet_Switch_Red1 GSB3-60_Red1_024E65 0x01020049 0x00000000
-Cabinet_Switch_Green2 GSB3-60_Green2_024E65 0x0102004A 0x00000000
-Cabinet_Switch_Red2 GSB3-60_Red2_024E65 0x0102004B 0x00000000
-Cabinet_Switch_Green3 GSB3-60_Green3_024E65 0x0102004C 0x00000000
-Cabinet_Switch_Red3 GSB3-60_Red3_024E65 0x0102004D 0x00000000
-Cabinet_Switch_Therm_Inter GSB3-60_Inter-Therm_024E65 0x01050017 0x00000000 °C
-Cabinet_Switch_Therm GSB3-60_AIN1-AIN2-Therm_024E65 0x01050018 0x00000000 °C
-Cabinet_Switch_DIN1 GSB3-60_DIN1_024E65 0x0101003F 0x00000000
-Cabinet_Switch_DIN2 GSB3-60_DIN2_024E65 0x01010040 0x00000000
-Cabinet_Switch_Light_In GSB3-60_Light-IN_024E65 0x0102004E 0x00000000
-
-
-        ]
         while True:
             try:
                 line = tn.read_until(b"\n")
                 logging.debug("Used Current Telnet Session")
             except EOFError:
-                timer.sleep(5)
+                time.sleep(5)
                 tn = telnetConnect()
                 line = tn.read_until(b"\n")
                 logging.debug("It seems The previous session was closed so was used a new one.")
@@ -170,9 +177,11 @@ Cabinet_Switch_Light_In GSB3-60_Light-IN_024E65 0x0102004E 0x00000000
             if 'EVENT' in splitted_line[0]:
                 logging.debug(line)
                 try:
-                    if splitted_line[2] in Switch:
+                    if splitted_line[2] in switchSensor:
                         manageRoom(splitted_line)
-                    if splitted_line[2] in SwitchState:
+                    if splitted_line[2] in switchImpulse:
+                        manageRoom(splitted_line)
+                    if splitted_line[2] in switchTools.values():
                         changeSwitchState()
                 except KeyError:
                     logging.debug("Key " + splitted_line[2] + " not in specific range")
