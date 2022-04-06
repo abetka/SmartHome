@@ -1,6 +1,7 @@
 
 import os
 import logging
+import time
 from telnet import telnet
 from threading import Thread
 from suntime import Sun, SunTimeException
@@ -82,6 +83,5 @@ if __name__ == '__main__':
         logging.debug('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
         while True:
             time.sleep(2)
-    except BaseException as e:
-        logging.error('Failed to start the application: ' + str(e))
+    except (KeyboardInterrupt, SystemExit):
         scheduler.shutdown()
