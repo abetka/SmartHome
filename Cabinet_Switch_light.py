@@ -1,18 +1,7 @@
-import sys
-import telnetlib
-from datetime import datetime
-from datetime import date
-from datetime import timedelta
-import time
-import os
-from apscheduler.schedulers.background import BackgroundScheduler
-from astral.sun import sun
-from astral import LocationInfo
+
+from telnet import telnet
 import logging
 from threading import Thread
-#--configuration
-tn_ip = "192.168.88.246"
-tn_port = "1111"
 
 switchTools = {
     'chandelier':'0x01020039',
@@ -60,116 +49,81 @@ logging.basicConfig(
     ]
 )
 
-def telnetConnect(host = tn_ip,port = tn_port):
-    try:
-        tn = telnetlib.Telnet(tn_ip, tn_port, 15)
-    except:
-        logging.debug("Unable to connect to Telnet server: " + tn_ip)
-        return
-    # tn.set_debuglevel(100)
-    return tn
-
-def telnetGet( cmd, delimeter = ';'):
-    tn = telnetConnect()
-    tn.write(b"GET" + delimeter.encode('ascii') + cmd.encode('ascii') + b"\r\n")
-    recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
-    logging.debug("Telnet GET Answer " + cmd + ": " + recv)
-    tn.close()
-    try:
-        return int(recv)
-    except ValueError:
-        return 0
-
-def telnetSet( cmd, arg, delimeter = ';'):
-    tn = telnetConnect()
-    tn.write(b"SET" + delimeter.encode('ascii') + cmd.encode('ascii')+ delimeter.encode('ascii')+ arg.encode('ascii') + b"\r\n")
-    recv = tn.read_until(b"\r\n").decode('ascii').split(';')[2].rstrip("\r").rstrip("\n")
-    logging.debug("Telnet SET Answer " + cmd + ": " + recv)
-    tn.close()
 
 def changeSwitchState():
     state = {}
     for k, v in switchTools.items():
-        state.update( { k: telnetGet(v) } )
+        state.update( { k: telnet.getData(v) } )
     logging.debug(state)
     if state['chandelier'] == 0 and state['RGB_Red'] == 0 and state['RGB_Grean'] == 0 and state['RGB_Blue'] == 0:
-        telnetSet(switchSensor['Green3'],'1')
-        telnetSet(switchSensor['Red3'],'0')
+        telnet.setData(switchSensor['Green3'],'1')
+        telnet.setData(switchSensor['Red3'],'0')
     else:
-        telnetSet(switchSensor['Green3'],'0')
-        telnetSet(switchSensor['Red3'],'1')
+        telnet.setData(switchSensor['Green3'],'0')
+        telnet.setData(switchSensor['Red3'],'1')
     if state['backlightTable'] == 0 and state['curtainsCabinetOpen'] == 0 and state['curtainsCabinetClose'] == 0:
-        telnetSet(switchSensor['Green2'],'1')
-        telnetSet(switchSensor['Red2'],'0')
+        telnet.setData(switchSensor['Green2'],'1')
+        telnet.setData(switchSensor['Red2'],'0')
     else:
-        telnetSet(switchSensor['Green2'],'0')
-        telnetSet(switchSensor['Red2'],'1')
+        telnet.setData(switchSensor['Green2'],'0')
+        telnet.setData(switchSensor['Red2'],'1')
     if state['backlightWall'] == 0 and state['curtainsBigRoomOpen'] == 0 and state['curtainsBigRoomClose'] == 0:
-        telnetSet(switchSensor['Green1'],'1')
-        telnetSet(switchSensor['Red1'],'0')
+        telnet.setData(switchSensor['Green1'],'1')
+        telnet.setData(switchSensor['Red1'],'0')
     else:
-        telnetSet(switchSensor['Green1'],'0')
-        telnetSet(switchSensor['Red1'],'1')
-
-def dimmer(light,switch):
-    value = telnetGet(switchTools[light])
-    if switch:
-        for i in range(100):
-            telnetSet(switchTools[light],str(i+1))
-    else:
-        for i in range(value):
-            telnetSet(switchTools[light],str(value - (i+1)))
+        telnet.setData(switchSensor['Green1'],'0')
+        telnet.setData(switchSensor['Red1'],'1')
 
 def manageRoom(x):
     if x == switchSensor['Up1'] or x == switchImpulse['Push1']:
-        telnetSet(switchTools['chandelier'],'1')
+        telnet.setData(switchTools['chandelier'],'1')
     else:
-        telnetSet(switchTools['chandelier'],'0')
+        telnet.setData(switchTools['chandelier'],'0')
     if x == switchSensor['Up2'] or x == switchImpulse['Push2']:
-        telnetSet(switchTools['backlightTable'],'1')
+        telnet.setData(switchTools['backlightTable'],'1')
     else:
-        telnetSet(switchTools['backlightTable'],'0')
+        telnet.setData(switchTools['backlightTable'],'0')
     if x == switchSensor['Up3'] or x == switchImpulse['Push3']:
-        telnetSet(switchTools['backlightWall'],'1')
+        telnet.setData(switchTools['backlightWall'],'1')
     else:
-        telnetSet(switchTools['backlightWall'],'0')
+        telnet.setData(switchTools['backlightWall'],'0')
     if x == switchSensor['Down1']:
-        t1 = Thread(dimmer('RGB_Red',True))
-        t2 = Thread(dimmer('RGB_Grean',True))
-        t3 = Thread(dimmer('RGB_Blue',True))
+        t1 = Thread(telnet.dimmer('RGB_Red',True,switchTools))
+        t2 = Thread(telnet.dimmer('RGB_Grean',True,switchTools))
+        t3 = Thread(telnet.dimmer('RGB_Blue',True,switchTools))
         t1.start()
         t2.start()
         t3.start()
     else:
-        t1 = Thread(dimmer('RGB_Red',False))
-        t2 = Thread(dimmer('RGB_Grean',False))
-        t3 = Thread(dimmer('RGB_Blue',False))
+        t1 = Thread(telnet.dimmer('RGB_Red',False,switchTools))
+        t2 = Thread(telnet.dimmer('RGB_Grean',False,switchTools))
+        t3 = Thread(telnet.dimmer('RGB_Blue',False,switchTools))
         t1.start()
         t2.start()
         t3.start()
     if x == switchSensor['Down2']:
-        telnetSet(switchTools['curtainsCabinetOpen'],'1')
-        telnetSet(switchTools['curtainsCabinetOpen'],'0')
+        telnet.setData(switchTools['curtainsCabinetOpen'],'1')
+        telnet.setData(switchTools['curtainsCabinetOpen'],'0')
     else:
-        telnetSet(switchTools['curtainsCabinetClose'],'1')
-        telnetSet(switchTools['curtainsCabinetClose'],'0')
+        telnet.setData(switchTools['curtainsCabinetClose'],'1')
+        telnet.setData(switchTools['curtainsCabinetClose'],'0')
     if x == switchSensor['Down3']:
-        telnetSet(switchTools['curtainsBigRoomOpen'],'1')
-        telnetSet(switchTools['curtainsBigRoomOpen'],'0')
+        telnet.setData(switchTools['curtainsBigRoomOpen'],'1')
+        telnet.setData(switchTools['curtainsBigRoomOpen'],'0')
     else:
-        telnetSet(switchTools['curtainsBigRoomClose'],'1')
-        telnetSet(switchTools['curtainsBigRoomClose'],'0')
+        telnet.setData(switchTools['curtainsBigRoomClose'],'1')
+        telnet.setData(switchTools['curtainsBigRoomClose'],'0')
 
 if __name__ == '__main__':
     try:
-        tn = telnetConnect()
+        tn = telnet.connect()
         while True:
             try:
                 line = tn.read_until(b"\n")
                 logging.debug("Used Current Telnet Session")
             except EOFError:
                 time.sleep(5)
-                tn = telnetConnect()
+                tn = telnet.connect()
                 line = tn.read_until(b"\n")
                 logging.debug("It seems The previous session was closed so was used a new one.")
 
