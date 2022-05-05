@@ -1,7 +1,7 @@
 import sys
 import telnetlib
 import logging
-from threading import Thread
+import threading
 #--configuration
 tn_ip = "192.168.88.246"
 tn_port = "1111"
@@ -57,20 +57,21 @@ def dimmer(light,switch,tools):
 
 def fanState(tools):
     try:
+        state = {}
         for k, v in tools.items():
             state.update( { k: getData(v) } )
         logging.debug("Humidity: " + str((state['humidity']/100)))
-        if fan == 1:
+        if state['fan'] == 1:
             if state['pointsLights'] == 1 or (state['humidity']/100) >= 40:
-                setData(state['fan'],'1')
+                setData(tools['fan'],'1')
                 timer = threading.Timer( 100.0, fanState, [tools] )
                 timer.start()
-                logging.debug("Fan State of " + state['fan'] + " is 1" )
+                logging.debug("Fan State of " + str(tools['fan']) + " is 1" )
                 logging.debug(timer.is_alive())
             else:
-                timer = threading.Timer( 100, setData, [state['fan'],'0'] )
+                timer = threading.Timer( 100, setData, [tools['fan'],'0'] )
                 timer.start()
-                logging.debug("Fan State of " + state['fan'] + " is 0" )
+                logging.debug("Fan State of " + str(tools['fan']) + " is 0" )
                 logging.debug(timer.is_alive())
     except BaseException as e:
         logging.error('Failed to SET a FAN STATUS: ' + str(e))
