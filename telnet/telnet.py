@@ -5,6 +5,7 @@ import threading
 #--configuration
 tn_ip = "192.168.88.246"
 tn_port = "1111"
+count = 0
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -20,6 +21,10 @@ def connect(host = tn_ip,port = tn_port):
         tn = telnetlib.Telnet(tn_ip, tn_port, 15)
     except BaseException as e:
         logging.error('Failed to connect to Telnet server: ' + str(e))
+        if e.errno == 51:
+            time.sleep(5)
+            connect(host,port)
+            logging.error('Try to connect to Telnet server again')
         return
     # tn.set_debuglevel(100)
     return tn
